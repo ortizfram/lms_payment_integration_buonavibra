@@ -1,6 +1,8 @@
 import multer from "multer"
 import path from "path"
 
+const __dirname = path.resolve();
+
 // Multer storage configuration for both images and videos
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
