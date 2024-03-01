@@ -23,6 +23,6 @@ router.put("/update/:id", courseUpdate);
 router.get("/all", courselist);
 router.get("/owned", courseOwned);
 router.get("/:id", courseDetail);
-router.post("/delete/:id", courseDelete);
+router.delete("/delete/:id", courseDelete);
 
 export default router;
