@@ -23,6 +23,9 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
+// Serve static files from the 'uploads' directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });

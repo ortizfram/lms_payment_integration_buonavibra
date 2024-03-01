@@ -6,8 +6,8 @@ import {
   courseOwned,
   courseDetail,
   courseDelete,
-} from "../controllers/course.controller";
-import upload from "../useMulter";
+} from "../controllers/course.controller.js";
+import upload from "../useMulter.js";
 
 const router = express.Router();
 

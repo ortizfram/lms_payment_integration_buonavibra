@@ -1,4 +1,3 @@
-import app from ".";
 import multer from "multer"
 import path from "path"
 
@@ -17,7 +16,6 @@ const storage = multer.diskStorage({
 // Create multer upload instance
 const upload = multer({ storage: storage });
 
-// Serve static files from the 'uploads' directory
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 export default upload;

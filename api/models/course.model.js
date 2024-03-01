@@ -1,4 +1,7 @@
-const courseSchema = new Schema(
+import mongoose from 'mongoose';
+
+
+const courseSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     slug: { type: String, required: true, unique: true },
@@ -15,9 +18,6 @@ const courseSchema = new Schema(
   { timestamps: true }
 );
 
-// Define index for slug field
-courseSchema.index({ slug: 1 }, { unique: true });
+const Course = mongoose.model('Course', courseSchema);
 
-const Course = mongoose.model("Course", courseSchema);
-
-module.exports = Course;
+export default Course;
