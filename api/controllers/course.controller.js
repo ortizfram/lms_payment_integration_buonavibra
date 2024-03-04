@@ -2,6 +2,7 @@ import Course from "../models/course.model.js";
 import { errorHandler } from "../utils/error.js";
 import slugify from "slugify";
 import moment from "moment";
+import User from "../models/user.model.js";
 
 
 
@@ -295,7 +296,7 @@ export const courseOwned = async (req, res, next) => {
 // courseDetail
 export const courseDetail = async (req, res, next) => {
   const courseId = req.params.id;
-  const user = req.session.user || null;
+  const user = req.body.user;
   const message = req.query.message;
 
   try {

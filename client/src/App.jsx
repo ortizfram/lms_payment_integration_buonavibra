@@ -8,6 +8,7 @@ import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 import CourseCreate from './pages/CourseCreate';
 import Courses from './pages/Courses';
+import CourseDetail from './pages/CourseDetail';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
         </Route>
         <Route path='/course/create' element={<CourseCreate />} />
         <Route path='/course/all' element={<Courses />} />
+        <Route path='/course/:id' element={<CourseDetail />} />
       </Routes>
     </BrowserRouter>
   );
