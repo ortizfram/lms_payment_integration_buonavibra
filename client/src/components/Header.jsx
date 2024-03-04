@@ -11,16 +11,25 @@ export default function Header() {
         </Link>
         <ul className='flex gap-4'>
           <Link to='/'>
-            <li>Home</li>
+            <li>Inicio</li>
           </Link>
           <Link to='/about'>
-            <li>About</li>
+            <li>Acerca</li>
           </Link>
+          <Link to='/course/all'>
+            <li>Cursos</li>
+          </Link>
+          { currentUser.isAdmin && (
+          <Link to='/course/create'>
+            <li>Crear Curso</li>
+          </Link>
+
+          )}
           <Link to='/profile'>
             {currentUser ? (
               <img src={currentUser.profilePicture} alt='profile' className='h-7 w-7 rounded-full object-cover' />
             ) : (
-              <li>Sign In</li>
+              <li>Ingresar</li>
             )}
           </Link>
         </ul>
