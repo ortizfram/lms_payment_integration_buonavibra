@@ -165,7 +165,7 @@ export const courselist = async (req, res, next) => {
   try {
     const message = req.query.message;
     let user = req.body.user;
-    const isAdmin = user && user.role === true;
+    const isAdmin = user && user.isAdmin === true;
 
     // Fetch all courses ordered by updated_at descending
     const courses = await Course.find({})
@@ -200,11 +200,6 @@ export const courselist = async (req, res, next) => {
         thumbnailPath: course.thumbnail,
         created_at: new Date(course.created_at).toLocaleString(),
         updated_at: new Date(course.updated_at).toLocaleString(),
-        author: {
-          name: course.author.name,
-          username: course.author.username,
-          avatar: course.author.avatar,
-        },
         next: `/api/course/${course._id}`, // Dynamic course link
       };
     });
@@ -308,10 +303,6 @@ export const courseDetail = async (req, res, next) => {
     if (!course) {
       return next(errorHandler(400, `Course not found`));
     }
-
-    // Format course timestamps
-    course.created_at = new Date(course.created_at).toLocaleString();
-    course.updated_at = new Date(course.updated_at).toLocaleString();
 
     // Fetching author details
     const author = await User.findById(course.author_id).lean();

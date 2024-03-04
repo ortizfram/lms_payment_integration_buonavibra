@@ -66,7 +66,6 @@ const CourseDetail = () => {
               <div className="col-lg-12 text-center">
                 <div>
                   <p>
-                    {course.updated_at}
                     <span>
                       <img
                         className="avatar ms-4 me-2"
