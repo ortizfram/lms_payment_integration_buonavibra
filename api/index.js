@@ -1,4 +1,6 @@
 import express from "express";
+import cors from "cors"
+import bodyParser from "body-parser"
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/user.route.js";
@@ -6,7 +8,6 @@ import authRoutes from "./routes/auth.route.js";
 import courseRoutes from "./routes/course.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
-import cors from "cors"
 
 dotenv.config();
 
@@ -21,24 +22,27 @@ mongoose
 
 const __dirname = path.resolve();
 
+//! BASIC CONFIG OF APP
 const app = express();
-app.use(cors())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  optionSuccessStatus: 200
+}
+app.use(cors(corsOptions))
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
+app.use(cookieParser());
+
+// app.use(express.static(path.join(__dirname, "/client/dist")));
 
 // Serve static files from the 'uploads' directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-});
-
-app.use(express.json());
-app.use(cookieParser());
-
-app.listen(process.env.PORT, () => {
-  console.log("Server listening on port", process.env.PORT);
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+// });
 
 // routes
 app.use("/api/user", userRoutes);
@@ -55,5 +59,10 @@ app.use((err, req, res, next) => {
     statusCode,
   });
 });
+
+app.listen(process.env.PORT, () => {
+  console.log("Server listening on port", process.env.PORT);
+});
+
 
 export default app

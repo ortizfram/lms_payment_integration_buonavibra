@@ -7,6 +7,7 @@ import Profile from './pages/Profile';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 import CourseCreate from './pages/CourseCreate';
+import Courses from './pages/Courses';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
           <Route path='/profile' element={<Profile />} />
         </Route>
         <Route path='/course/create' element={<CourseCreate />} />
+        <Route path='/course/all' element={<Courses />} />
       </Routes>
     </BrowserRouter>
   );

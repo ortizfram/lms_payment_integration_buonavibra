@@ -163,14 +163,24 @@ export const courseUpdate = async (req, res, next) => {
 export const courselist = async (req, res, next) => {
   try {
     const message = req.query.message;
-    let user = req.session.user;
-    const isAdmin = user && user.role === "admin";
+    let user = req.body.user;
+    const isAdmin = user && user.role === true;
 
     // Fetch all courses ordered by updated_at descending
     const courses = await Course.find({})
       .populate("author", "name username avatar") // Populate author details
       .sort({ updated_at: -1 })
       .lean(); // Convert Mongoose documents to plain JavaScript objects
+
+      if (courses.length === 0) {
+        res.status(200).json({
+          message: "No hay cursos aun",
+          courses: [], // Empty array indicating no courses published yet
+          totalItems: 0,
+          user,
+          isAdmin,
+        })
+      }
 
     console.log("courses: ", courses);
 
