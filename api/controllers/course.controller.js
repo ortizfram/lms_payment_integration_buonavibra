@@ -200,7 +200,7 @@ export const courselist = async (req, res, next) => {
         thumbnailPath: course.thumbnail,
         created_at: new Date(course.created_at).toLocaleString(),
         updated_at: new Date(course.updated_at).toLocaleString(),
-        next: `/api/course/${course._id}`, // Dynamic course link
+        next: `/course/${course._id}`, // Dynamic course link
       };
     });
 

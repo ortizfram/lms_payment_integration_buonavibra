@@ -74,7 +74,7 @@ function Courses() {
                   </div>
                 )}
 
-                <a href={`/api/course/${course.id}`}>
+                <a href={`/course/${course.id}`}>
                   {/* COURSE DATA */}
                   <img
                     src={course.thumbnail}
