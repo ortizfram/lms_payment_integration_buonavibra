@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useSelector } from 'react-redux';
 
 const CourseCreate = () => {
@@ -70,8 +70,9 @@ const CourseCreate = () => {
     });
     if (response.ok) {
       const data = await response.json();
+      const courseId = data.courseId
       // Redirect to the specified URL
-      window.location.href = data.redirectUrl;
+      window.location.href = `/course/${courseId}`;
     } else {
       // Handle error response
       const errorData = await response.json();
@@ -82,7 +83,7 @@ const CourseCreate = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-xl mx-auto">
-        {currentUser && <p className="text-primary">Hello, {currentUser.id}!</p>}
+        {currentUser && <p className="text-primary">Hello, {currentUser._id}!</p>}
         <h1 className="text-3xl font-semibold text-gray-800 mb-4">Creando Curso</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
@@ -185,7 +186,7 @@ const CourseCreate = () => {
               />
             </div>
           </div>
-          <input type="hidden" name="author_id" value={currentUser?.id || ""} />
+          <input type="hidden" name="author_id" value={currentUser? currentUser._id || "" : null} />
           <div className="flex justify-center mt-6">
             <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
               Crear Curso

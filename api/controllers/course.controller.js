@@ -7,22 +7,22 @@ import moment from "moment";
 
 // create
 export const courseCreate = async (req, res, next) => {
-  // console.log(req.body);
-  // console.log(req.files);
+  console.log(req.body);
+  console.log(req.files);
 
   try {
-    // const imageUrl =
-    //   req.files && req.files["image"]
-    //     ? "/uploads/imgs/" + req.files["image"][0].filename
-    //     : null;
-    // const videoUrl =
-    //   req.files && req.files["video"]
-    //     ? "/uploads/videos/" + req.files["video"][0].filename
-    //     : null;
+    const imageUrl =
+      req.files && req.files["image"]
+        ? "/uploads/imgs/" + req.files["image"][0].filename
+        : null;
+    const videoUrl =
+      req.files && req.files["video"]
+        ? "/uploads/videos/" + req.files["video"][0].filename
+        : null;
 
-    // if (!imageUrl && !videoUrl) {
-    //   return next(errorHandler(400, "Video and miniatura are required"));
-    // }
+    if (!imageUrl && !videoUrl) {
+      return next(errorHandler(400, "Video and miniatura are required"));
+    }
 
     const {
       title,
@@ -70,8 +70,8 @@ export const courseCreate = async (req, res, next) => {
       usd_price,
       discount_ars: discountArs,
       discount_usd: discountUsd,
-      // thumbnail: imageUrl,
-      // video: videoUrl,
+      thumbnail: imageUrl,
+      video: videoUrl,
       created_at: currentTimestamp,
       updated_at: currentTimestamp,
       author_id
@@ -84,6 +84,7 @@ export const courseCreate = async (req, res, next) => {
 
     return res.status(201).json({
       message: "Course created successfully",
+      courseId: newCourse._id
     });
   } catch (error) {
     return next(error);

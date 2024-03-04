@@ -6,6 +6,8 @@ import authRoutes from "./routes/auth.route.js";
 import courseRoutes from "./routes/course.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
+import cors from "cors"
+
 dotenv.config();
 
 mongoose
@@ -20,6 +22,7 @@ mongoose
 const __dirname = path.resolve();
 
 const app = express();
+app.use(cors())
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
