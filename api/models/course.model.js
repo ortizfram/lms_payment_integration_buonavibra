@@ -11,8 +11,8 @@ const courseSchema = new mongoose.Schema(
     usd_price: { type: Number, required: true },
     discount_ars: { type: Number, default: null },
     discount_usd: { type: Number, default: null },
-    thumbnail: { type: String, default: null },
-    video: { type: String, default: null }, // Including the video field
+    thumbnail: { type: String, default: null, required:false },
+    video: { type: String, default: null, required:false }, // Including the video field
     author_id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Assuming there's a User model
   },
   { timestamps: true }
