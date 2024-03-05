@@ -318,6 +318,11 @@ export const courseDetail = async (req, res, next) => {
       avatar: author.avatar,
     };
 
+    // add host predix to video\
+    if (course.video) {
+      course.video = `http://localhost:3006${course.video}`;
+    }
+
     // Fetch enrolled courses for the user
     let enrolledCourses = [];
     if (user) {
