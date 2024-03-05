@@ -116,7 +116,7 @@ export const courseUpdate = async (req, res, next) => {
       usd_price,
       discount_ars,
       discount_usd,
-      author: authorId,
+      author,
     } = req.body;
 
     // Validate required fields
@@ -154,6 +154,7 @@ export const courseUpdate = async (req, res, next) => {
     // Redirect after updating the course
     return res.status(200).json({
       message: "Course updated successfully",
+      redirectUrl: `/course/${courseId}`
     });
   } catch (error) {
     return next(error);
