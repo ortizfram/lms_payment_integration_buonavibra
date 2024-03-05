@@ -195,7 +195,7 @@ export const courselist = async (req, res, next) => {
         usd_price: course.usd_price,
         discount_ars: course.discount_ars,
         discount_usd: course.discount_usd,
-        thumbnail: course.thumbnail,
+        thumbnail: `http://localhost:3006${course.thumbnail}`,
         id: course._id.toString(),
         thumbnailPath: course.thumbnail,
         created_at: new Date(course.created_at).toLocaleString(),
