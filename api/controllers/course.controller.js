@@ -31,7 +31,6 @@ export const courseCreate = async (req, res, next) => {
       usd_price,
       discount_ars,
       discount_usd,
-      author_id,
     } = req.body;
 
     const requiredFields = [
@@ -60,7 +59,9 @@ export const courseCreate = async (req, res, next) => {
     const currentDate = new Date();
     const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
-    const author = await User.findOne({ _id: author_id });
+    const { author_id } = req.body;
+
+    const author = await User.findById(author_id);
 
     const newCourse = new Course({
       title: courseTitle,
@@ -75,8 +76,7 @@ export const courseCreate = async (req, res, next) => {
       video: videoUrl,
       created_at: currentTimestamp,
       updated_at: currentTimestamp,
-      author_id,
-      author,
+      author: author_id,
     });
 
     await newCourse.save();
@@ -138,6 +138,11 @@ export const courseUpdate = async (req, res, next) => {
 
     const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
+    const { author_id } = req.body;
+
+    // Fetch the user object from the database using the author_id
+    const author = await User.findById(author_id);
+
     const updateData = {
       ...req.body,
       title,
@@ -147,6 +152,7 @@ export const courseUpdate = async (req, res, next) => {
       thumbnail: imageUrl,
       video: videoUrl,
       updated_at: currentTimestamp,
+      author: author_id,
     };
 
     // Update course details
@@ -204,7 +210,7 @@ export const courselist = async (req, res, next) => {
         usd_price: course.usd_price,
         discount_ars: course.discount_ars,
         discount_usd: course.discount_usd,
-        thumbnail: `http://localhost:3006${course.thumbnail}`,
+        thumbnail: `http://localhost:3007${course.thumbnail}`,
         id: course._id.toString(),
         thumbnailPath: course.thumbnail,
         created_at: new Date(course.created_at).toLocaleString(),
@@ -329,7 +335,7 @@ export const courseDetail = async (req, res, next) => {
 
     // add host predix to video\
     if (course.video) {
-      course.video = `http://localhost:3006${course.video}`;
+      course.video = `http://localhost:3007${course.video}`;
     }
 
     // Fetch enrolled courses for the user

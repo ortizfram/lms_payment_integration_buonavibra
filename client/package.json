@@ -9,7 +9,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "proxy": "http://localhost:3006",
+  "proxy": "http://localhost:3007",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "firebase": "^10.1.0",

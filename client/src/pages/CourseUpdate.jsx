@@ -21,7 +21,7 @@ const CourseUpdate = () => {
     // Fetch course data when the component mounts
     const fetchCourse = async () => {
       try {
-        const response = await fetch(`http://localhost:3006/api/course/${id}`);
+        const response = await fetch(`http://localhost:3007/api/course/${id}`);
         if (response.ok) {
           const data = await response.json();
           setCourse(data.course);
@@ -54,16 +54,16 @@ const CourseUpdate = () => {
     const videoFile = formData.get("video");
 
     if (imageFile) {
-      formData.set("image", imageFile, imageFile.name);
+      formData.append("image", imageFile);
     }
 
     if (videoFile) {
-      formData.set("video", videoFile, videoFile.name);
+      formData.append("video", videoFile);
     }
     renderImage(formData);
 
     const response = await fetch(
-      `http://localhost:3006/api/course/update/${id}`,
+      `http://localhost:3007/api/course/update/${id}`,
       {
         method: "PUT",
         headers: {
@@ -232,7 +232,6 @@ const CourseUpdate = () => {
                 </div>
               </div>
               <input type="hidden" name="author_id" value={currentUser._id} />
-
               <br />
               <br />
 
