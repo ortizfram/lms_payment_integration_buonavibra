@@ -95,6 +95,8 @@ export const courseCreate = async (req, res, next) => {
 
 // Update
 export const courseUpdate = async (req, res, next) => {
+  console.log(req.files);
+
   try {
     const courseId = req.params.id;
 
@@ -105,9 +107,17 @@ export const courseUpdate = async (req, res, next) => {
       return next(errorHandler(400, `Course not found.`));
     }
 
+    const imageUrl =
+      req.files && req.files["image"]
+        ? "/uploads/imgs/" + req.files["image"][0].filename
+        : null;
+    const videoUrl =
+      req.files && req.files["video"]
+        ? "/uploads/videos/" + req.files["video"][0].filename
+        : null;
+
     // Extract necessary data from request body
     const {
-      author_id,
       title,
       description,
       text_content,
@@ -117,41 +127,34 @@ export const courseUpdate = async (req, res, next) => {
       discount_usd,
     } = req.body;
 
-    // Handle file uploads - Video and Thumbnail image
-    const videoFile =
-      req.files && req.files["video"] ? req.files["video"][0] : null;
-    const imageFile =
-      req.files && req.files["image"] ? req.files["image"][0] : null;
-
-    // Update course details
-    course.title = title;
-    course.description = description;
-    course.text_content = text_content;
-    course.ars_price = ars_price;
-    course.usd_price = usd_price;
-    course.discount_ars = discount_ars || null;
-    course.discount_usd = discount_usd || null;
-
-    // Update thumbnail and video only if new files are provided
-    if (videoFile) {
-      course.video = "/uploads/videos/" + videoFile.filename;
-    }
-    if (imageFile) {
-      course.thumbnail = "/uploads/imgs/" + imageFile.filename;
+    if (typeof title !== "string") {
+      String(title);
     }
 
-    const currentDate = new Date();
+    const courseSlug = slugify(title, { lower: true, strict: true });
+
+    const discountArs = discount_ars || null;
+    const discountUsd = discount_usd || null;
+
     const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
-    course.updated_at = currentTimestamp;
+    const updateData = {
+      ...req.body,
+      title,
+      slug: courseSlug,
+      discount_ars: discountArs,
+      discount_usd: discountUsd,
+      thumbnail: imageUrl,
+      video: videoUrl,
+      updated_at: currentTimestamp,
+    };
 
-    // Check if author_id is provided and update the course accordingly
-    if (author_id) {
-      
-      course.author = author_id;
-    }
+    // Update course details
+    const updateCourse = await Course.findByIdAndUpdate(courseId, updateData, {
+      new: true,
+    });
 
-    const updatedCourse = await course.save();
+    const updatedCourse = await updateCourse.save();
 
     console.log("\nUpdating course...");
     console.log("\nCourse:", updatedCourse);
@@ -165,7 +168,6 @@ export const courseUpdate = async (req, res, next) => {
     return next(error);
   }
 };
-
 
 // courselist
 export const courselist = async (req, res, next) => {
