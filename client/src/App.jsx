@@ -25,9 +25,9 @@ export default function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/course/create" element={<CourseCreate />} />
           <Route path="/course/update/:id" element={<CourseUpdate />} />
+          <Route path="/course/:id" element={<CourseDetail />} />
         </Route>
         <Route path="/course/all" element={<Courses />} />
-        <Route path="/course/:id" element={<CourseDetail />} />
       </Routes>
     </BrowserRouter>
   );

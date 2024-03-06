@@ -186,7 +186,7 @@ const CourseCreate = () => {
               />
             </div>
           </div>
-          <input type="hidden" name="author_id" value={currentUser? currentUser._id || "" : null} />
+          <input type="hidden" name="author_id" value={currentUser._id} />
           <div className="flex justify-center mt-6">
             <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
               Crear Curso

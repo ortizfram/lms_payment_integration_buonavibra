@@ -66,12 +66,15 @@ const CourseUpdate = () => {
       `http://localhost:3006/api/course/update/${id}`,
       {
         method: "PUT",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(course),
       }
     );
     if (response.ok) {
       const data = await response.json();
-      setSuccessMessage(encodeURIComponent(data.message));
+      setSuccessMessage(data.message);
       window.location.href = data.redirectUrl;
     } else {
       const errorData = await response.json();
@@ -229,11 +232,6 @@ const CourseUpdate = () => {
                 </div>
               </div>
 
-              <input
-                type="hidden"
-                name="author"
-                value={currentUser._id}
-              />
               <br />
               <br />
 

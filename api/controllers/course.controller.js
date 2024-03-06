@@ -62,6 +62,9 @@ export const courseCreate = async (req, res, next) => {
     const currentDate = new Date();
     const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
+    const author = await User.findOne({ _id: author_id });
+
+
     const newCourse = new Course({
       title: courseTitle,
       slug: courseSlug,
@@ -75,7 +78,8 @@ export const courseCreate = async (req, res, next) => {
       video: videoUrl,
       created_at: currentTimestamp,
       updated_at: currentTimestamp,
-      author_id
+      author_id,
+      author
     });
 
     await newCourse.save();
@@ -94,8 +98,6 @@ export const courseCreate = async (req, res, next) => {
 
 // Update
 export const courseUpdate = async (req, res, next) => {
-  console.log(req.body);
-  console.log(req.files);
 
   try {
     const courseId = req.params.id;
@@ -116,44 +118,27 @@ export const courseUpdate = async (req, res, next) => {
       usd_price,
       discount_ars,
       discount_usd,
-      author,
     } = req.body;
 
-    // Validate required fields
-    const requiredFields = [
-      "title",
-      "description",
-      "text_content",
-      "ars_price",
-      "usd_price",
-    ];
-    for (const field of requiredFields) {
-      if (!req.body[field]) {
-        return next(errorHandler(400, `The field '${field}' is required.`));
-      }
-    }
-
-    // Manage discount value
-    const discountArs = discount_ars || null;
-    const discountUsd = discount_usd || null;
 
     // Update course details
-    const updatedCourse = await Course.findByIdAndUpdate(courseId, {
-      title,
-      description,
-      text_content,
-      ars_price,
-      usd_price,
-      discount_ars: discountArs,
-      discount_usd: discountUsd,
-    });
+    course.title = title;
+    course.description = description;
+    course.text_content = text_content;
+    course.ars_price = ars_price;
+    course.usd_price = usd_price;
+    course.discount_ars = discount_ars || null;
+    course.discount_usd = discount_usd || null;
+
+    const updatedCourse = await course.save();
+
 
     console.log("\nUpdating course...");
     console.log("\nCourse:", updatedCourse);
 
-    // Redirect after updating the course
     return res.status(200).json({
       message: "Course updated successfully",
+      courseId: updatedCourse._id,
       redirectUrl: `/course/${courseId}`
     });
   } catch (error) {
