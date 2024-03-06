@@ -231,6 +231,7 @@ const CourseUpdate = () => {
                   />
                 </div>
               </div>
+              <input type="hidden" name="author_id" value={currentUser._id} />
 
               <br />
               <br />

@@ -4,8 +4,6 @@ import slugify from "slugify";
 import moment from "moment";
 import User from "../models/user.model.js";
 
-
-
 // create
 export const courseCreate = async (req, res, next) => {
   console.log(req.body);
@@ -33,7 +31,7 @@ export const courseCreate = async (req, res, next) => {
       usd_price,
       discount_ars,
       discount_usd,
-      author_id
+      author_id,
     } = req.body;
 
     const requiredFields = [
@@ -64,7 +62,6 @@ export const courseCreate = async (req, res, next) => {
 
     const author = await User.findOne({ _id: author_id });
 
-
     const newCourse = new Course({
       title: courseTitle,
       slug: courseSlug,
@@ -79,7 +76,7 @@ export const courseCreate = async (req, res, next) => {
       created_at: currentTimestamp,
       updated_at: currentTimestamp,
       author_id,
-      author
+      author,
     });
 
     await newCourse.save();
@@ -89,7 +86,7 @@ export const courseCreate = async (req, res, next) => {
 
     return res.status(201).json({
       message: "Course created successfully",
-      courseId: newCourse._id
+      courseId: newCourse._id,
     });
   } catch (error) {
     return next(error);
@@ -98,7 +95,6 @@ export const courseCreate = async (req, res, next) => {
 
 // Update
 export const courseUpdate = async (req, res, next) => {
-
   try {
     const courseId = req.params.id;
 
@@ -111,6 +107,7 @@ export const courseUpdate = async (req, res, next) => {
 
     // Extract necessary data from request body
     const {
+      author_id,
       title,
       description,
       text_content,
@@ -120,6 +117,11 @@ export const courseUpdate = async (req, res, next) => {
       discount_usd,
     } = req.body;
 
+    // Handle file uploads - Video and Thumbnail image
+    const videoFile =
+      req.files && req.files["video"] ? req.files["video"][0] : null;
+    const imageFile =
+      req.files && req.files["image"] ? req.files["image"][0] : null;
 
     // Update course details
     course.title = title;
@@ -130,8 +132,26 @@ export const courseUpdate = async (req, res, next) => {
     course.discount_ars = discount_ars || null;
     course.discount_usd = discount_usd || null;
 
-    const updatedCourse = await course.save();
+    // Update thumbnail and video only if new files are provided
+    if (videoFile) {
+      course.video = "/uploads/videos/" + videoFile.filename;
+    }
+    if (imageFile) {
+      course.thumbnail = "/uploads/imgs/" + imageFile.filename;
+    }
 
+    const currentDate = new Date();
+    const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
+
+    course.updated_at = currentTimestamp;
+
+    // Check if author_id is provided and update the course accordingly
+    if (author_id) {
+      
+      course.author = author_id;
+    }
+
+    const updatedCourse = await course.save();
 
     console.log("\nUpdating course...");
     console.log("\nCourse:", updatedCourse);
@@ -139,12 +159,13 @@ export const courseUpdate = async (req, res, next) => {
     return res.status(200).json({
       message: "Course updated successfully",
       courseId: updatedCourse._id,
-      redirectUrl: `/course/${courseId}`
+      redirectUrl: `/course/${courseId}`,
     });
   } catch (error) {
     return next(error);
   }
 };
+
 
 // courselist
 export const courselist = async (req, res, next) => {
@@ -159,15 +180,15 @@ export const courselist = async (req, res, next) => {
       .sort({ updated_at: -1 })
       .lean(); // Convert Mongoose documents to plain JavaScript objects
 
-      if (courses.length === 0) {
-        res.status(200).json({
-          message: "No hay cursos aun",
-          courses: [], // Empty array indicating no courses published yet
-          totalItems: 0,
-          user,
-          isAdmin,
-        })
-      }
+    if (courses.length === 0) {
+      res.status(200).json({
+        message: "No hay cursos aun",
+        courses: [], // Empty array indicating no courses published yet
+        totalItems: 0,
+        user,
+        isAdmin,
+      });
+    }
 
     console.log("courses: ", courses);
 
@@ -291,7 +312,7 @@ export const courseDetail = async (req, res, next) => {
     }
 
     // Fetching author details
-    const author = await User.findById(course.author_id).lean();
+    const author = await User.findById(course.author._id).lean();
 
     if (!author) {
       return next(errorHandler(404, `Author details not found`));
@@ -349,6 +370,6 @@ export const courseDelete = async (req, res, next) => {
     return res.status(200).json({ message: "Course deleted successfully" });
   } catch (error) {
     console.error("Error deleting course:");
-    return next(error)
+    return next(error);
   }
 };

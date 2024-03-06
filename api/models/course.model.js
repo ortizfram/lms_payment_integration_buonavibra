@@ -13,7 +13,6 @@ const courseSchema = new mongoose.Schema(
     discount_usd: { type: Number, default: null },
     thumbnail: { type: String, default: null, required:false },
     video: { type: String, default: null, required:false }, // Including the video field
-    author_id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Assuming there's a User model
     author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }

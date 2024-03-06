@@ -19,7 +19,14 @@ router.post(
   ]),
   courseCreate
 );
-router.put("/update/:id", courseUpdate);
+router.put(
+  "/update/:id",
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "video", maxCount: 1 },
+  ]),
+  courseUpdate
+);
 router.get("/all", courselist);
 router.get("/owned", courseOwned);
 router.get("/:id", courseDetail);
