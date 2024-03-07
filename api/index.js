@@ -6,11 +6,11 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
 import courseRoutes from "./routes/course.route.js";
+import paymentRoutes from "./routes/payment.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 
 dotenv.config();
-export const isDev = process.env.NODE_ENV === "development";
 
 mongoose
   .connect(process.env.DB_URI)
@@ -43,6 +43,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/course", courseRoutes);
+app.use("/api", paymentRoutes);
 
 // error formatter for console
 app.use((err, req, res, next) => {

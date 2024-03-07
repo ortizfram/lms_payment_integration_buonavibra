@@ -12,7 +12,7 @@ const CourseEnroll = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await fetch(`http://localhost:5002/api/course/${id}`, {
+        const response = await fetch(`http://localhost:3007/api/course/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -144,7 +144,7 @@ const CourseEnroll = () => {
         <div className="payment-options">
           {/* PAY WITH PAYPAL */}
           <form
-            action={`http://localhost:3007/api/create-order-paypal?courseId=${course.id}&userId=${user.id}`}
+            action={`http://localhost:3007/api/create-order-paypal?courseId=${course._id}&userId=${user._id}`}
             method="POST"
           >
             <input type="hidden" name="courseId" value={course.id} />

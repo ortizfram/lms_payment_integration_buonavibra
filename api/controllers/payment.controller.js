@@ -1,8 +1,6 @@
-import { isDev } from "..";
+import { isDev } from "../config.js";
+import {PAYPAL_API, PAYPAL_API_CLIENT, PAYPAL_API_SECRET, BACKEND_URL,FRONTEND_URL} from "../config.js"
 
-const PAYPAL_API_CLIENT = isDev ? "" : process.env.PAYPAL_API_CLIENT;
-const PAYPAL_API_SECRET = isDev ? "" : process.env.PAYPAL_API_SECRET;
-const PAYPAL_API = isDev ? "" : "https://api-m.sandbox.paypal.com";
 
 // PAYPAL ---------------------------------------------------
 export const createOrderPaypal = async (req, res) => {
@@ -66,13 +64,6 @@ export const createOrderPaypal = async (req, res) => {
     // Log the created order
     console.log("\n\nCreated Order:", response.data);
 
-    // check user_courses table
-    const checkTable_users = await createTableIfNotExists(
-      pool,
-      tableCheckQuery,
-      createUserTableQuery,
-      "users"
-    );
 
     // paypal pay link + courseId
     const courseIdParam = `courseId=${courseId}`;
