@@ -10,6 +10,7 @@ import CourseCreate from "./pages/CourseCreate";
 import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
 import CourseUpdate from "./pages/CourseUpdate";
+import CourseEnroll from "./pages/CourseEnroll";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/course/create" element={<CourseCreate />} />
           <Route path="/course/update/:id" element={<CourseUpdate />} />
           <Route path="/course/:id" element={<CourseDetail />} />
+          <Route path="/course/enroll/:id" element={<CourseEnroll/>} />
         </Route>
         <Route path="/course/all" element={<Courses />} />
       </Routes>

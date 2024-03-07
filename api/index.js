@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import path from "path";
 
 dotenv.config();
+export const isDev = process.env.NODE_ENV === "development";
 
 mongoose
   .connect(process.env.DB_URI)
@@ -44,15 +45,19 @@ app.use("/api/auth", authRoutes);
 app.use("/api/course", courseRoutes);
 
 // error formatter for console
-// app.use((err, req, res, next) => {
-//   const statusCode = err.statusCode || 500;
-//   const message = err.message || "Internal Server Error";
-//   return res.status(statusCode).json({
-//     success: false,
-//     message,
-//     statusCode,
-//   });
-// });
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  return res.status(statusCode).json({
+    success: false,
+    message,
+    statusCode,
+  });
+});
+
+
+
+
 
 app.listen(process.env.PORT, () => {
   console.log("Server listening on port", process.env.PORT);
