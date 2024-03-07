@@ -1,14 +1,22 @@
-import { isDev } from "../config.js";
-import {PAYPAL_API, PAYPAL_API_CLIENT, PAYPAL_API_SECRET, BACKEND_URL,FRONTEND_URL} from "../config.js"
-import axios from "axios"
+import {
+  PAYPAL_API,
+  PAYPAL_API_CLIENT,
+  PAYPAL_API_SECRET,
+  BACKEND_URL,
+  FRONTEND_URL,
+} from "../config.js";
+import axios from "axios";
 import Course from "../models/course.model.js";
-
+import UserCourse from "../models/user_course.model.js";
+import User from "../models/user.model.js";
 
 // PAYPAL ---------------------------------------------------
 export const createOrderPaypal = async (req, res) => {
   console.log("\n*** createOrderPaypal\n");
 
   const courseId = req.query.courseId; // is being passed the courseSlug in the request input
+  const userId = req.query.userId; // is being passed the courseSlug in the request input
+  const user = await User.findById(userId);
   try {
     const course = await Course.findById(courseId);
     console.log("\n\nFetched Course Details:", course);
@@ -28,7 +36,7 @@ export const createOrderPaypal = async (req, res) => {
         brand_name: "Mi tienda",
         landing_page: "NO_PREFERENCE",
         user_action: "PAY_NOW",
-        return_url: `${BACKEND_URL}/api/capture-order-paypal?courseId=${course._id}`, // Include course slug in the return URL
+        return_url: `${BACKEND_URL}/api/capture-order-paypal?courseId=${course._id}&userId=${user._id}`, // Include course slug in the return URL
         cancel_url: `${BACKEND_URL}/api/cancel-order-paypal`,
       },
     };
@@ -61,7 +69,6 @@ export const createOrderPaypal = async (req, res) => {
     // Log the created order
     console.log("\n\nCreated Order:", response.data);
 
-
     // paypal pay link + courseId
     const courseIdParam = `courseId=${course._id}`;
     const approveLink = `${response.data.links[1].href}&${courseIdParam}`;
@@ -78,28 +85,26 @@ export const createOrderPaypal = async (req, res) => {
 
 export const captureOrderPaypal = async (req, res) => {
   console.log("\n*** captureOrderPaypal\n");
-  let courseId;
-  courseId = req.query.courseId;
+  const courseId = req.query.courseId;
+  const userId = req.query.userId;
+  const user = await User.findById(userId);
   try {
-    const user = req.session.user;
-
-    // Fetch course details based on the courseSlug using MySQL query
-    const [rows] = await db.promise().execute(getCourseFromIdQuery, [courseId]);
-    const course = rows[0];
+    // Fetch course details based on the courseId using Mongoose
+    const course = await Course.findById(courseId);
     console.log("\n\nFetched Course:", course);
 
     if (course && user) {
-      // Add the user and course relationship in user_courses table
-      const [insertUserCourse] = await db
-        .promise()
-        .execute(insertUserCourseQuery, [user.id, course.id]);
-      if (insertUserCourse.affectedRows > 0) {
-        console.log(
-          `👌🏽 --Inserted into user_courses: User ID: ${user.id}, Course ID: ${course.id}`
-        );
-      }
+      const newUserCourse = new UserCourse({
+        user_id: user._id,
+        course_id: course._id,
+      });
+      await newUserCourse.save();
 
-      return res.redirect(`/api/course/${courseId}`);
+      console.log(
+        `👌🏽 --Inserted into UserCourse: user_id: ${user._id}, course_id: ${course._id}`
+      );
+
+      return res.redirect(`/api/course/${course._id}`);
     } else {
       return res.status(404).send("Course or user not found");
     }
