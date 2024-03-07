@@ -1,19 +1,16 @@
 import { isDev } from "../config.js";
 import {PAYPAL_API, PAYPAL_API_CLIENT, PAYPAL_API_SECRET, BACKEND_URL,FRONTEND_URL} from "../config.js"
+import axios from "axios"
+import Course from "../models/course.model.js";
 
 
 // PAYPAL ---------------------------------------------------
 export const createOrderPaypal = async (req, res) => {
   console.log("\n*** createOrderPaypal\n");
 
-  const courseId = req.body.courseId; // is being passed the courseSlug in the request input
+  const courseId = req.query.courseId; // is being passed the courseSlug in the request input
   try {
-    console.log("\n\nSQL Query:", getCourseFromIdQuery);
-    console.log("\n\nparams courseId:", courseId);
-    // Fetch course details based on the courseSlug using MySQL query
-    const [rows] = await db.promise().execute(getCourseFromIdQuery, courseId);
-    const course = rows[0];
-
+    const course = await Course.findById(courseId);
     console.log("\n\nFetched Course Details:", course);
 
     //create order paypal
@@ -31,8 +28,8 @@ export const createOrderPaypal = async (req, res) => {
         brand_name: "Mi tienda",
         landing_page: "NO_PREFERENCE",
         user_action: "PAY_NOW",
-        return_url: `${pro}/api/capture-order-paypal?courseId=${courseId}`, // Include course slug in the return URL
-        cancel_url: `${process.env.BACKEND_URL}/api/cancel-order-paypal`,
+        return_url: `${BACKEND_URL}/api/capture-order-paypal?courseId=${course._id}`, // Include course slug in the return URL
+        cancel_url: `${BACKEND_URL}/api/cancel-order-paypal`,
       },
     };
 
@@ -66,7 +63,7 @@ export const createOrderPaypal = async (req, res) => {
 
 
     // paypal pay link + courseId
-    const courseIdParam = `courseId=${courseId}`;
+    const courseIdParam = `courseId=${course._id}`;
     const approveLink = `${response.data.links[1].href}&${courseIdParam}`;
 
     // Redirect the user to the PayPal approval link
