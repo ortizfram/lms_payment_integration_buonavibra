@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
+import "../../public/css/course/courses.css";
 
 function CourseList({ courses }) {
   const { currentUser } = useContext(AuthContext);

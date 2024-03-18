@@ -6,12 +6,13 @@ import {
   courseOwned,
   courseDetail,
   courseDelete,
+  courseEnroll,
 } from "../controllers/course.controller.js";
 import upload from "../useMulter.js";
 import auth from "../middleware/auth.js"
-import { courseEnrollCheck } from "../middleware/checkEnroll.js";
 const router = express.Router();
 
+// create
 router.post(
   "/create",
   upload.fields([
@@ -20,6 +21,7 @@ router.post(
   ]),
   courseCreate
 );
+// update
 router.put(
   "/update/:id",
   upload.fields([
@@ -28,9 +30,15 @@ router.put(
   ]),
   courseUpdate
 );
+// list all
 router.get("/all",auth, courselist);
+// list owned
 router.get("/owned", courseOwned);
-router.get("/:id", courseDetail); //add middleware of ENroll, create order, next
+// list 1
+router.get("/:id", auth ,courseDetail); //add middleware of ENroll, create order, next
+// delete 
 router.delete("/delete/:id", courseDelete);
+// enroll
+router.get("/enroll/:id", courseEnroll);
 
 export default router;

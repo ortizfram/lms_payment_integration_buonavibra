@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import "../public/css/course/courseEnroll.css";
-import { useSelector } from "react-redux";
+import AuthContext from "../context/AuthContext";
 
 const CourseEnroll = () => {
-  const { currentUser } = useSelector((state) => state.user);
-  const user = currentUser
+  const { currentUser } = useContext(AuthContext);
+  const user = currentUser;
   const [course, setCourse] = useState(null);
   const { id } = useParams();
 

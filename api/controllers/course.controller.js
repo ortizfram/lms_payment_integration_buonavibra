@@ -220,8 +220,8 @@ export const courselist = async (req, res, next) => {
         author: {
           username: course.author.username,
           email: course.author.email,
-          avatar: course.author.avatar
-        }
+          avatar: course.author.avatar,
+        },
       };
     });
 
@@ -229,14 +229,14 @@ export const courselist = async (req, res, next) => {
     if (user) {
       // Fetch enrolled course IDs for the current user
 
-      const enrolledCourseIds = await UserCourse.find({ user_id: user._id }).distinct(
-        "course_id"
-      );
+      const enrolledCourseIds = await UserCourse.find({
+        user_id: user._id,
+      }).distinct("course_id");
 
       // Filter out enrolled courses from formattedCourses
       formattedCourses = formattedCourses.filter(
-        (course) => !enrolledCourseIds.includes(course.id))
-      ;
+        (course) => !enrolledCourseIds.includes(course.id)
+      );
     }
 
     res.status(200).json({
@@ -247,6 +247,43 @@ export const courselist = async (req, res, next) => {
   } catch (error) {
     console.log("error fetching courses");
     next(error);
+  }
+};
+// courseEnroll
+export const courseEnroll = async (req, res) => {
+  const courseId = req.params.id;
+
+  const user = req.user;
+  if (!user) {
+    return res.status(401).json("Unauthorized");
+  }
+
+  const course = await Course.findById(courseId);
+  if (!course) {
+    return res.status(404).json("Course not found");
+  }
+
+  if (course) {
+    const courseData = {
+      id: course.id,
+      title: course.title,
+      slug: course.slug,
+      description: course.description,
+      ars_price: course.ars_price,
+      usd_price: course.usd_price,
+      discount: course.discount,
+      thumbnail: course.thumbnail,
+      author: {
+        // Include author details in courseData
+        name: course.author_name,
+        username: course.author_username,
+        avatar: course.author_avatar,
+      },
+    };
+
+    res.status(200).json({ course: courseData });
+  } else {
+    res.status(404).json("Course not found");
   }
 };
 
