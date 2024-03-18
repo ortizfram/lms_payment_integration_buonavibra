@@ -30,7 +30,7 @@ router.put(
 );
 router.get("/all",auth, courselist);
 router.get("/owned", courseOwned);
-router.get("/:id", courseEnrollCheck, courseDetail); //add middleware of ENroll, create order, next
+router.get("/:id", courseDetail); //add middleware of ENroll, create order, next
 router.delete("/delete/:id", courseDelete);
 
 export default router;

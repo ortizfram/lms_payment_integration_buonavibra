@@ -77,7 +77,7 @@ export const courseCreate = async (req, res, next) => {
       video: videoUrl,
       created_at: currentTimestamp,
       updated_at: currentTimestamp,
-      author: author_id,
+      author: author,
     });
 
     await newCourse.save();
@@ -181,14 +181,67 @@ export const courselist = async (req, res, next) => {
   try {
     const message = req.query.message;
     let user = req.user;
+    const isAdmin = user && user.isAdmin === true;
 
     // Fetch all courses ordered by updated_at descending
-    const courses = await Course.find();
+    const courses = await Course.find()
+      .populate("author", "name username avatar") // Populate author details
+      .sort({ updated_at: -1 })
+      .lean(); // Convert Mongoose documents to plain JavaScript objects
 
-    res.json({ courses });
+    if (courses.length === 0) {
+      res.status(200).json({
+        message: "No hay cursos aun",
+        courses: [], // Empty array indicating no courses published yet
+        totalItems: 0,
+        user,
+        isAdmin,
+      });
+    }
+
+    console.log("courses: ", courses);
+
+    // Map courses to desired response format
+    let formattedCourses = courses.map((course) => {
+      return {
+        _id: course._id,
+        title: course.title,
+        slug: course.slug,
+        description: course.description,
+        ars_price: course.ars_price,
+        usd_price: course.usd_price,
+        discount_ars: course.discount_ars,
+        discount_usd: course.discount_usd,
+        thumbnail: `http://localhost:2020${course.thumbnail}`,
+        thumbnailPath: course.thumbnail,
+        created_at: new Date().toLocaleString(),
+        updated_at: new Date().toLocaleString(),
+        next: `/course/${course._id}`, // Dynamic course link
+      };
+    });
+
+    // Filter out enrolled courses
+    if (user) {
+      // Fetch enrolled course IDs for the current user
+
+      const enrolledCourseIds = await UserCourse.find({ user_id: user._id }).distinct(
+        "course_id"
+      );
+
+      // Filter out enrolled courses from formattedCourses
+      formattedCourses = formattedCourses.filter(
+        (course) => !enrolledCourseIds.includes(course.id))
+      ;
+    }
+
+    res.status(200).json({
+      courses: formattedCourses,
+      totalItems: formattedCourses.length,
+      message,
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.log("error fetching courses");
+    next(error);
   }
 };
 
@@ -253,7 +306,7 @@ export const courseOwned = async (req, res, next) => {
 // courseDetail
 export const courseDetail = async (req, res, next) => {
   const courseId = req.params.id;
-  const user = req.body.user;
+  const user = req.user;
   const message = req.query.message;
 
   try {
@@ -267,7 +320,7 @@ export const courseDetail = async (req, res, next) => {
     }
 
     // Fetching author details
-    const author = await User.findById(course.author._id).lean();
+    const author = await User.findById(course.author).lean();
 
     if (!author) {
       return next(errorHandler(404, `Author details not found`));
@@ -275,9 +328,9 @@ export const courseDetail = async (req, res, next) => {
 
     // Extend course with author details
     course.author = {
-      name: author.name,
-      username: author.username,
-      avatar: author.avatar,
+      name: author.username,
+      email: author.email,
+      avatar: author.profilePicture,
     };
 
     // add host predix to video\
@@ -328,4 +381,3 @@ export const courseDelete = async (req, res, next) => {
     return next(error);
   }
 };
-

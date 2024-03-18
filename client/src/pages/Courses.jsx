@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../public/css/course/courses.css";
-import AlertMessage from "../components/alertMessage";
 import CourseList from "../components/course/courseList";
 import axios from "axios";
 

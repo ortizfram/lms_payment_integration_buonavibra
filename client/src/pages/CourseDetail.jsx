@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 const CourseDetail = () => {
   const { currentUser } = useContext(AuthContext);
-  const user = currentUser;
   const [course, setCourse] = useState(null);
   const { id } = useParams();
   const isAdmin = currentUser?.["isAdmin"];

@@ -6,6 +6,9 @@ import authRoute from "./routes/auth.route.js";
 import customerRoute from "./routes/customer.route.js";
 import courseRoute from "./routes/course.route.js";
 import cookieParser from "cookie-parser";
+import path from "path";
+
+
 dotenv.config();
 const port = process.env.PORT || 8080;
 const DB_URI = process.env.DB_URI;
@@ -20,10 +23,27 @@ app.use(
   })
 );
 
+const __dirname = path.resolve();
+
+// Serve static files from the 'uploads' directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 // routes
 app.use("/api/auth", authRoute);
 app.use("/api/customer", customerRoute);
 app.use("/api/course", courseRoute);
+
+// error formatter for console
+// app.use((err, req, res, next) => {
+//   const statusCode = err.statusCode || 500;
+//   const message = err.message || "Internal Server Error";
+//   return res.status(statusCode).json({
+//     success: false,
+//     message,
+//     statusCode,
+//   });
+// });
+
 
 app.listen(port, () => {
   mongoose
