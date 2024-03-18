@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import "../public/css/course/courseDetail.css";
 import AlertMessage from "../components/alertMessage.jsx";
 import AuthContext from "../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const CourseDetail = () => {
   const { currentUser } = useContext(AuthContext);
@@ -10,7 +11,7 @@ const CourseDetail = () => {
   const [course, setCourse] = useState(null);
   const { id } = useParams();
   const isAdmin = currentUser?.["isAdmin"];
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -26,7 +27,15 @@ const CourseDetail = () => {
           const data = await response.json();
           setCourse(data.course);
         } else {
-          console.error("Failed to fetch course data");
+          const errorData = await response.json();
+          if (errorData.message === "Unauthorized") {
+            // Redirect to enroll page
+            console.log("Redirecting to enrollment page...");
+            navigate(`/course/enroll/${id}`);
+            console.log("Redirection completed.");
+          } else {
+            console.error("Failed to fetch course data");
+          }
         }
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -34,7 +43,7 @@ const CourseDetail = () => {
     };
 
     fetchCourse();
-  }, [id]);
+  }, [id, navigate]);
 
   if (!course) {
     return <div>Loading...</div>;

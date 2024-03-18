@@ -3,6 +3,7 @@ import { errorHandler } from "../utils/error.js";
 import slugify from "slugify";
 import moment from "moment";
 import User from "../models/user.model.js";
+import UserCourse from "../models/user_course.model.js";
 
 // create
 export const courseCreate = async (req, res, next) => {
@@ -327,3 +328,4 @@ export const courseDelete = async (req, res, next) => {
     return next(error);
   }
 };
+
