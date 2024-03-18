@@ -12,7 +12,7 @@ const CourseEnroll = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await fetch(`http://localhost:3008/api/course/${id}`, {
+        const response = await fetch(`http://localhost:2020/api/course/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -144,7 +144,7 @@ const CourseEnroll = () => {
         <div className="payment-options">
           {/* PAY WITH PAYPAL */}
           <form
-            action={`http://localhost:3008/api/create-order-paypal?courseId=${course._id}&userId=${user._id}`}
+            action={`http://localhost:2020/api/create-order-paypal?courseId=${course._id}&userId=${user._id}`}
             method="POST"
           >
             <input type="hidden" name="courseId" value={course.id} />
@@ -158,7 +158,7 @@ const CourseEnroll = () => {
 
           {/* PAY WITH MP */}
           <form
-            action={`http://localhost:3008/api/create-order-mp?courseId=${course.id}&userId=${user.id}`}
+            action={`http://localhost:2020/api/create-order-mp?courseId=${course.id}&userId=${user.id}`}
             method="POST"
           >
             <input type="hidden" name="courseId" value={course.id} />

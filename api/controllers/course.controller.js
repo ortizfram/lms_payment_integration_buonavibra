@@ -179,69 +179,15 @@ export const courseUpdate = async (req, res, next) => {
 export const courselist = async (req, res, next) => {
   try {
     const message = req.query.message;
-    let user = req.body.user;
-    const isAdmin = user && user.isAdmin === true;
+    let user = req.user;
 
     // Fetch all courses ordered by updated_at descending
-    const courses = await Course.find({})
-      .populate("author", "name username avatar") // Populate author details
-      .sort({ updated_at: -1 })
-      .lean(); // Convert Mongoose documents to plain JavaScript objects
+    const courses = await Course.find();
 
-    if (courses.length === 0) {
-      res.status(200).json({
-        message: "No hay cursos aun",
-        courses: [], // Empty array indicating no courses published yet
-        totalItems: 0,
-        user,
-        isAdmin,
-      });
-    }
-
-    console.log("courses: ", courses);
-
-    // Map courses to desired response format
-    let formattedCourses = courses.map((course) => {
-      return {
-        title: course.title,
-        slug: course.slug,
-        description: course.description,
-        ars_price: course.ars_price,
-        usd_price: course.usd_price,
-        discount_ars: course.discount_ars,
-        discount_usd: course.discount_usd,
-        thumbnail: `http://localhost:3008${course.thumbnail}`,
-        id: course._id.toString(),
-        thumbnailPath: course.thumbnail,
-        created_at: new Date(course.created_at).toLocaleString(),
-        updated_at: new Date(course.updated_at).toLocaleString(),
-        next: `/course/${course._id}`, // Dynamic course link
-      };
-    });
-
-    // Filter out enrolled courses
-    if (user) {
-      const enrolledCourseIds = user.enrolledCourses.map((course) =>
-        course.toString()
-      );
-      formattedCourses = formattedCourses.filter(
-        (course) => !enrolledCourseIds.includes(course.id)
-      );
-    }
-
-    // Send courses response
-    res.status(200).json({
-      route: "courses",
-      title: "Cursos",
-      courses: formattedCourses,
-      totalItems: formattedCourses.length,
-      user,
-      message,
-      isAdmin,
-    });
+    res.json({ courses });
   } catch (error) {
-    console.log("error fetching courses");
-    next(error);
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -335,7 +281,7 @@ export const courseDetail = async (req, res, next) => {
 
     // add host predix to video\
     if (course.video) {
-      course.video = `http://localhost:3008${course.video}`;
+      course.video = `http://localhost:2020${course.video}`;
     }
 
     // Fetch enrolled courses for the user

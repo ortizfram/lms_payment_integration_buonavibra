@@ -9,7 +9,7 @@ import {
 } from "../controllers/course.controller.js";
 import upload from "../useMulter.js";
 import { checkEnrollment } from "../middleware/checkEnroll.js";
-
+import auth from "../middleware/auth.js"
 const router = express.Router();
 
 router.post(
@@ -28,7 +28,7 @@ router.put(
   ]),
   courseUpdate
 );
-router.get("/all", courselist);
+router.get("/all",auth, courselist);
 router.get("/owned", courseOwned);
 router.get("/:id", checkEnrollment, courseDetail); //add middleware of ENroll, create order, next
 router.delete("/delete/:id", courseDelete);
