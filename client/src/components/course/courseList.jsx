@@ -2,7 +2,9 @@ import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 
 function CourseList({ courses }) {
-    const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
+  const courseId = courses?.["_id"];
+  const isAdmin = currentUser?.["isAdmin"];
 
   return (
     <div>
@@ -31,12 +33,9 @@ function CourseList({ courses }) {
                 </div>
               )}
 
-              <a href={`/course/${course.id}`}>
+              <a href={`/course/${course._id}`}>
                 {/* COURSE DATA */}
-                <img
-                  src={course.thumbnail}
-                  alt={`thumbnail-${course.slug}`}
-                />
+                <img src={course.thumbnail} alt={`thumbnail-${course.slug}`} />
                 <p className="timestamp text-white">{course.updated_at}</p>
 
                 {/* AUTHOR */}
@@ -66,33 +65,29 @@ function CourseList({ courses }) {
 
                 {/* DESCRIPTION */}
                 {course.description && (
-                  <p className="text-white">{course.description}</p>
+                  <p className="text-white">{course.description} </p>
                 )}
               </a>
 
               {/* ADMIN OPTIONS*/}
               {/* Assuming currentUser is passed as a prop */}
-              {currentUser.isAdmin && (
+              {isAdmin === true && (
                 <div className="course-actions">
                   {/* UPDATE */}
                   <p className="text-white">
                     <a
                       className="text-muted"
-                      href={`/api/course/update/${course.id}`}
+                      href={`/api/course/update/${course._id}`}
                     >
                       <i className="fas fa-edit me-2"></i>
                     </a>
-                    <input
-                      type="hidden"
-                      name="author"
-                      value={course.author}
-                    />
+                    <input type="hidden" name="author" value={course.author} />
                   </p>
                   {/* DEL */}
                   <p>
                     <a
                       className="text-muted"
-                      href={`/api/course/delete/${course.id}`}
+                      href={`/api/course/delete/${course._id}`}
                     >
                       <i className="fas fa-trash-alt me-2"></i>
                     </a>

@@ -17,7 +17,7 @@ import { useContext } from "react";
 axios.defaults.withCredentials = true;
 
 export default function App() {
-  const { loggedIn } = useContext(AuthContext); //destructure loggedIn
+  const { loggedIn,currentUser } = useContext(AuthContext); //destructure loggedIn
 
   return (
     <BrowserRouter>

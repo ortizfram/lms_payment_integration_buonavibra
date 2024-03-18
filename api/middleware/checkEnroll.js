@@ -7,11 +7,11 @@ export async function checkEnrollment(req, res, next) {
   const courseId = req.params.id;
   console.log("\n\ncourseId: ", courseId);
   // Get the current user from localStorage
-  const user = JSON.parse(localStorage.getItem("currentUser"));
+  const user = req.user;
 
   try {
     if (!user) {
-      return res.status(403).redirect("/sign-in");
+      return res.status(403).redirect("/login");
     }
 
     // Find the user's enrolled courses using the UserCourse model

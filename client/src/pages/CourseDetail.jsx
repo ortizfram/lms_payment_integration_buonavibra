@@ -2,13 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import "../public/css/course/courseDetail.css";
 import AlertMessage from "../components/alertMessage.jsx";
-import { useSelector } from "react-redux";
+import AuthContext from "../context/AuthContext.jsx";
 
 const CourseDetail = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useContext(AuthContext);
   const user = currentUser;
   const [course, setCourse] = useState(null);
   const { id } = useParams();
+  const isAdmin = currentUser?.["isAdmin"];
+
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -75,7 +77,7 @@ const CourseDetail = () => {
                     </span>
                     <span className="fw-bold">{course.author.username}</span> •
                     <span>{course.author.name}</span>
-                    {user && user.isAdmin === true && (
+                    {isAdmin === true && (
                       <span className="course-admin-options opacity-50">
                         <button className="btn">
                           <p>

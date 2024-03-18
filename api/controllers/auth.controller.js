@@ -3,7 +3,7 @@ import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
-// const adminEmails = JSON.parse(process.env.ADMIN_EMAILS); // Parse the admin emails
+const adminEmails = JSON.parse(process.env.ADMIN_EMAILS); // Parse the admin emails
 
 // register
 export const signup = async (req, res) => {
@@ -23,10 +23,15 @@ export const signup = async (req, res) => {
     }
     const hashP = bcryptjs.hashSync(password, 10);
 
-    const newUser = new User({ username, email, password: hashP });
+    let isAdmin = false;
+    // Check if email is admin
+    if (adminEmails.includes(email)) {
+      isAdmin = true;
+    }
+
+    const newUser = new User({ username, email, password: hashP, isAdmin  });
 
     const savedUser = await newUser.save();
-
 
     // sign the token
     const token = jwt.sign(
@@ -62,31 +67,33 @@ export const login = async (req, res) => {
     if (!correctPass)
       return res.status(401).json({ message: "Wrong email or passwor" });
 
-      // sign the token
-      const token = jwt.sign(
-        {
-          user: existingUser._id,
-        },
-        process.env.JWT_SECRET
-      );
-  
-      res
-        .cookie("token", token, {
-          httpOnly: true,
-        })
-        .send();
+    // sign the token
+    const token = jwt.sign(
+      {
+        user: existingUser._id,
+      },
+      process.env.JWT_SECRET
+    );
+
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .send();
   } catch (error) {}
 };
 
-export const logout = async (req,res)=>{
-  res.cookie("token", "", {
-    httpOnly:true,
-    expires: new Date(0)
-  }).send()
-}
+export const logout = async (req, res) => {
+  res
+    .cookie("token", "", {
+      httpOnly: true,
+      expires: new Date(0),
+    })
+    .send();
+};
 
 // logged in check
-export const loggedIn= async(req, res)=> {
+export const loggedIn = async (req, res) => {
   /* frontend check if im logged by sending token to the server 
      we do this because server is http only, so we make http req to the server
   */
@@ -94,14 +101,14 @@ export const loggedIn= async(req, res)=> {
     const token = req.cookies.token;
 
     // check if token exists
-    if(!token) return res.json(false);
+    if (!token) return res.json(false);
 
-    res.send(true)
+    res.send(true);
   } catch (error) {
     console.error(error);
     res.json(false);
   }
-}
+};
 
 // getcurrentUser
 export const getCurrentUser = async (req, res) => {

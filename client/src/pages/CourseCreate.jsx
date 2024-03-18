@@ -1,9 +1,12 @@
-import React, { useRef, useState } from "react";
-import { useSelector } from 'react-redux';
+import React, { useContext, useRef, useState } from "react";
+import AuthContext from "../context/AuthContext";
 
 const CourseCreate = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const userId = currentUser?.['_id'];
+
 
   const renderImage = (formData) => {
     const file = formData.get("image");
@@ -70,7 +73,7 @@ const CourseCreate = () => {
     });
     if (response.ok) {
       const data = await response.json();
-      const courseId = data.courseId
+      const courseId = data.courseId;
       // Redirect to the specified URL
       window.location.href = `/course/${courseId}`;
     } else {
@@ -83,112 +86,171 @@ const CourseCreate = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-xl mx-auto">
-        {currentUser && <p className="text-primary">Hello, {currentUser._id}!</p>}
-        <h1 className="text-3xl font-semibold text-gray-800 mb-4">Creando Curso</h1>
+        {currentUser && (
+          <p className="text-primary">Hello, {userId}!</p>
+        )}
+        <h1 className="text-3xl font-semibold text-gray-800 mb-4">
+          Creando Curso
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           {errorMessage && <p className="text-red-500">{errorMessage}</p>}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700">Título:</label>
+              <label
+                htmlFor="title"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Título:
+              </label>
               <input
                 name="title"
                 onChange={handleChange}
                 type="text"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
             </div>
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700">Descripción:</label>
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Descripción:
+              </label>
               <input
                 name="description"
                 onChange={handleChange}
                 type="text"
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
             </div>
           </div>
           <div>
-            <label htmlFor="text_content" className="block text-sm font-medium text-gray-700">Contenido Texto:</label>
+            <label
+              htmlFor="text_content"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Contenido Texto:
+            </label>
             <textarea
               name="text_content"
               onChange={handleChange}
               type="text"
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
             ></textarea>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="video" className="block text-sm font-medium text-gray-700">Subir Video:</label>
+              <label
+                htmlFor="video"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Subir Video:
+              </label>
               <input
                 type="file"
                 name="video"
                 accept="video/*"
                 onChange={handleChange}
+                className="text-black "
               />
             </div>
             <div>
-              <label htmlFor="image" className="block text-sm font-medium text-gray-700">Subir Miniatura:</label>
+              <label
+                htmlFor="image"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Subir Miniatura:
+              </label>
               <input
                 type="file"
                 id="file"
                 name="image"
                 accept="image/*"
                 onChange={handleChange}
+                className="text-black "
               />
             </div>
           </div>
           <div className="col-span-2">
             <div className="preview">
-              <img id="img" ref={$image} className="mt-4" style={{ width: 300 }} />
+              <img
+                id="img"
+                ref={$image}
+                className="mt-4"
+                style={{ width: 300 }}
+              />
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="ars_price" className="block text-sm font-medium text-gray-700">ARS Price:</label>
+              <label
+                htmlFor="ars_price"
+                className="block text-sm font-medium text-gray-700"
+              >
+                ARS Price:
+              </label>
               <input
                 type="number"
                 id="ars_price"
                 name="ars_price"
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
             </div>
             <div>
-              <label htmlFor="usd_price" className="block text-sm font-medium text-gray-700">USD Price:</label>
+              <label
+                htmlFor="usd_price"
+                className="block text-sm font-medium text-gray-700"
+              >
+                USD Price:
+              </label>
               <input
                 type="number"
                 id="usd_price"
                 name="usd_price"
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="discount_ars" className="block text-sm font-medium text-gray-700">Descuento ARS (Opcional):</label>
+              <label
+                htmlFor="discount_ars"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Descuento ARS (Opcional):
+              </label>
               <input
                 type="number"
                 id="discount_ars"
                 name="discount_ars"
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
             </div>
             <div>
-              <label htmlFor="discount_usd" className="block text-sm font-medium text-gray-700">Descuento USD (Opcional):</label>
+              <label
+                htmlFor="discount_usd"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Descuento USD (Opcional):
+              </label>
               <input
                 type="number"
                 id="discount_usd"
                 name="discount_usd"
                 onChange={handleChange}
-                className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
             </div>
           </div>
-          <input type="hidden" name="author_id" value={currentUser._id} />
+          <input type="hidden" name="author_id" value={userId} />
           <div className="flex justify-center mt-6">
-            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            >
               Crear Curso
             </button>
           </div>

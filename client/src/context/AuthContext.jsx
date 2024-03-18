@@ -32,7 +32,6 @@ function AuthContextProvider(props) {
         const userResp = await axios.get(
           "http://localhost:2020/api/auth/currentUser"
         );
-        console.log(userResp.data.user)
         setCurrentUser(userResp.data);
       }
     } catch (error) {
