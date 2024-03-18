@@ -1,4 +1,4 @@
-import UserCourse from "../models/userCourse.model.js"; // Assuming you have a UserCourse model
+import UserCourse from "../models/user_course.model.js"; // Assuming you have a UserCourse model
 
 // middleware
 export async function checkEnrollment(req, res, next) {

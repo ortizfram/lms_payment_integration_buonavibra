@@ -210,7 +210,7 @@ export const courselist = async (req, res, next) => {
         usd_price: course.usd_price,
         discount_ars: course.discount_ars,
         discount_usd: course.discount_usd,
-        thumbnail: `http://localhost:3007${course.thumbnail}`,
+        thumbnail: `http://localhost:3008${course.thumbnail}`,
         id: course._id.toString(),
         thumbnailPath: course.thumbnail,
         created_at: new Date(course.created_at).toLocaleString(),
@@ -335,7 +335,7 @@ export const courseDetail = async (req, res, next) => {
 
     // add host predix to video\
     if (course.video) {
-      course.video = `http://localhost:3007${course.video}`;
+      course.video = `http://localhost:3008${course.video}`;
     }
 
     // Fetch enrolled courses for the user

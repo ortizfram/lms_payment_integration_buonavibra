@@ -10,7 +10,7 @@ function Courses() {
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3007/api/course/all")
+    fetch("http://localhost:3008/api/course/all")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch courses");

@@ -1,68 +1,37 @@
 import express from "express";
-import cors from "cors"
-import bodyParser from "body-parser"
 import mongoose from "mongoose";
+import cors from "cors";
 import dotenv from "dotenv";
-import userRoutes from "./routes/user.route.js";
-import authRoutes from "./routes/auth.route.js";
-import courseRoutes from "./routes/course.route.js";
-import paymentRoutes from "./routes/payment.route.js";
+import authRoute from "./routes/auth.route.js";
+import customerRoute from "./routes/customer.route.js";
+import courseRoute from "./routes/course.route.js";
 import cookieParser from "cookie-parser";
-import path from "path";
-
 dotenv.config();
+const port = process.env.PORT || 8080;
+const DB_URI = process.env.DB_URI;
 
-mongoose
-  .connect(process.env.DB_URI)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-const __dirname = path.resolve();
-
-//! BASIC CONFIG OF APP
 const app = express();
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }));
-const corsOptions = {
-  origin: "*",
-  credentials: true,
-  optionSuccessStatus: 200
-}
-app.use(cors(corsOptions))
+app.use(express.json());
 app.use(cookieParser());
-
-
-// Serve static files from the 'uploads' directory
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 // routes
-app.use("/api/user", userRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/course", courseRoutes);
-app.use("/api", paymentRoutes);
+app.use("/api/auth", authRoute);
+app.use("/api/customer", customerRoute);
+app.use("/api/course", courseRoute);
 
-// error formatter for console
-app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
-  return res.status(statusCode).json({
-    success: false,
-    message,
-    statusCode,
-  });
+app.listen(port, () => {
+  mongoose
+    .connect(DB_URI)
+    .then((run) => {
+      console.log(`DB connected & api runnig on http://localhost:${port}`);
+    })
+    .catch((error) => {
+      console.error("Error connecting DB or running api", error.message);
+    });
 });
-
-
-
-
-
-app.listen(process.env.PORT, () => {
-  console.log("Server listening on port", process.env.PORT);
-});
-
-
-export default app
