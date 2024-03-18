@@ -217,6 +217,11 @@ export const courselist = async (req, res, next) => {
         created_at: new Date().toLocaleString(),
         updated_at: new Date().toLocaleString(),
         next: `/course/${course._id}`, // Dynamic course link
+        author: {
+          username: course.author.username,
+          email: course.author.email,
+          avatar: course.author.avatar
+        }
       };
     });
 

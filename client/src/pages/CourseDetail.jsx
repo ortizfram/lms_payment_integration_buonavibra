@@ -83,8 +83,8 @@ const CourseDetail = () => {
                         alt="author_avatar"
                       />
                     </span>
-                    <span className="fw-bold">{course.author.username}</span> •
-                    <span>{course.author.name}</span>
+                    <span className="fw-bold">{course.author.name}</span> •
+                    <span>{course.author.email}</span>
                     {isAdmin === true && (
                       <span className="course-admin-options opacity-50">
                         <button className="btn">
