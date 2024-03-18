@@ -12,8 +12,6 @@ function Courses() {
   async function getCourses() {
     try {
       const coursesRes = await axios.get("http://localhost:2020/api/course/all");
-      console.log(coursesRes)
-      console.log(typeof(coursesRes))
       setCourses(coursesRes.data.courses);
     } catch (error) {
       setError(error.message);

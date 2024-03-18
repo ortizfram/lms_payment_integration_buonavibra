@@ -1,133 +1,109 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 function CourseList({ courses }) {
-  function renderCourses() {
-    return courses.map((course, i) => {
-      return <li key={i}>{course.title}</li>;
-    });
-  }
+    const { currentUser } = useContext(AuthContext);
+
   return (
     <div>
-      <ul>{renderCourses()}</ul>
+      <ul>
+        {courses.map((course, index) => (
+          <li key={index}>
+            <div className="course-item position-relative backdrop-filter shadow-lg">
+              {/* DISCOUNT for ARS only */}
+              {course.discount_ars >= 1 && course.discount_usd < 1 && (
+                <p className="position-absolute start-40 top-10 translate-middle-x  translate-middle-y text-white text-center fw-lighter text-xs bg-success p-[0.1] rounded">
+                  ARS {course.discount_ars}%OFF
+                </p>
+              )}
+              {/* DISCOUNT for USD only */}
+              {course.discount_usd >= 1 && course.discount_ars < 1 && (
+                <p className="position-absolute start-40 top-10 translate-middle-x translate-middle-y text-white text-center fw-lighter text-xs bg-success p-[0.1] rounded">
+                  USD ${course.discount_usd}%OFF
+                </p>
+              )}
+              {/* DISCOUNT for both ARS and USD */}
+              {course.discount_ars >= 1 && course.discount_usd >= 1 && (
+                <div>
+                  <p className="position-absolute translate-middle-x translate-middle-y text-white text-center fw-lighter text-xs bg-success p-[0.1] rounded">
+                    ARS {course.discount_ars}% USD ${course.discount_usd}%
+                  </p>
+                </div>
+              )}
+
+              <a href={`/course/${course.id}`}>
+                {/* COURSE DATA */}
+                <img
+                  src={course.thumbnail}
+                  alt={`thumbnail-${course.slug}`}
+                />
+                <p className="timestamp text-white">{course.updated_at}</p>
+
+                {/* AUTHOR */}
+                <div className="author">
+                  {course.author && course.author.avatar && (
+                    <img
+                      src={course.author.avatar}
+                      alt="User Avatar"
+                      className="avatar"
+                    />
+                  )}
+                  {course.author && (
+                    <p className="author-info text-white">
+                      <strong>{course.author.username}</strong> •{" "}
+                      {course.author.name}
+                    </p>
+                  )}
+                </div>
+                <h2 className="text-white">{course.title}</h2>
+
+                {/* PRICE */}
+                {course.usd_price || course.ars_price ? (
+                  <p className="text-white">
+                    USD {course.usd_price} | ARS {course.ars_price}
+                  </p>
+                ) : null}
+
+                {/* DESCRIPTION */}
+                {course.description && (
+                  <p className="text-white">{course.description}</p>
+                )}
+              </a>
+
+              {/* ADMIN OPTIONS*/}
+              {/* Assuming currentUser is passed as a prop */}
+              {currentUser.isAdmin && (
+                <div className="course-actions">
+                  {/* UPDATE */}
+                  <p className="text-white">
+                    <a
+                      className="text-muted"
+                      href={`/api/course/update/${course.id}`}
+                    >
+                      <i className="fas fa-edit me-2"></i>
+                    </a>
+                    <input
+                      type="hidden"
+                      name="author"
+                      value={course.author}
+                    />
+                  </p>
+                  {/* DEL */}
+                  <p>
+                    <a
+                      className="text-muted"
+                      href={`/api/course/delete/${course.id}`}
+                    >
+                      <i className="fas fa-trash-alt me-2"></i>
+                    </a>
+                  </p>
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
-    // <div className="courses-page-container">
-    //   {courses.length === 0 ? (
-    //     // Render message when courses are empty
-    //     <div className="message-container">
-    //       {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-    //     </div>
-    //   ) : (
-    //     <div className="courses-container ">
-    //       <div className="section-title z-index-1">
-    //         <h1 className="text-white">Cursos</h1>
-    //       </div>
-
-    //       <div className="courses-grid">
-    //         <AlertMessage />
-    //         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-    //         {successMessage && (
-    //           <p style={{ color: "green" }}>{successMessage}</p>
-    //         )}
-
-    //         {courses.map((course, index) => (
-    //           <div
-    //             key={index}
-    //             className="course-item position-relative backdrop-filter shadow-lg"
-    //           >
-    //             {/* DISCOUNT for ARS only */}
-    //             {course.discount_ars >= 1 && course.discount_usd < 1 && (
-    //               <p className="position-absolute start-40 top-10 translate-middle-x  translate-middle-y text-white text-center fw-lighter text-xs bg-success p-[0.1] rounded">
-    //                 ARS {course.discount_ars}%OFF
-    //               </p>
-    //             )}
-    //             {/* DISCOUNT for USD only */}
-    //             {course.discount_usd >= 1 && course.discount_ars < 1 && (
-    //               <p className="position-absolute start-40 top-10 translate-middle-x translate-middle-y text-white text-center fw-lighter text-xs bg-success p-[0.1] rounded">
-    //                 USD ${course.discount_usd}%OFF
-    //               </p>
-    //             )}
-    //             {/* DISCOUNT for both ARS and USD */}
-    //             {course.discount_ars >= 1 && course.discount_usd >= 1 && (
-    //               <div>
-    //                 <p className="position-absolute translate-middle-x translate-middle-y text-white text-center fw-lighter text-xs bg-success p-[0.1] rounded">
-    //                   ARS {course.discount_ars}% USD ${course.discount_usd}%
-    //                 </p>
-    //               </div>
-    //             )}
-
-    //             <a href={`/course/${course.id}`}>
-    //               {/* COURSE DATA */}
-    //               <img
-    //                 src={course.thumbnail}
-    //                 alt={`thumbnail-${course.slug}`}
-    //               />
-    //               <p className="timestamp text-white">{course.updated_at}</p>
-
-    //               {/* AUTHOR */}
-    //               <div className="author">
-    //                 {course.author && course.author.avatar && (
-    //                   <img
-    //                     src={course.author.avatar}
-    //                     alt="User Avatar"
-    //                     className="avatar"
-    //                   />
-    //                 )}
-    //                 {course.author && (
-    //                   <p className="author-info text-white">
-    //                     <strong>{course.author.username}</strong> •{" "}
-    //                     {course.author.name}
-    //                   </p>
-    //                 )}
-    //               </div>
-    //               <h2 className="text-white">{course.title}</h2>
-
-    //               {/* PRICE */}
-    //               {course.usd_price || course.usd_price ? (
-    //                 <p className="text-white">
-    //                   USD {course.usd_price} | ARS {course.ars_price}
-    //                 </p>
-    //               ) : null}
-
-    //               {/* DESCRIPTION */}
-    //               {course.description && (
-    //                 <p className="text-white">{course.description}</p>
-    //               )}
-    //             </a>
-
-    //             {/* ADMIN OPTIONS*/}
-    //             {currentUser.isAdmin && (
-    //               <div className="course-actions">
-    //                 {/* UPDATE */}
-    //                 <p className="text-white">
-    //                   <a
-    //                     className="text-muted"
-    //                     href={`/api/course/update/${course.id}`}
-    //                   >
-    //                     <i className="fas fa-edit me-2"></i>
-    //                   </a>
-    //                   <input
-    //                     type="hidden"
-    //                     name="author"
-    //                     value={course.author}
-    //                   />
-    //                 </p>
-    //                 {/* DEL */}
-    //                 <p>
-    //                   <a
-    //                     className="text-muted"
-    //                     href={`/api/course/delete/${course.id}`}
-    //                   >
-    //                     <i className="fas fa-trash-alt me-2"></i>
-    //                   </a>
-    //                 </p>
-    //               </div>
-    //             )}
-    //           </div>
-    //         ))}
-    //       </div>
-    //     </div>
-    //   )}
-    // </div>
   );
 }
 

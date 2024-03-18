@@ -1,5 +1,5 @@
 import express from "express";
-import { loggedIn, login, logout, signup } from "../controllers/auth.controller.js";
+import { getCurrentUser, loggedIn, login, logout, signup } from "../controllers/auth.controller.js";
 const router = express.Router();
 
 // register
@@ -10,5 +10,7 @@ router.post('/login', login)
 router.get('/logout', logout)
 // loggedIn check
 router.get('/loggedIn', loggedIn);
+// getcurrentUser data
+router.get('/currentUser', getCurrentUser);
 
 export default router;
