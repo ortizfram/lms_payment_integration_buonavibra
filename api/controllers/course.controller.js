@@ -288,7 +288,7 @@ export const checkEnroll = async (req, res) => {
     if (enrollCheck.length > 0) {
       res.status(200).json("OK enrolled");
     } else {
-      res.status(401).json({
+     return res.status(401).json({
         message: "Unauthorized",
         detail: "checkEnroll: course not enrolled",
       });

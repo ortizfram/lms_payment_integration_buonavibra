@@ -19,7 +19,7 @@ const CourseEnroll = () => {
           },
         });
 
-        if (response.ok) {
+        if (response.status === 200) {
           const data = await response.json();
           setCourse(data.course);
         } else {
