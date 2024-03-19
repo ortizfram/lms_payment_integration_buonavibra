@@ -41,6 +41,8 @@ export const signup = async (req, res) => {
       process.env.JWT_SECRET
     );
 
+    req.user = savedUser._id
+
     res
       .cookie("token", token, {
         httpOnly: true,
@@ -74,6 +76,8 @@ export const login = async (req, res) => {
       },
       process.env.JWT_SECRET
     );
+
+    req.user = existingUser._id
 
     res
       .cookie("token", token, {

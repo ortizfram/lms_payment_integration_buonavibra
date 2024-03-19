@@ -1,4 +1,4 @@
-import app from "../api/index"
+import app from "../api/index.js"
 
 export const isDev = process.env.NODE_ENV === "development";
 

@@ -9,16 +9,16 @@ function Navbar() {
   return (
     <div>
       <Link to={"/"}>Home</Link>
+      <Link to={"/about"}>About</Link>
       {loggedIn === false && (
         <>
-          <Link to={"/about"}>About</Link>
-          <Link to={"/register"}>resgister</Link>
+          <Link to={"/register"}>register</Link>
           <Link to={"/login"}>login</Link>
         </>
       )}
       {loggedIn === true && (
         <>
-          <Link to={"/course/all"}>Courses</Link>
+        <Link to={"/course/all"}>Courses</Link>
           <Link to={"/course/create"}>create Course</Link>
           <Link to={"/customer"}>customer</Link>
           <LogoutBtn />

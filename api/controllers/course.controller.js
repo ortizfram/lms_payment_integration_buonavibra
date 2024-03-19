@@ -4,6 +4,7 @@ import slugify from "slugify";
 import moment from "moment";
 import User from "../models/user.model.js";
 import UserCourse from "../models/user_course.model.js";
+import jwt from "jsonwebtoken";
 
 // create
 export const courseCreate = async (req, res, next) => {
@@ -93,7 +94,6 @@ export const courseCreate = async (req, res, next) => {
     return next(error);
   }
 };
-
 // Update
 export const courseUpdate = async (req, res, next) => {
   console.log(req.files);
@@ -175,7 +175,6 @@ export const courseUpdate = async (req, res, next) => {
     return next(error);
   }
 };
-
 // courselist
 export const courselist = async (req, res, next) => {
   try {
@@ -199,7 +198,7 @@ export const courselist = async (req, res, next) => {
       });
     }
 
-    console.log("courses: ", courses);
+    console.log("courses");
 
     // Map courses to desired response format
     let formattedCourses = courses.map((course) => {
@@ -249,8 +248,58 @@ export const courselist = async (req, res, next) => {
     next(error);
   }
 };
+// checkEnroll
+export const checkEnroll = async (req, res) => {
+  console.log("middleware checkEnroll");
+  const courseId = req.params.id;
+
+  const token = await req.cookies.token;
+
+  // check if token exists
+  if (!token)
+    return res
+      .status(401)
+      .json({ message: "Unauthorized", details: "checkEnroll: not token" });
+
+  // check token is valid
+  const verified = jwt.verify(token, process.env.JWT_SECRET);
+
+  // generate a user for browser
+  req.user = verified.user;
+
+  const user = req.user;
+  console.log("user", user);
+  if (!user) {
+    return res
+      .status(401)
+      .json({ message: "Unauthorized", detail: "checkEnroll: no user" });
+  }
+
+  const course = await Course.findById(courseId);
+  if (!course) {
+    return res.status(404).json("Course not found");
+  }
+
+  if (course) {
+    const enrollCheck = await UserCourse.find({
+      user_id: req.user._id,
+      course_id: course._id,
+    });
+    if (enrollCheck.length > 0) {
+      res.status(200).json("OK enrolled");
+    } else {
+      res.status(401).json({
+        message: "Unauthorized",
+        detail: "checkEnroll: course not enrolled",
+      });
+    }
+  } else {
+    res.status(404).json("Course not found");
+  }
+};
 // courseEnroll
 export const courseEnroll = async (req, res) => {
+  console.log("courseEnroll");
   const courseId = req.params.id;
 
   const user = req.user;
@@ -286,7 +335,6 @@ export const courseEnroll = async (req, res) => {
     res.status(404).json("Course not found");
   }
 };
-
 // courseOwned
 export const courseOwned = async (req, res, next) => {
   try {
@@ -347,6 +395,7 @@ export const courseOwned = async (req, res, next) => {
 };
 // courseDetail
 export const courseDetail = async (req, res, next) => {
+  console.log("courseDetail||fetchCourse");
   const courseId = req.params.id;
   const user = req.user;
   const message = req.query.message;
@@ -400,7 +449,8 @@ export const courseDetail = async (req, res, next) => {
     });
   } catch (error) {
     console.log("Error fetching the course");
-    next(error);
+    console.error(error);
+    // next(error);
   }
 };
 // courseDelete

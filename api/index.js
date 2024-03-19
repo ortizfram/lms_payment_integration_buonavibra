@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import authRoute from "./routes/auth.route.js";
 import customerRoute from "./routes/customer.route.js";
 import courseRoute from "./routes/course.route.js";
+import paymentRoute from "./routes/payment.route.js"
 import cookieParser from "cookie-parser";
 import path from "path";
 
@@ -32,6 +33,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/auth", authRoute);
 app.use("/api/customer", customerRoute);
 app.use("/api/course", courseRoute);
+app.use("/api/order", paymentRoute);// MP and Paypal
 
 // error formatter for console
 // app.use((err, req, res, next) => {
@@ -55,3 +57,5 @@ app.listen(port, () => {
       console.error("Error connecting DB or running api", error.message);
     });
 });
+
+export default app

@@ -21,6 +21,16 @@ export const createOrderPaypal = async (req, res) => {
     const course = await Course.findById(courseId);
     console.log("\n\nFetched Course Details:", course);
 
+    let usd_price;
+
+    // if discount in usd
+    if (course.discount_usd > 0) {
+      usd_price =
+        course.usd_price - (course.usd_price * course.discount_usd) / 100;
+    } else {
+      usd_price = course.usd_price;
+    }
+
     //create order paypal
     const order = {
       intent: "CAPTURE",
@@ -28,7 +38,7 @@ export const createOrderPaypal = async (req, res) => {
         {
           amount: {
             currency_code: "USD",
-            value: course.usd_price, // Use the course price for the order
+            value: usd_price, // Use the course price for the order w/without discount
           },
         },
       ],
@@ -36,8 +46,8 @@ export const createOrderPaypal = async (req, res) => {
         brand_name: "Mi tienda",
         landing_page: "NO_PREFERENCE",
         user_action: "PAY_NOW",
-        return_url: `${BACKEND_URL}/api/capture-order-paypal?courseId=${course._id}&userId=${user._id}`, // Include course slug in the return URL
-        cancel_url: `${BACKEND_URL}/api/cancel-order-paypal`,
+        return_url: `${FRONTEND_URL}/course/${course._id}`, // Include course slug in the return URL
+        cancel_url: `${BACKEND_URL}/api/order/cancel-order-paypal`,
       },
     };
 
@@ -104,7 +114,8 @@ export const captureOrderPaypal = async (req, res) => {
         `👌🏽 --Inserted into UserCourse: user_id: ${user._id}, course_id: ${course._id}`
       );
 
-      return res.redirect(`/api/course/${course._id}`);
+      // here we must redirect in frontend
+      return res.status(201).json("Payment done") // (`/api/course/${course._id}`);
     } else {
       return res.status(404).send("Course or user not found");
     }
@@ -163,11 +174,11 @@ export const createOrderMP = async (req, res) => {
     ],
     back_urls: {
       success: `${process.env.BACKEND_URL}/api/course/${courseId}/`,
-      failure: `${process.env.BACKEND_URL}/api/failure-mp`,
-      pending: `${process.env.BACKEND_URL}/api/pending-mp`,
+      failure: `${process.env.BACKEND_URL}/api/order/failure-mp`,
+      pending: `${process.env.BACKEND_URL}/api/order/pending-mp`,
     },
     //here we use NGROK till it's deployed
-    notification_url: `${process.env.MP_NOTIFICATION_URL}/api/webhook-mp?courseId=${courseId}&userId=${userId}`,
+    notification_url: `${process.env.MP_NOTIFICATION_URL}/api/order/webhook-mp?courseId=${courseId}&userId=${userId}`,
   };
 
   // Step 5: Make the request

@@ -7,9 +7,10 @@ import {
   courseDetail,
   courseDelete,
   courseEnroll,
+  checkEnroll
 } from "../controllers/course.controller.js";
 import upload from "../useMulter.js";
-import { checkEnroll, auth } from "../middleware/auth.js";
+import  auth  from "../middleware/auth.js";
 const router = express.Router();
 
 // create
@@ -34,6 +35,8 @@ router.put(
 router.get("/all", auth, courselist);
 // list owned
 router.get("/owned", courseOwned);
+// fetch check course from userCourses table
+router.get("/:id/checkEnroll", checkEnroll);
 // list 1 from id
 router.get("/:id/fetch", courseDetail);
 // course detail

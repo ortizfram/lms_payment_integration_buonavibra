@@ -4,6 +4,7 @@ import "../public/css/course/courseDetail.css";
 import AlertMessage from "../components/alertMessage.jsx";
 import AuthContext from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CourseDetail = () => {
   const { currentUser } = useContext(AuthContext);
@@ -13,21 +14,40 @@ const CourseDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCourse = async () => {
+    const checkEnroll = async () => {
       try {
-        const response = await fetch(`http://localhost:2020/api/course/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        console.log("checking Enroll http");
+        const enrollRes = await axios.get(
+          `http://localhost:2020/api/course/${id}/checkEnroll`
+        );
 
-        if (response.ok) {
-          const data = await response.json();
-          setCourse(data.course);
+        if (enrollRes.ok) {
+          // fetch course
+          try {
+            console.log("fetching course http");
+            const fetchCourseRes = await axios.get(
+              `http://localhost:2020/api/course/${id}/fetch`
+            );
+            if (fetchCourseRes.ok) {
+              // setCourse
+              const data = await fetchCourseRes.json();
+              setCourse(data.course);
+            } else {
+              const errorDataFetch = await fetchCourseRes.json();
+              // didnt fetch
+              if (errorDataFetch.message === "Unauthorized") {
+                // Redirect to enroll page
+                console.log("Redirecting to enrollment page...");
+                navigate(`/course/all`);
+                console.log("Redirection completed.");
+              }
+            }
+          } catch (error) {
+            console.error(error);
+          }
         } else {
-          const errorData = await response.json();
-          if (errorData.message === "Unauthorized") {
+          const errorDataEnroll = await enrollRes.json();
+          if (errorDataEnroll.message === "Unauthorized") {
             // Redirect to enroll page
             console.log("Redirecting to enrollment page...");
             navigate(`/course/enroll/${id}`);
@@ -41,7 +61,7 @@ const CourseDetail = () => {
       }
     };
 
-    fetchCourse();
+    checkEnroll();
   }, [id, navigate]);
 
   if (!course) {
