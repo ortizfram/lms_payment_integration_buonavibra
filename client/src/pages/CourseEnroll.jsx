@@ -12,7 +12,7 @@ const CourseEnroll = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await fetch(`http://localhost:2020/api/course/${id}`, {
+        const response = await fetch(`http://localhost:2020/api/course/${id}/fetch`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -144,10 +144,10 @@ const CourseEnroll = () => {
         <div className="payment-options">
           {/* PAY WITH PAYPAL */}
           <form
-            action={`http://localhost:2020/api/create-order-paypal?courseId=${course._id}&userId=${user._id}`}
+            action={`http://localhost:2020/api/create-order-paypal?courseId=${id}&userId=${user._id}`}
             method="POST"
           >
-            <input type="hidden" name="courseId" value={course.id} />
+            <input type="hidden" name="courseId" value={id} />
             <input type="hidden" name="userId" value={user._id} />
 
             <button type="submit">
@@ -158,10 +158,10 @@ const CourseEnroll = () => {
 
           {/* PAY WITH MP */}
           <form
-            action={`http://localhost:2020/api/create-order-mp?courseId=${course.id}&userId=${user.id}`}
+            action={`http://localhost:2020/api/create-order-mp?courseId=${id}&userId=${user.id}`}
             method="POST"
           >
-            <input type="hidden" name="courseId" value={course.id} />
+            <input type="hidden" name="courseId" value={id} />
             <input type="hidden" name="userId" value={user._id} />
 
             <button type="submit">
