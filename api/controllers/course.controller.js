@@ -407,14 +407,14 @@ export const courseDetail = async (req, res, next) => {
       .lean();
 
     if (!course) {
-      return next(errorHandler(400, `Course not found`));
+      return res.status(404).json(`Course not found`);
     }
 
     // Fetching author details
     const author = await User.findById(course.author).lean();
 
     if (!author) {
-      return next(errorHandler(404, `Author details not found`));
+      return res.status(404).json(`Author details not found`);
     }
 
     // Extend course with author details
@@ -441,7 +441,7 @@ export const courseDetail = async (req, res, next) => {
     }
 
     // Send JSON response with the fetched data
-    res.json({
+    res.status(200).json({
       course,
       message,
       user,
