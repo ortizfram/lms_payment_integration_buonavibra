@@ -180,65 +180,38 @@ export const courseUpdate = async (req, res, next) => {
 export const courselist = async (req, res, next) => {
   try {
     const message = req.query.message;
-    let user = req.user;
-    console.log("user ", user)
-    const isAdmin = user && user.isAdmin === true;
+    const user = req.user;
 
-    // Fetch all courses ordered by updated_at descending
-    const courses = await Course.find()
-      .populate("author", "name username avatar") // Populate author details
+    // Fetch enrolled course IDs for the current user
+    const enrolledCourses = await UserCourse.find({ user_id: user }).distinct("course_id");
+
+    // Fetch courses that the user has not enrolled in
+    const coursesNotEnrolled = await Course.find({ _id: { $nin: enrolledCourses } })
+      .populate("author", "name username avatar")
       .sort({ updated_at: -1 })
-      .lean(); // Convert Mongoose documents to plain JavaScript objects
-
-    if (courses.length === 0) {
-      res.status(200).json({
-        message: "No hay cursos aun",
-        courses: [], // Empty array indicating no courses published yet
-        totalItems: 0,
-        user,
-        isAdmin,
-      });
-    }
-
-    console.log("courses");
+      .lean();
 
     // Map courses to desired response format
-    let formattedCourses = courses.map((course) => {
-      return {
-        _id: course._id,
-        title: course.title,
-        slug: course.slug,
-        description: course.description,
-        ars_price: course.ars_price,
-        usd_price: course.usd_price,
-        discount_ars: course.discount_ars,
-        discount_usd: course.discount_usd,
-        thumbnail: `http://localhost:2020${course.thumbnail}`,
-        thumbnailPath: course.thumbnail,
-        created_at: new Date().toLocaleString(),
-        updated_at: new Date().toLocaleString(),
-        next: `/course/${course._id}`, // Dynamic course link
-        author: {
-          username: course.author.username,
-          email: course.author.email,
-          avatar: course.author.avatar,
-        },
-      };
-    });
-
-    // Filter out enrolled courses
-    if (user) {
-      // Fetch enrolled course IDs for the current user
-
-      const enrolledCourseIds = await UserCourse.find({
-        user_id: user._id,
-      }).distinct("course_id");
-
-      // Filter out enrolled courses from formattedCourses
-      formattedCourses = formattedCourses.filter(
-        (course) => !enrolledCourseIds.includes(course.id)
-      );
-    }
+    const formattedCourses = coursesNotEnrolled.map((course) => ({
+      _id: course._id,
+      title: course.title,
+      slug: course.slug,
+      description: course.description,
+      ars_price: course.ars_price,
+      usd_price: course.usd_price,
+      discount_ars: course.discount_ars,
+      discount_usd: course.discount_usd,
+      thumbnail: `http://localhost:2020${course.thumbnail}`,
+      thumbnailPath: course.thumbnail,
+      created_at: new Date().toLocaleString(),
+      updated_at: new Date().toLocaleString(),
+      next: `/course/${course._id}`, // Dynamic course link
+      author: {
+        username: course.author.username,
+        email: course.author.email,
+        avatar: course.author.avatar,
+      },
+    }));
 
     res.status(200).json({
       courses: formattedCourses,
@@ -246,7 +219,7 @@ export const courselist = async (req, res, next) => {
       message,
     });
   } catch (error) {
-    console.log("error fetching courses");
+    console.log("Error fetching courses:", error);
     next(error);
   }
 };
