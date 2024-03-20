@@ -4,7 +4,6 @@ import "../../public/css/course/courses.css";
 
 function CourseList({ courses }) {
   const { currentUser } = useContext(AuthContext);
-  const courseId = courses?.["_id"];
   const isAdmin = currentUser?.["isAdmin"];
 
   return (
@@ -34,7 +33,8 @@ function CourseList({ courses }) {
                 </div>
               )}
 
-              <a href={`/course/${course._id}`}>
+              {/* NExt Link */}
+              <a href={`/course/enroll/${course._id}`}>
                 {/* COURSE DATA */}
                 <img src={course.thumbnail} alt={`thumbnail-${course.slug}`} />
                 <p className="timestamp text-white">{course.updated_at}</p>

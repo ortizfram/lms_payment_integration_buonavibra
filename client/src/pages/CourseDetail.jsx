@@ -14,51 +14,32 @@ const CourseDetail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkEnroll = async () => {
+    const fetchCourse = async () => {
       try {
-        console.log("checking Enroll http");
-        const enrollRes = await axios.get(
-          `http://localhost:2020/api/course/${id}/checkEnroll`
-          );
-
-        if (enrollRes.status === 401) {
-          // unathorized, Redirect to enroll page
-          console.log("Redirecting to enrollment page...");
-          navigate(`/course/enroll/${id}`);
-          console.log("Redirection completed.");
-        } else if (enrollRes.status === 200) {
-          // user is enroleld, fetch course
-          try {
-            console.log("fetching course http");
-            const fetchCourseRes = await axios.get(
-              `http://localhost:2020/api/course/${id}/fetch`
-            );
-            if (fetchCourseRes.status === 200) {
-              // course found, setCourse state
-              const data = await fetchCourseRes.json();
-              setCourse(data.course);
-            } else {
-              // could found course, redirect
-              if (fetchCourseRes.status === 404) {
-                // Redirect to enroll page
-                console.log("Redirecting to enrollment page...");
-                navigate(`/course/all`);
-                console.log("Redirection completed.");
-              }
-            }
-          } catch (error) {
-            console.error(error);
-          }
+        console.log("courseDetail: fetchingCourse ");
+        const fetchCourseRes = await axios.get(
+          `http://localhost:2020/api/course/${id}/fetch`
+        );
+        if (fetchCourseRes.status === 200) {
+          // course found, setCourse state
+          const data = await fetchCourseRes.data;
+          setCourse(data.course);
         } else {
-          console.error("Failed to fetch course data");
+          // could found course, redirect
+          if (fetchCourseRes.status === 404) {
+            // Redirect to enroll page
+            console.log("Redirecting to enrollment page...");
+            navigate(`/course/all`);
+            console.log("Redirection completed.");
+          }
         }
       } catch (error) {
-        console.error("Error fetching course data:", error);
+        console.error(error);
       }
     };
 
-    checkEnroll();
-  }, [id]);
+    fetchCourse();
+  }, [id, navigate]);
 
   if (!course) {
     return <div>Loading...</div>;

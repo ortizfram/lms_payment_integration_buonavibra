@@ -46,7 +46,7 @@ export const createOrderPaypal = async (req, res) => {
         brand_name: "Mi tienda",
         landing_page: "NO_PREFERENCE",
         user_action: "PAY_NOW",
-        return_url: `${FRONTEND_URL}/course/${course._id}`, // Include course slug in the return URL
+        return_url: `${BACKEND_URL}/api/order/capture-order-paypal?courseId=${course._id}&userId=${user._id}`, // Include course slug in the return URL
         cancel_url: `${BACKEND_URL}/api/order/cancel-order-paypal`,
       },
     };
@@ -117,7 +117,7 @@ export const captureOrderPaypal = async (req, res) => {
       // here we must redirect in frontend
       return res.status(201).json("Payment done") // (`/api/course/${course._id}`);
     } else {
-      return res.status(404).send("Course or user not found");
+      return res.status(404).json("Course or user not found");
     }
   } catch (error) {
     console.error("Error capturing order:", error);

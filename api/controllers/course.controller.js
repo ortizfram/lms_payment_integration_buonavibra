@@ -5,6 +5,7 @@ import moment from "moment";
 import User from "../models/user.model.js";
 import UserCourse from "../models/user_course.model.js";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 // create
 export const courseCreate = async (req, res, next) => {
@@ -252,7 +253,6 @@ export const courselist = async (req, res, next) => {
 export const checkEnroll = async (req, res) => {
   console.log("middleware checkEnroll");
   const courseId = req.params.id;
-
   const token = await req.cookies.token;
 
   // check if token exists
@@ -261,40 +261,40 @@ export const checkEnroll = async (req, res) => {
       .status(401)
       .json({ message: "Unauthorized", details: "checkEnroll: not token" });
 
-  // check token is valid
-  const verified = jwt.verify(token, process.env.JWT_SECRET);
+  try {
+    // check token is valid
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
 
-  // generate a user for browser
-  req.user = verified.user;
-
-  const user = req.user;
-  console.log("user", user);
-  if (!user) {
-    return res
-      .status(401)
-      .json({ message: "Unauthorized", detail: "checkEnroll: no user" });
-  }
-
-  const course = await Course.findById(courseId);
-  if (!course) {
-    return res.status(404).json("Course not found");
-  }
-
-  if (course) {
-    const enrollCheck = await UserCourse.find({
-      user_id: req.user._id,
-      course_id: course._id,
-    });
-    if (enrollCheck.length > 0) {
-      res.status(200).json("OK enrolled");
-    } else {
-     return res.status(401).json({
-        message: "Unauthorized",
-        detail: "checkEnroll: course not enrolled",
-      });
+    // generate a user for browser
+    req.user = verified.user;
+    console.log("req.user ", req.user);
+    const userId = req.user;
+    console.log("userId", userId);
+    if (!userId) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized", detail: "checkEnroll: no user" });
     }
-  } else {
-    res.status(404).json("Course not found");
+
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json("Course not found");
+    }
+    
+    // make them mongoose objt to be compared with the ones on UserCourse table
+    const enrollCheck = await UserCourse.find({
+      user_id: new mongoose.Types.ObjectId(userId),
+      course_id: new mongoose.Types.ObjectId(course._id),
+    });
+
+    if (enrollCheck.length > 0) {
+      return res.status(200).json("OK enrolled");
+    } else {
+      return res.status(401).json("User is not enrolled in the course");
+    }
+  } catch (error) {
+    console.error("Error checkEnroll:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 // courseEnroll
