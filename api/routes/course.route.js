@@ -34,7 +34,7 @@ router.put(
 // list all
 router.get("/all", auth, courselist);
 // list owned
-router.get("/owned", courseOwned);
+router.get("/owned", auth,courseOwned);
 // fetch check course from userCourses table
 router.get("/:id/checkEnroll", checkEnroll);
 // list 1 from id

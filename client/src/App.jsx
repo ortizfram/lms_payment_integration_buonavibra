@@ -13,6 +13,7 @@ import AuthContext, { AuthContextProvider } from "./context/AuthContext";
 import Login from "./pages/auth/Login";
 import Customers from "./components/customer/Customers";
 import { useContext } from "react";
+import CourseLibrary from "./pages/CourseLibrary";
 
 axios.defaults.withCredentials = true;
 
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/course/create" element={<CourseCreate />} />
         <Route path="/course/update/:id" element={<CourseUpdate />} />
         <Route path="/course/:id" element={<CourseDetail />} />
+        <Route path="/course/library" element={<CourseLibrary />} />
       </>)}
         <Route path="*" element={<h1>404 Page Not FOund</h1>} />
         <Route path="/" element={<Home />} />

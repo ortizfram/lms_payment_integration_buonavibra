@@ -181,6 +181,7 @@ export const courselist = async (req, res, next) => {
   try {
     const message = req.query.message;
     let user = req.user;
+    console.log("user ", user)
     const isAdmin = user && user.isAdmin === true;
 
     // Fetch all courses ordered by updated_at descending
@@ -280,7 +281,7 @@ export const checkEnroll = async (req, res) => {
     if (!course) {
       return res.status(404).json("Course not found");
     }
-    
+
     // make them mongoose objt to be compared with the ones on UserCourse table
     const enrollCheck = await UserCourse.find({
       user_id: new mongoose.Types.ObjectId(userId),
@@ -339,57 +340,46 @@ export const courseEnroll = async (req, res) => {
 export const courseOwned = async (req, res, next) => {
   try {
     const message = req.query.message;
-    let user = req.session.user;
-    const isAdmin = user && user.role === "admin";
+    const user = req.user;
 
-    // Fetch courses owned by the user
-    let courses = [];
-    if (user) {
-      const enrolledCourseIds = await UserCourse.find({
-        user_id: user.id,
-      }).distinct("course_id");
-      courses = await Course.find({ _id: { $in: enrolledCourseIds } })
-        .populate("author", "name username avatar")
-        .sort({ updated_at: -1 })
-        .lean();
-    }
+    // Fetch enrolled course IDs for the current user
+    const enrolledCourses = await UserCourse.find({ user_id: user }).distinct("course_id");
 
-    // Map courses to the desired response format
-    let formattedCourses = courses.map((course) => {
-      return {
-        id: course._id.toString(),
-        title: course.title,
-        slug: course.slug,
-        description: course.description,
-        ars_price: course.ars_price,
-        usd_price: course.usd_price,
-        discount_ars: course.discount_ars,
-        discount_usd: course.discount_usd,
-        thumbnail: course.thumbnail,
-        thumbnailPath: course.thumbnail,
-        created_at: new Date(course.created_at).toLocaleString(),
-        updated_at: new Date(course.updated_at).toLocaleString(),
-        author: {
-          name: course.author.name,
-          username: course.author.username,
-          avatar: course.author.avatar,
-        },
-        next: `/api/course/${course._id}`, // Dynamic course link
-      };
-    });
+    // Fetch courses based on enrolled course IDs
+    const courses = await Course.find({ _id: { $in: enrolledCourses } })
+      .populate("author", "name username avatar")
+      .sort({ updated_at: -1 })
+      .lean();
 
-    // Send courses response
+    // Map courses to desired response format
+    const formattedCourses = courses.map((course) => ({
+      _id: course._id,
+      title: course.title,
+      slug: course.slug,
+      description: course.description,
+      ars_price: course.ars_price,
+      usd_price: course.usd_price,
+      discount_ars: course.discount_ars,
+      discount_usd: course.discount_usd,
+      thumbnail: `http://localhost:2020${course.thumbnail}`,
+      thumbnailPath: course.thumbnail,
+      created_at: new Date().toLocaleString(),
+      updated_at: new Date().toLocaleString(),
+      next: `/course/${course._id}`, // Dynamic course link
+      author: {
+        username: course.author.username,
+        email: course.author.email,
+        avatar: course.author.avatar,
+      },
+    }));
+
     res.status(200).json({
-      route: "courses",
-      title: "Cursos",
       courses: formattedCourses,
       totalItems: formattedCourses.length,
-      user,
       message,
-      isAdmin,
     });
   } catch (error) {
-    console.log("Error fetching owned courses:");
+    console.log("Error fetching courses:", error);
     next(error);
   }
 };

@@ -19,6 +19,7 @@ function Navbar() {
       {loggedIn === true && (
         <>
         <Link to={"/course/all"}>Courses</Link>
+        <Link to={"/course/library"}>Biblioteca</Link>
           <Link to={"/course/create"}>create Course</Link>
           <Link to={"/customer"}>customer</Link>
           <LogoutBtn />
