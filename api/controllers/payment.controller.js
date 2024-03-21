@@ -4,11 +4,18 @@ import {
   PAYPAL_API_SECRET,
   BACKEND_URL,
   FRONTEND_URL,
+  MP_ACCESS_TOKEN,
+  MP_NOTIFICATION_URL,
 } from "../config.js";
 import axios from "axios";
 import Course from "../models/course.model.js";
 import UserCourse from "../models/user_course.model.js";
 import User from "../models/user.model.js";
+import mercadopago, {
+  Payment,
+  MercadoPagoConfig,
+  Preference,
+} from "mercadopago";
 
 // PAYPAL ---------------------------------------------------
 export const createOrderPaypal = async (req, res) => {
@@ -155,7 +162,7 @@ export const createOrderMP = async (req, res) => {
 
     // Step 2: Initialize the client object
     const client = new MercadoPagoConfig({
-      access_token: process.env.MP_SANDBOX_ACCESS_TOKEN,
+      access_token: MP_ACCESS_TOKEN,
     });
 
     // Step 3: Initialize the API object
@@ -172,12 +179,12 @@ export const createOrderMP = async (req, res) => {
         },
       ],
       back_urls: {
-        success: `${process.env.BACKEND_URL}/api/course/${courseId}/`,
-        failure: `${process.env.BACKEND_URL}/api/order/failure-mp`,
-        pending: `${process.env.BACKEND_URL}/api/order/pending-mp`,
+        success: `${BACKEND_URL}/api/course/${courseId}/`,
+        failure: `${BACKEND_URL}/api/order/failure-mp`,
+        pending: `${BACKEND_URL}/api/order/pending-mp`,
       },
-      //here we use NGROK till it's deployed
-      notification_url: `${process.env.MP_NOTIFICATION_URL}/api/order/webhook-mp?courseId=${courseId}&userId=${userId}`,
+      //here we use NGROK till it's deployed. cause we need https method
+      notification_url: `${MP_NOTIFICATION_URL}/api/order/webhook-mp?courseId=${courseId}&userId=${userId}`,
     };
 
     // Step 5: Make the request
