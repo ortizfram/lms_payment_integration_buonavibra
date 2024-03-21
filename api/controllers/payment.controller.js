@@ -115,11 +115,11 @@ export const captureOrderPaypal = async (req, res) => {
       );
 
       // here we must redirect in frontend
-     // Return the HTML button to redirect to the course
-     const redirectUrl = `http://localhost:5173/course/${courseId}`;
-     const htmlResponse = `<button style="background-color: green; color: white; border: none; border-radius: 20px; padding: 15px 30px; font-size: 18px; display: block; margin: 0 auto;"><a href="${redirectUrl}" style="text-decoration: none; color: white;">Ir al curso</a></button>`;
-     res.setHeader('Content-Type', 'text/html');
-     return res.status(201).send(htmlResponse);
+      // Return the HTML button to redirect to the course
+      const redirectUrl = `http://localhost:5173/course/${courseId}`;
+      const htmlResponse = `<button style="background-color: green; color: white; border: none; border-radius: 20px; padding: 15px 30px; font-size: 18px; display: block; margin: 0 auto;"><a href="${redirectUrl}" style="text-decoration: none; color: white;">Ir al curso</a></button>`;
+      res.setHeader("Content-Type", "text/html");
+      return res.status(201).send(htmlResponse);
     } else {
       return res.status(404).json("Course or user not found");
     }
@@ -136,67 +136,67 @@ export const createOrderMP = async (req, res) => {
   console.log("\n*** Creating MP order...\n");
 
   // • get course
-  const courseId = req.body.courseId; // is being passed the courseSlug in the request input
-  const userId = req.body.userId; // is being passed the courseSlug in the request input
-  console.log(`\nSQL Query: ${getCourseFromSlugQuery}\n`);
-  console.log(`\ncourseId: ${[courseId]}\n`);
-  console.log(`\nuserId: ${[userId]}\n`);
 
-  // Fetch the course using the query
-  const [rows] = await db.promise().execute(getCourseFromIdQuery, courseId);
-  // Check if the course exists
-  const course = rows[0];
+  try {
+    const { courseId, userId } = req.query;
 
-  console.log(`\nFetched Course Details:`);
-  console.log(course);
+    const course = await Course.findById(courseId);
+    if (!course) {
+      console.log("Course not found");
+      return res.status(404).json({ message: "Course not found" });
+    }
+    // Fetch course details based on the courseId using Mongoose
+    console.log("\n\nFetched Course:", course);
 
-  // Check the type of course.price
-  // console.log(`\nType of course.price: ${typeof course.price}\n`);
+    // Convert course price to a decimal
+    const priceAsFloat = parseFloat(course.ars_price);
 
-  // Convert course.price to a decimal
-  const priceAsFloat = parseFloat(course.ars_price);
+    // step 1: imports
 
-  // step 1: imports
+    // Step 2: Initialize the client object
+    const client = new MercadoPagoConfig({
+      access_token: process.env.MP_SANDBOX_ACCESS_TOKEN,
+    });
 
-  // Step 2: Initialize the client object
-  const client = new MercadoPagoConfig({
-    access_token: process.env.MP_SANDBOX_ACCESS_TOKEN,
-  });
+    // Step 3: Initialize the API object
+    const payment = new Payment(client);
 
-  // Step 3: Initialize the API object
-  const payment = new Payment(client);
-
-  // Step 4: Create the request object
-  var body = {
-    items: [
-      {
-        title: course.title,
-        quantity: 1,
-        currency_id: "ARS",
-        unit_price: priceAsFloat,
+    // Step 4: Create the request object
+    var body = {
+      items: [
+        {
+          title: course.title,
+          quantity: 1,
+          currency_id: "ARS",
+          unit_price: priceAsFloat,
+        },
+      ],
+      back_urls: {
+        success: `${process.env.BACKEND_URL}/api/course/${courseId}/`,
+        failure: `${process.env.BACKEND_URL}/api/order/failure-mp`,
+        pending: `${process.env.BACKEND_URL}/api/order/pending-mp`,
       },
-    ],
-    back_urls: {
-      success: `${process.env.BACKEND_URL}/api/course/${courseId}/`,
-      failure: `${process.env.BACKEND_URL}/api/order/failure-mp`,
-      pending: `${process.env.BACKEND_URL}/api/order/pending-mp`,
-    },
-    //here we use NGROK till it's deployed
-    notification_url: `${process.env.MP_NOTIFICATION_URL}/api/order/webhook-mp?courseId=${courseId}&userId=${userId}`,
-  };
+      //here we use NGROK till it's deployed
+      notification_url: `${process.env.MP_NOTIFICATION_URL}/api/order/webhook-mp?courseId=${courseId}&userId=${userId}`,
+    };
 
-  // Step 5: Make the request
-  payment.create({ body }).then(console.log).catch(console.log);
+    // Step 5: Make the request
+    payment.create({ body }).then(console.log).catch(console.log);
 
-  const result = await mercadopago.preferences.create(preference);
-  console.log(`\n\n--- MP preference created:`);
+    const result = await mercadopago.preferences.create(preference);
+    console.log(`\n\n--- MP preference created:`);
 
-  // console.log(result.body);
+    // console.log(result.body);
 
-  // change on deployment
-  const initPoint = result.body.sandbox_init_point;
-  const redirectURL = `${initPoint}&courseId=${courseId}`;
-  res.redirect(redirectURL);
+    // change on deployment
+    const initPoint = result.body.sandbox_init_point;
+    const redirectURL = `${initPoint}&courseId=${courseId}`;
+    res.redirect(redirectURL);
+  } catch (error) {
+    console.error("Error capturing order:", error);
+    // Send a generic error response without revealing too much information
+    return res.status(500).json({ message: "Error capturing the order" });
+  }
 };
 
 export const webhookMP = async (req, res) => {
