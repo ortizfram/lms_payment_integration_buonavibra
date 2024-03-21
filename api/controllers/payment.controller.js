@@ -115,7 +115,11 @@ export const captureOrderPaypal = async (req, res) => {
       );
 
       // here we must redirect in frontend
-      return res.status(201).json("Payment done") // (`/api/course/${course._id}`);
+     // Return the HTML button to redirect to the course
+     const redirectUrl = `http://localhost:5173/course/${courseId}`;
+     const htmlResponse = `<button style="background-color: green; color: white; border: none; border-radius: 20px; padding: 15px 30px; font-size: 18px; display: block; margin: 0 auto;"><a href="${redirectUrl}" style="text-decoration: none; color: white;">Ir al curso</a></button>`;
+     res.setHeader('Content-Type', 'text/html');
+     return res.status(201).send(htmlResponse);
     } else {
       return res.status(404).json("Course or user not found");
     }
