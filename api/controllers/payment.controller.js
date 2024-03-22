@@ -162,17 +162,22 @@ export const createOrderMP = async (req, res) => {
     body: {
       items: [
         {
-          title: "Producto x",
+          title: `Curso: ${course.title}`,
+          description: course.description,
           quantity: 1,
-          unit_price: 2000,
+          currency_id: "ARS",
+          unit_price: parseFloat(course.ars_price),
         },
       ],
+      back_urls: {
+              success: `${FRONTEND_URL}/course/${courseId}`,
+              failure: `${BACKEND_URL}/api/order/failure-mp`,
+              pending: `${BACKEND_URL}/api/order/pending-mp`,
+            },
+            notification_url: `${MP_NOTIFICATION_URL}/api/order/webhook-mp?courseId=${courseId}&userId=${userId}`,
     },
   }).then((preference)=>res.redirect(preference.sandbox_init_point))
   .catch(console.log)
-
-
-  // res.redirect(preference.sandbox_init_point)
 };
 //   // Initialize the API object
 //   const payment = new Payment(client);
@@ -195,28 +200,7 @@ export const createOrderMP = async (req, res) => {
 //     notification_url: `${process.env.MP_NOTIFICATION_URL}/api/order/webhook-mp?courseId=${courseId}&userId=${userId}`,
 //   };
 
-//   // Make the request to create payment
-//   payment
-//     .create({ body })
-//     .then((response) => {
-//       console.log("Payment created:", response);
-//       // Handle successful payment creation, redirect user or do further processing
-//       // You can extract init_point or other required data from the response to redirect the user
-//       // const initPoint = response.body.init_point;
-//       // const redirectURL = `${initPoint}&courseId=${courseId}`;
-//       // res.redirect(redirectURL);
-//       res
-//         .status(200)
-//         .json({ message: "Payment created successfully", data: response });
-//     })
-//     .catch((error) => {
-//       console.error("Error creating payment:", error);
-//       return res.status(500).json({ message: "Error creating payment" });
-//     });
-// } catch (error) {
-//   console.error("Error capturing order:", error);
-//   return res.status(500).json({ message: "Error capturing the order" });
-//   }
+
 
 export const webhookMP = async (req, res) => {
   console.log("\n\n*** Webhook MP...\n\n");
