@@ -6,16 +6,18 @@ import {
   FRONTEND_URL,
   MP_ACCESS_TOKEN,
   MP_NOTIFICATION_URL,
+  isDev,
 } from "../config.js";
 import axios from "axios";
 import Course from "../models/course.model.js";
 import UserCourse from "../models/user_course.model.js";
 import User from "../models/user.model.js";
 import mercadopago, {
-  Payment,
   MercadoPagoConfig,
   Preference,
+  Payment,
 } from "mercadopago";
+import crypto from "crypto";
 
 // PAYPAL ---------------------------------------------------
 export const createOrderPaypal = async (req, res) => {
@@ -141,70 +143,81 @@ export const cancelPaymentPaypal = (req, res) => res.redirect("/");
 // Mercado Pago 1.5.16 ---------------------------------------------------
 export const createOrderMP = async (req, res) => {
   console.log("\n*** Creating MP order...\n");
+  const { courseId, userId } = req.query;
 
-  // • get course
+  // Fetch course details based on the courseId using Mongoose
+  const course = await Course.findById(courseId);
+  if (!course) {
+    console.log("Course not found");
+    return res.status(404).json({ message: "Course not found" });
+  }
+  console.log("\n\nFetched Course:", course);
 
-  try {
-    const { courseId, userId } = req.query;
+  // Step 2: Initialize the client object
+  const client = new MercadoPagoConfig({
+    accessToken: MP_ACCESS_TOKEN,
+  });
 
-    const course = await Course.findById(courseId);
-    if (!course) {
-      console.log("Course not found");
-      return res.status(404).json({ message: "Course not found" });
-    }
-    // Fetch course details based on the courseId using Mongoose
-    console.log("\n\nFetched Course:", course);
-
-    // Convert course price to a decimal
-    const priceAsFloat = parseFloat(course.ars_price);
-
-    // step 1: imports
-
-    // Step 2: Initialize the client object
-    const client = new MercadoPagoConfig({
-      access_token: MP_ACCESS_TOKEN,
-    });
-
-    // Step 3: Initialize the API object
-    const payment = new Payment(client);
-
-    // Step 4: Create the request object
-    var body = {
+  const preference =await  new Preference(client).create({
+    body: {
       items: [
         {
-          title: course.title,
+          title: "Producto x",
           quantity: 1,
-          currency_id: "ARS",
-          unit_price: priceAsFloat,
+          unit_price: 2000,
         },
       ],
-      back_urls: {
-        success: `${BACKEND_URL}/api/course/${courseId}/`,
-        failure: `${BACKEND_URL}/api/order/failure-mp`,
-        pending: `${BACKEND_URL}/api/order/pending-mp`,
-      },
-      //here we use NGROK till it's deployed. cause we need https method
-      notification_url: `${MP_NOTIFICATION_URL}/api/order/webhook-mp?courseId=${courseId}&userId=${userId}`,
-    };
+    },
+  }).then(console.log)
+  .catch(console.log)
 
-    // Step 5: Make the request
-    payment.create({ body }).then(console.log).catch(console.log);
+  console.log(preference)
 
-    const result = await mercadopago.preferences.create(preference);
-    console.log(`\n\n--- MP preference created:`);
-
-    // console.log(result.body);
-
-    // change on deployment
-    const initPoint = result.body.sandbox_init_point;
-    const redirectURL = `${initPoint}&courseId=${courseId}`;
-    res.redirect(redirectURL);
-  } catch (error) {
-    console.error("Error capturing order:", error);
-    // Send a generic error response without revealing too much information
-    return res.status(500).json({ message: "Error capturing the order" });
-  }
+  // res.redirect(preference.sandbox_init_point)
 };
+//   // Initialize the API object
+//   const payment = new Payment(client);
+
+//   // Create the request object
+//   const body = {
+//     items: [
+//       {
+//         title: course.title,
+//         quantity: 1,
+//         currency_id: "ARS",
+//         unit_price: priceAsFloat,
+//       },
+//     ],
+//     back_urls: {
+//       success: `${process.env.BACKEND_URL}/api/course/${courseId}/`,
+//       failure: `${process.env.BACKEND_URL}/api/order/failure-mp`,
+//       pending: `${process.env.BACKEND_URL}/api/order/pending-mp`,
+//     },
+//     notification_url: `${process.env.MP_NOTIFICATION_URL}/api/order/webhook-mp?courseId=${courseId}&userId=${userId}`,
+//   };
+
+//   // Make the request to create payment
+//   payment
+//     .create({ body })
+//     .then((response) => {
+//       console.log("Payment created:", response);
+//       // Handle successful payment creation, redirect user or do further processing
+//       // You can extract init_point or other required data from the response to redirect the user
+//       // const initPoint = response.body.init_point;
+//       // const redirectURL = `${initPoint}&courseId=${courseId}`;
+//       // res.redirect(redirectURL);
+//       res
+//         .status(200)
+//         .json({ message: "Payment created successfully", data: response });
+//     })
+//     .catch((error) => {
+//       console.error("Error creating payment:", error);
+//       return res.status(500).json({ message: "Error creating payment" });
+//     });
+// } catch (error) {
+//   console.error("Error capturing order:", error);
+//   return res.status(500).json({ message: "Error capturing the order" });
+//   }
 
 export const webhookMP = async (req, res) => {
   console.log("\n\n*** Webhook MP...\n\n");
