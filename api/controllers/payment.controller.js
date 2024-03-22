@@ -168,10 +168,9 @@ export const createOrderMP = async (req, res) => {
         },
       ],
     },
-  }).then(console.log)
+  }).then((preference)=>res.redirect(preference.sandbox_init_point))
   .catch(console.log)
 
-  console.log(preference)
 
   // res.redirect(preference.sandbox_init_point)
 };
