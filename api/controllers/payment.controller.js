@@ -158,49 +158,44 @@ export const createOrderMP = async (req, res) => {
     accessToken: MP_ACCESS_TOKEN,
   });
 
-  const preference =await  new Preference(client).create({
-    body: {
-      items: [
-        {
-          title: `Curso: ${course.title}`,
-          description: course.description,
-          quantity: 1,
-          currency_id: "ARS",
-          unit_price: parseFloat(course.ars_price),
+  // calculate discount ARS for MP
+  let adjustedDiscount = null;
+  let withDiscount = null;
+  if (course.discount_ars !== null && course.discount_ars > 0) {
+    adjustedDiscount =
+      course.ars_price - (course.ars_price * course.discount_ars) / 100;
+  }
+  // Render the value based on the conditions
+  {
+    adjustedDiscount !== null ? (withDiscount = adjustedDiscount) : null;
+  }
+
+  const preference = await new Preference(client)
+    .create({
+      body: {
+        items: [
+          {
+            title: `Curso: ${course.title}`,
+            description: course.description,
+            quantity: 1,
+            currency_id: "ARS",
+            unit_price:
+              adjustedDiscount !== null
+                ? parseFloat(withDiscount)
+                : parseFloat(course.ars_price),
+          },
+        ],
+        back_urls: {
+          success: `${FRONTEND_URL}/course/${courseId}`,
+          failure: `${BACKEND_URL}/api/order/failure-mp`,
+          pending: `${BACKEND_URL}/api/order/pending-mp`,
         },
-      ],
-      back_urls: {
-              success: `${FRONTEND_URL}/course/${courseId}`,
-              failure: `${BACKEND_URL}/api/order/failure-mp`,
-              pending: `${BACKEND_URL}/api/order/pending-mp`,
-            },
-            notification_url: `${MP_NOTIFICATION_URL}/api/order/webhook-mp?courseId=${courseId}&userId=${userId}`,
-    },
-  }).then((preference)=>res.redirect(preference.sandbox_init_point))
-  .catch(console.log)
+        notification_url: `${MP_NOTIFICATION_URL}?courseId=${courseId}&userId=${userId}`,
+      },
+    })
+    .then((preference) => res.redirect(preference.sandbox_init_point))
+    .catch(console.log);
 };
-//   // Initialize the API object
-//   const payment = new Payment(client);
-
-//   // Create the request object
-//   const body = {
-//     items: [
-//       {
-//         title: course.title,
-//         quantity: 1,
-//         currency_id: "ARS",
-//         unit_price: priceAsFloat,
-//       },
-//     ],
-//     back_urls: {
-//       success: `${process.env.BACKEND_URL}/api/course/${courseId}/`,
-//       failure: `${process.env.BACKEND_URL}/api/order/failure-mp`,
-//       pending: `${process.env.BACKEND_URL}/api/order/pending-mp`,
-//     },
-//     notification_url: `${process.env.MP_NOTIFICATION_URL}/api/order/webhook-mp?courseId=${courseId}&userId=${userId}`,
-//   };
-
-
 
 export const webhookMP = async (req, res) => {
   console.log("\n\n*** Webhook MP...\n\n");
@@ -216,26 +211,35 @@ export const webhookMP = async (req, res) => {
     console.log("userId:", userId);
 
     if (paymentType === "payment" && paymentId && courseId) {
-      // Fetch course details based on the courseSlug using MySQL query
-      const [rows] = await db
-        .promise()
-        .execute(getCourseFromIdQuery, [courseId]);
-      const course = rows[0];
+      // Fetch course details based on the courseId using Mongoose
+      const course = await Course.findById(courseId);
+      if (!course) {
+        console.log("Course not found");
+        return res.status(404).json({ message: "Course not found" });
+      }
+      console.log("\n\nFetched Course:", course);
 
       if (course && userId) {
-        // Add the user and course relationship in user_courses table
-        const [insertUserCourse] = await db
-          .promise()
-          .execute(insertUserCourseQuery, [userId, course.id]);
+        const newUserCourse = new UserCourse({
+          user_id: userId,
+          course_id: courseId,
+        });
+        await newUserCourse.save();
 
-        if (insertUserCourse.affectedRows > 0) {
-          console.log(
-            `\n👌🏽 --Inserted into user_courses: User ID: ${userId}, Course ID: ${course.id}`
-          );
-        }
+        console.log(
+          `👌🏽 --Inserted into UserCourse: user_id: ${userId}, course_id: ${courseId}`
+        );
+
+        // here we must redirect in frontend
+        // Return the HTML button to redirect to the course
+        const redirectUrl = `http://localhost:5173/course/${courseId}`;
+        const htmlResponse = `<button style="background-color: green; color: white; border: none; border-radius: 20px; padding: 15px 30px; font-size: 18px; display: block; margin: 0 auto;"><a href="${redirectUrl}" style="text-decoration: none; color: white;">Ir al curso</a></button>`;
+        res.setHeader("Content-Type", "text/html");
+        return res.status(201).send(htmlResponse);
       }
+    } else {
+      return res.status(404).json("Course or user not found");
     }
-    res.sendStatus(204); // OK but none to return
   } catch (error) {
     console.error("Error handling Mercado Pago webhook:", error);
     res.sendStatus(500);
