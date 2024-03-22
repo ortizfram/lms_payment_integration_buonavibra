@@ -144,11 +144,10 @@ const CourseEnroll = () => {
         <div className="payment-options">
           {/* PAY WITH PAYPAL */}
           <form
-            action={`http://localhost:2020/api/order/create-order-paypal?courseId=${id}&userId=${user}`}
+            action={`http://localhost:2020/api/order/create-order-paypal?courseId=${id}&userId=${user._id}`}
             method="POST"
           >
-            <input type="hidden" name="courseId" value={id} />
-            <input type="hidden" name="userId" value={user} />
+          
 
             <button type="submit">
               <img src="/images/paypal.png" alt="paypal-icon" />
@@ -161,8 +160,7 @@ const CourseEnroll = () => {
             action={`http://localhost:2020/api/order/create-order-mp?courseId=${id}&userId=${user._id}`}
             method="POST"
           >
-            <input type="hidden" name="courseId" value={id} />
-            <input type="hidden" name="userId" value={user._id} />
+      
 
             <button type="submit">
               <img src="/images/mercado-pago.png" alt="mercado-pago-icon" />
