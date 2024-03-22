@@ -19,9 +19,9 @@
 
   // mercado pago
   router.post("/create-order-mp", createOrderMP)
+  router.post("/webhook-mp", webhookMP)//listen to events
   router.get("/success-mp", successMP)
   router.get("/pending-mp", (req, res)=>res.send("pending"))
   router.get("/failure-mp", (req, res)=>res.send("failure"))
-  router.post("/webhook-mp", webhookMP)//listen to events
 
   export default router ;

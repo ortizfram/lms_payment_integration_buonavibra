@@ -158,11 +158,11 @@ const CourseEnroll = () => {
 
           {/* PAY WITH MP */}
           <form
-            action={`http://localhost:2020/api/order/create-order-mp?courseId=${id}&userId=${user}`}
+            action={`http://localhost:2020/api/order/create-order-mp?courseId=${id}&userId=${user._id}`}
             method="POST"
           >
             <input type="hidden" name="courseId" value={id} />
-            <input type="hidden" name="userId" value={user} />
+            <input type="hidden" name="userId" value={user._id} />
 
             <button type="submit">
               <img src="/images/mercado-pago.png" alt="mercado-pago-icon" />

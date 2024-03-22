@@ -17,7 +17,7 @@ import mercadopago, {
   Preference,
   Payment,
 } from "mercadopago";
-import crypto from "crypto";
+import mongoose from "mongoose";
 
 // PAYPAL ---------------------------------------------------
 export const createOrderPaypal = async (req, res) => {
@@ -144,6 +144,8 @@ export const cancelPaymentPaypal = (req, res) => res.redirect("/");
 export const createOrderMP = async (req, res) => {
   console.log("\n*** Creating MP order...\n");
   const { courseId, userId } = req.query;
+  console.log("courseId",typeof(courseId), " ",courseId)
+  console.log("userId",typeof(userId), " ",userId)
 
   // Fetch course details based on the courseId using Mongoose
   const course = await Course.findById(courseId);
@@ -209,6 +211,7 @@ export const webhookMP = async (req, res) => {
     console.log("paymentId:", paymentId);
     console.log("paymentType:", paymentType);
     console.log("userId:", userId);
+    
 
     if (paymentType === "payment" && paymentId && courseId) {
       // Fetch course details based on the courseId using Mongoose
@@ -217,7 +220,6 @@ export const webhookMP = async (req, res) => {
         console.log("Course not found");
         return res.status(404).json({ message: "Course not found" });
       }
-      console.log("\n\nFetched Course:", course);
 
       if (course && userId) {
         const newUserCourse = new UserCourse({
