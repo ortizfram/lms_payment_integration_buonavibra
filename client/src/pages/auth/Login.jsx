@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
@@ -9,8 +9,15 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { getLoggedIn } = useContext(AuthContext);
+  const { getLoggedIn,currentUser  } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     // Redirect if user is already logged in
+  //     navigate("/");
+  //   }
+  // }, [currentUser, navigate]);
 
 
   async function login(e) {

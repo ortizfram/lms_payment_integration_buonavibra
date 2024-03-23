@@ -346,6 +346,7 @@ export const courseOwned = async (req, res, next) => {
       },
     }));
 
+
     res.status(200).json({
       courses: formattedCourses,
       totalItems: formattedCourses.length,
