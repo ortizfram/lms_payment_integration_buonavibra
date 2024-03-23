@@ -1,9 +1,9 @@
-import React, {  useEffect, useRef, useState } from "react";
+import React, {  useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import AuthContext from "../context/AuthContext";
 
 const CourseUpdate = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useContext(AuthContext);
   const { id } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
   const [course, setCourse] = useState(null);
@@ -21,7 +21,7 @@ const CourseUpdate = () => {
     // Fetch course data when the component mounts
     const fetchCourse = async () => {
       try {
-        const response = await fetch(`http://localhost:2020/api/course/${id}`);
+        const response = await fetch(`http://localhost:2020/api/course/${id}/fetch`);
         if (response.ok) {
           const data = await response.json();
           setCourse(data.course);

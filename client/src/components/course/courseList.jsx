@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import "../../public/css/course/courses.css";
+import BtnAdminPreview from "./BtnAdminPreview";
 
 function CourseList({ courses }) {
   const { currentUser } = useContext(AuthContext);
@@ -11,6 +12,7 @@ function CourseList({ courses }) {
       <ul>
         {courses.map((course, index) => (
           <li key={index}>
+            <BtnAdminPreview courseId={course._id}/>
             <div className="course-item position-relative backdrop-filter shadow-lg">
               {/* DISCOUNT for ARS only */}
               {course.discount_ars >= 1 && course.discount_usd < 1 && (

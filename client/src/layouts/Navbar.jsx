@@ -41,7 +41,12 @@ function Navbar() {
       {/* isLogged */}
       {loggedIn === true && (
         <>
-          <Link to={"/course/library"}>Biblioteca</Link>
+          {/* dont show for Admin, course he has adminPreview function */}
+          {currentUser && currentUser.isAdmin === false && (
+            <>
+              <Link to={"/course/library"}>Biblioteca</Link>
+            </>
+          )}
 
           {/* isAdmin */}
           {currentUser && currentUser.isAdmin === true && (
