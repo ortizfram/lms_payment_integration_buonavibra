@@ -8,6 +8,23 @@ function Navbar() {
 
   return (
     <div>
+      {/* isAdmin Div message*/}
+      {currentUser && currentUser.isAdmin === true && (
+        <div
+          style={{
+            backgroundColor: "blue",
+            color: "white",
+            padding: "1px",
+            marginRight: "5px",
+            marginBottom: "10px",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          Estás en cuenta admin, {currentUser.username}
+        </div>
+      )}
+
       {/* No Restriction */}
       <Link to={"/"}>Home</Link>
       <Link to={"/about"}>About</Link>
