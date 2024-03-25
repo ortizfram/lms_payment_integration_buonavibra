@@ -5,8 +5,10 @@ const PromoCodeForm = () => {
     code: "",
     exp_date: "",
     perc_int: "",
-    currency: "USD", // Default currency
+    currency: "BOTH", // Default currency
   });
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,28 +21,38 @@ const PromoCodeForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/create/promoCode", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "http://localhost:2020/api/course/create/promoCode",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       if (response.ok) {
         // Handle success
-        console.log("Promo code created successfully");
+        console.log(
+          "Promo code created successfully",
+          JSON.stringify(formData.code)
+        );
       } else {
         // Handle error
-        console.error("Failed to create promo code");
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || "Failed to create promo code");
       }
     } catch (error) {
       console.error("Error creating promo code:", error);
+      setErrorMessage("Failed to create promo code");
     }
   };
 
   return (
     <div className="container text-black">
       <h2 className="fw-bolder text-4xl mb-2">Create Promo Code</h2>
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+
       <form onSubmit={handleSubmit}>
         <div className="mb-1">
           <label htmlFor="code" className="form-label">
@@ -49,7 +61,7 @@ const PromoCodeForm = () => {
           <input
             type="text"
             id="code"
-            name="ecode"
+            name="code"
             value={formData.code}
             onChange={handleChange}
             placeholder="CODIGO-PROMOCIONAL"
@@ -59,7 +71,7 @@ const PromoCodeForm = () => {
         </div>
         <div className="mb-1">
           <label htmlFor="exp_date" className="form-label">
-           Dia de expiracion:
+            Dia de expiracion:
           </label>
           <input
             type="date"
@@ -100,7 +112,7 @@ const PromoCodeForm = () => {
           >
             <option value="USD">USD</option>
             <option value="ARS">ARS</option>
-            <option value="BOTH">AMBOS</option>
+            <option value="BOTH">TODAS</option>
           </select>
         </div>
         <button type="submit" className="btn btn-primary mt-3">

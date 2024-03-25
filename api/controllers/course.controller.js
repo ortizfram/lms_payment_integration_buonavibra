@@ -446,18 +446,45 @@ export const courseDelete = async (req, res, next) => {
   }
 };
 // promoCode
-export const createPromoCode = async (req,res)=> {
-  res.send("New promo COde")
-} 
+export const createPromoCode = async (req, res) => {
+  try {
+    const { currency, code, exp_date, perc_int } = req.body;
+
+    if (!currency || !code || !exp_date || !perc_int) {
+      return res
+        .status(400)
+        .json({ message: "Todos los campos son requeridos" });
+    }
+
+    const promoCode = new PromoCode({ currency, code, exp_date, perc_int });
+
+    await promoCode.save();
+
+    return res
+      .status(201)
+      .json({ message: "Promo code created successfully", promoCode });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json("Error creating promo code ", error.message);
+  }
+};
 // get promoCodes
-export const getPromoCodes = async (req,res)=> {
-  res.send(" promo COdes")
-} 
+export const getPromoCodes = async (req, res) => {
+  let promoCodes = [];
+  promoCodes = PromoCode.find();
+  if (promoCodes.length === 0) {
+    console.log("promoCodes ", promoCodes);
+    return res
+      .status(200)
+      .json({ message: "No hay Codigos Promocionales registrados" });
+  }
+  return res.status(200).json({ promoCodes });
+};
 // update promoCode
-export const updatePromoCode = async (req,res)=> {
-  res.send("update promo COde")
-} 
+export const updatePromoCode = async (req, res) => {
+  res.send("update promo COde");
+};
 // delete promoCode
-export const deletePromoCode = async (req,res)=> {
-  res.send("delete promo COde")
-} 
+export const deletePromoCode = async (req, res) => {
+  res.send("delete promo COde");
+};

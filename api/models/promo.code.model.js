@@ -10,6 +10,10 @@ const promoCodeSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    available: {
+      type: Boolean,
+      default: true,
+    },
     perc_int: {
       type: Number,
       required: true,
