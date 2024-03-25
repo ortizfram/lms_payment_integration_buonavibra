@@ -166,6 +166,8 @@ const CourseEnroll = () => {
               <img src="/images/mercado-pago.png" alt="mercado-pago-icon" />
               <p>Continue with Mercado Pago</p>
             </button>
+
+
           </form>
         </div>
       </div>

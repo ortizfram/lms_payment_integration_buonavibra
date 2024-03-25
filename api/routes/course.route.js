@@ -7,7 +7,11 @@ import {
   courseDetail,
   courseDelete,
   courseEnroll,
-  checkEnroll
+  checkEnroll,
+  createPromoCode,
+  getPromoCodes,
+  updatePromoCode,
+  deletePromoCode
 } from "../controllers/course.controller.js";
 import upload from "../useMulter.js";
 import  auth  from "../middleware/auth.js";
@@ -45,5 +49,13 @@ router.get("/:id", auth, courseDetail); //add middleware of ENroll, create order
 router.delete("/delete/:id", courseDelete);
 // enroll
 router.get("/enroll/:id", courseEnroll);
+// new Promo COde
+router.post("/create/promoCode", createPromoCode);
+// get Promo COdes
+router.get("/promoCodes", getPromoCodes);
+// update Promo COde
+router.get("/update/promoCode/:id", updatePromoCode);
+// delete Promo COde
+router.delete("/delete/promoCode/:id", deletePromoCode);
 
 export default router;

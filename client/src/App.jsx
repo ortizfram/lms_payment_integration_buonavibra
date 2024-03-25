@@ -14,6 +14,7 @@ import Login from "./pages/auth/Login";
 import Customers from "./components/customer/Customers";
 import { useContext } from "react";
 import CourseLibrary from "./pages/CourseLibrary";
+import PromoCodes from "./pages/PromoCOdes";
 
 axios.defaults.withCredentials = true;
 
@@ -40,7 +41,7 @@ export default function App() {
             {/* isAdmin */}
             {currentUser && currentUser.isAdmin === true && (
               <>
-                <Route path="/customer" element={<Customers />} />
+                <Route path="/promoCodes" element={<PromoCodes />} />
                 <Route path="/course/create" element={<CourseCreate />} />
                 <Route path="/course/update/:id" element={<CourseUpdate />} />
               </>

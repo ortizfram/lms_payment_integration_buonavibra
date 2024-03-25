@@ -51,7 +51,8 @@ function Navbar() {
           {/* isAdmin */}
           {currentUser && currentUser.isAdmin === true && (
             <>
-              <Link to={"/course/create"}>create Course</Link>
+              <Link to={"/course/create"}>crear Courso</Link>
+              <Link to={"/promoCodes"}>Codigo Promocional</Link>
             </>
           )}
           <LogoutBtn />

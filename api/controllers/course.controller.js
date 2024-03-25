@@ -6,6 +6,7 @@ import User from "../models/user.model.js";
 import UserCourse from "../models/user_course.model.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import PromoCode from "../models/promo.code.model.js";
 
 // create
 export const courseCreate = async (req, res, next) => {
@@ -444,3 +445,19 @@ export const courseDelete = async (req, res, next) => {
     return next(error);
   }
 };
+// promoCode
+export const createPromoCode = async (req,res)=> {
+  res.send("New promo COde")
+} 
+// get promoCodes
+export const getPromoCodes = async (req,res)=> {
+  res.send(" promo COdes")
+} 
+// update promoCode
+export const updatePromoCode = async (req,res)=> {
+  res.send("update promo COde")
+} 
+// delete promoCode
+export const deletePromoCode = async (req,res)=> {
+  res.send("delete promo COde")
+} 
