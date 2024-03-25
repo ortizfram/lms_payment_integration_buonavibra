@@ -8,16 +8,20 @@ const CourseEnroll = () => {
   const user = currentUser;
   const [course, setCourse] = useState(null);
   const { id } = useParams();
+  const [code, setCode] = useState(null);
 
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await fetch(`http://localhost:2020/api/course/${id}/fetch`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `http://localhost:2020/api/course/${id}/fetch`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (response.status === 200) {
           const data = await response.json();
@@ -104,6 +108,14 @@ const CourseEnroll = () => {
     }
   };
 
+  const handlePromoCodeChange = (e) => {
+    setCode(e.target.value); // Update promo code state
+    console.log(e.target.value);
+  };
+  const SubmitPromoCode = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <div className="page-container">
@@ -141,14 +153,30 @@ const CourseEnroll = () => {
           </p>
         </div>
 
+        <div className="promo-code">
+          <div className="promo-input-container">
+            <input
+              type="text"
+              name="code"
+              onChange={handlePromoCodeChange}
+              placeholder=" Ingresa: CODIGO-PROMOCIONAL"
+            />
+            <button
+              className="promo-btn"
+              onClick={SubmitPromoCode}
+              type="button"
+            >
+              Aplicar
+            </button>
+          </div>
+        </div>
+
         <div className="payment-options">
           {/* PAY WITH PAYPAL */}
           <form
             action={`http://localhost:2020/api/order/create-order-paypal?courseId=${id}&userId=${user._id}`}
             method="POST"
           >
-          
-
             <button type="submit">
               <img src="/images/paypal.png" alt="paypal-icon" />
               <p>Continue with Paypal</p>
@@ -160,14 +188,10 @@ const CourseEnroll = () => {
             action={`http://localhost:2020/api/order/create-order-mp?courseId=${id}&userId=${user._id}`}
             method="POST"
           >
-      
-
             <button type="submit">
               <img src="/images/mercado-pago.png" alt="mercado-pago-icon" />
               <p>Continue with Mercado Pago</p>
             </button>
-
-
           </form>
         </div>
       </div>

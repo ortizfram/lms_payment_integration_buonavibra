@@ -1,104 +1,143 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .page-container {
-    height: 100vh;
+  height: 100vh;
 }
 
 .avatar {
-    border-radius: 50%;
-    width: 25px; /* Adjust the width and height as needed */
-    height: 25px; /* Adjust the width and height as needed */
-    object-fit: cover; /* Maintain aspect ratio and cover the container */
-  }
+  border-radius: 50%;
+  width: 25px; /* Adjust the width and height as needed */
+  height: 25px; /* Adjust the width and height as needed */
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+}
 
 /* Section Title */
 .section-title {
-    text-align: center;
+  text-align: center;
 }
 
 .section-title h1 {
-    font-size: 2.5em;
-    color: #333;
+  font-size: 2.5em;
+  color: #333;
 }
 
 /* Course Overview */
 .course-overview {
-    text-align: center;
-    max-width: 600px;
+  text-align: center;
+  max-width: 600px;
 }
 
 .course-overview img {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-    border-radius: 5px;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 5px;
 }
 
 .course-overview h2 {
-    font-size: 1.8em;
-    color: #444;
+  font-size: 1.8em;
+  color: #444;
 }
 
 .course-overview div {
-    font-size: 1.2em;
-    color: #666;
+  font-size: 1.2em;
+  color: #666;
 }
 
 .course-overview p {
-    font-size: 1em;
-    color: #666;
-    line-height: 1.6;
+  font-size: 1em;
+  color: #666;
+  line-height: 1.6;
 }
 
 .course-overview .price-text {
-    font-weight: bold;
-    font-size: larger;
+  font-weight: bold;
+  font-size: larger;
 }
 
 /* Payment Options */
 /* Payment Options */
 .payment-options {
-    text-align: center;
+  text-align: center;
 }
 
 .payment-options h2 {
-    font-size: 1.8em;
-    color: #333;
+  font-size: 1.8em;
+  color: #333;
 }
 
-
 .payment-options button {
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 24px;
-    font-size: 1em;
-    font-weight: bold;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%; /* Set width to 100% */
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-size: 1em;
+  font-weight: bold;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%; /* Set width to 100% */
 }
 
 .payment-options button:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
 
 .payment-options button img {
-    width: 24px;
-    height: auto;
-    margin-right: 10px;
+  width: 24px;
+  height: auto;
+  margin-right: 10px;
 }
 
 .payment-options button span {
-    font-size: 1em;
+  font-size: 1em;
+}
+
+/* Promo Code */
+.promo-code input {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  border-color: #4caf50;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  color: #45a049;
+  font-weight: bolder;
+  text-align: center;
+}
+.promo-code input:hover {
+  border-color: #45a049;
+}
+
+.promo-input-container {
+  position: relative;
+}
+
+.promo-btn {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px 10px;
+  border: none;
+  border-radius: 50%;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.promo-btn:hover {
+  background-color: #45a049;
 }
