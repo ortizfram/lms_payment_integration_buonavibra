@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const PromoCodeForm = () => {
   const [formData, setFormData] = useState({
-    exp_date: '',
-    perc_int: '',
-    currency: 'USD', // Default currency
+    code: "",
+    exp_date: "",
+    perc_int: "",
+    currency: "USD", // Default currency
   });
 
   const handleChange = (e) => {
@@ -18,66 +19,93 @@ const PromoCodeForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/create/promoCode', {
-        method: 'POST',
+      const response = await fetch("/api/create/promoCode", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
       if (response.ok) {
         // Handle success
-        console.log('Promo code created successfully');
+        console.log("Promo code created successfully");
       } else {
         // Handle error
-        console.error('Failed to create promo code');
+        console.error("Failed to create promo code");
       }
     } catch (error) {
-      console.error('Error creating promo code:', error);
+      console.error("Error creating promo code:", error);
     }
   };
 
   return (
-    <div>
-      <h2>Create Promo Code</h2>
+    <div className="container text-black">
+      <h2 className="fw-bolder text-4xl mb-2">Create Promo Code</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="exp_date">Expiration Date:</label>
+        <div className="mb-1">
+          <label htmlFor="code" className="form-label">
+            Escribe codigo Promocional:
+          </label>
+          <input
+            type="text"
+            id="code"
+            name="ecode"
+            value={formData.code}
+            onChange={handleChange}
+            placeholder="CODIGO-PROMOCIONAL"
+            className="form-control"
+            required
+          />
+        </div>
+        <div className="mb-1">
+          <label htmlFor="exp_date" className="form-label">
+           Dia de expiracion:
+          </label>
           <input
             type="date"
             id="exp_date"
             name="exp_date"
             value={formData.exp_date}
             onChange={handleChange}
+            className="form-control"
             required
           />
         </div>
-        <div>
-          <label htmlFor="perc_int">Percentage/Amount:</label>
+        <div className="mb-1">
+          <label htmlFor="perc_int" className="form-label">
+            Pocentaje de descuento:
+          </label>
           <input
             type="number"
             id="perc_int"
             name="perc_int"
             value={formData.perc_int}
             onChange={handleChange}
+            placeholder="% en numeros enteros, e.g.: 10 para 10%"
+            className="form-control"
             required
           />
         </div>
-        <div>
-          <label htmlFor="currency">Currency:</label>
+        <div className="mb-1">
+          <label htmlFor="currency" className="form-label">
+            aplicar a una Moneda:
+          </label>
           <select
             id="currency"
             name="currency"
             value={formData.currency}
             onChange={handleChange}
+            className="form-select"
             required
           >
             <option value="USD">USD</option>
             <option value="ARS">ARS</option>
-            <option value="BOTH">BOTH</option>
+            <option value="BOTH">AMBOS</option>
           </select>
         </div>
-        <button type="submit">Create Promo Code</button>
+        <button type="submit" className="btn btn-primary mt-3">
+          Crear Promo Code
+        </button>
       </form>
     </div>
   );
