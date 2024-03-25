@@ -1,14 +1,24 @@
-import React from "react";
-import PromoCodeList from "../components/promoCodes/promoCodeList";
+import React, { useEffect, useState } from "react";
 import PromoCodeForm from "../components/promoCodes/promoCodeForm";
+import axios from "axios"
 
 function PromoCodes() {
+  const [codes, setCodes] = useState([]);
+
+  async function getPromoCodes() {
+    const codesRes = await axios.get(
+      "http://localhost:2020/api/course/promo-codes"
+    );
+    setCodes(codesRes.data);
+  }
+
+  useEffect(() => {
+    getPromoCodes();
+  }, []);
+
   return (
     <div>
-      <h3 className="text-xl fw-bold">PromoCodes</h3>
-
       <PromoCodeForm />
-      <PromoCodeList />
     </div>
   );
 }

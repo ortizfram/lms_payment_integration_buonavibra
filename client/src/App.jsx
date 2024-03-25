@@ -11,10 +11,9 @@ import Register from "./pages/auth/Register";
 import axios from "axios";
 import AuthContext from "./context/AuthContext";
 import Login from "./pages/auth/Login";
-import Customers from "./components/customer/Customers";
 import { useContext } from "react";
 import CourseLibrary from "./pages/CourseLibrary";
-import PromoCodes from "./pages/PromoCOdes";
+import PromoCodes from "./pages/PromoCodes";
 
 axios.defaults.withCredentials = true;
 

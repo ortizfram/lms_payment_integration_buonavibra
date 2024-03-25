@@ -469,16 +469,18 @@ export const createPromoCode = async (req, res) => {
   }
 };
 // get promoCodes
-export const getPromoCodes = async (req, res) => {
-  let promoCodes = [];
-  promoCodes = PromoCode.find();
-  if (promoCodes.length === 0) {
-    console.log("promoCodes ", promoCodes);
-    return res
-      .status(200)
-      .json({ message: "No hay Codigos Promocionales registrados" });
+export const listPromoCodes = async (req, res) => {
+  try {
+    // Fetch courses that the user has not enrolled in
+    const promoCodes = await PromoCode.find();
+
+    return res.status(200).json({
+      promoCodes,
+    });
+  } catch (error) {
+    console.log("Error fetching promoCodes:", error);
+    next(error);
   }
-  return res.status(200).json({ promoCodes });
 };
 // update promoCode
 export const updatePromoCode = async (req, res) => {

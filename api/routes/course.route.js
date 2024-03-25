@@ -9,9 +9,9 @@ import {
   courseEnroll,
   checkEnroll,
   createPromoCode,
-  getPromoCodes,
   updatePromoCode,
-  deletePromoCode
+  deletePromoCode,
+  listPromoCodes
 } from "../controllers/course.controller.js";
 import upload from "../useMulter.js";
 import  auth  from "../middleware/auth.js";
@@ -52,7 +52,7 @@ router.get("/enroll/:id", courseEnroll);
 // new Promo COde
 router.post("/create/promoCode", createPromoCode);
 // get Promo COdes
-router.get("/promoCodes", getPromoCodes);
+router.get("/promo-codes", listPromoCodes);
 // update Promo COde
 router.get("/update/promoCode/:id", updatePromoCode);
 // delete Promo COde

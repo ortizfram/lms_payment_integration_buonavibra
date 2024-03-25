@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const promoCodeSchema = new mongoose.Schema(
+const PromoCodeSchema = new mongoose.Schema(
   {
     code: {
       type: String,
@@ -28,6 +28,6 @@ const promoCodeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const PromoCode = mongoose.model("promoCode", promoCodeSchema);
+const PromoCode = mongoose.model("PromoCode", PromoCodeSchema);
 
 export default PromoCode;
