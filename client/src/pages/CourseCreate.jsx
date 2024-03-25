@@ -31,7 +31,7 @@ const CourseCreate = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
 
     // Validate input for discount fields to ensure positive integers
     if (name === "discount_ars" || name === "discount_usd") {
@@ -51,8 +51,7 @@ const CourseCreate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    // debugger
-    // Handle file uploads
+   
     const imageFile = formData.get("image");
     const videoFile = formData.get("video");
 
@@ -66,7 +65,7 @@ const CourseCreate = () => {
       formData.set("video", videoFile, videoFile.name);
     }
     renderImage(formData);
-    // Handle form submission logic, e.g., sending data to the server
+
     const response = await fetch("http://localhost:2020/api/course/create", {
       method: "POST",
       body: formData,

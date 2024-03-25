@@ -1,4 +1,4 @@
-import React, {  useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
@@ -6,75 +6,70 @@ const CourseUpdate = () => {
   const { currentUser } = useContext(AuthContext);
   const { id } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
-  const [course, setCourse] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
-
-  const renderImage = (formData) => {
-    const file = formData.get("image");
-    const image = URL.createObjectURL(file);
-    $image.current.setAttribute("src", image);
-  };
-
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    text_content: "",
+    ars_price: 0,
+    usd_price: 0,
+    discount_ars: 0,
+    discount_usd: 0,
+  });
   const $image = useRef(null);
 
   useEffect(() => {
-    // Fetch course data when the component mounts
-    const fetchCourse = async () => {
+    const fetchCourseData = async () => {
       try {
         const response = await fetch(`http://localhost:2020/api/course/${id}/fetch`);
         if (response.ok) {
           const data = await response.json();
-          setCourse(data.course);
+          const courseData = data.course;
+          setFormData(courseData);
         } else {
           throw new Error("Failed to fetch course data");
         }
       } catch (error) {
-        console.error("Error fetching course:", error);
+        console.error("Error fetching course data:", error);
         setErrorMessage("Failed to fetch course data");
       }
     };
 
-    fetchCourse();
+    fetchCourseData();
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCourse((prevCourse) => ({
-      ...prevCourse,
+
+    // Validate input for discount fields to ensure positive integers
+    if (name === "discount_ars" || name === "discount_usd") {
+      const intValue = parseInt(value);
+      if (!Number.isInteger(intValue) || intValue <= 0) {
+        setErrorMessage(`The field '${name}' must be a positive integer.`);
+        return;
+      }
+    }
+
+    setFormData((prevState) => ({
+      ...prevState,
       [name]: value,
     }));
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    const form = e.target;
+    const formData = new FormData(form);
 
-    const imageFile = formData.get("image");
-    const videoFile = formData.get("video");
+    const response = await fetch(`http://localhost:2020/api/course/update/${id}`, {
+      method: "PUT",
+      body: formData,
+    });
 
-    if (imageFile) {
-      formData.append("image", imageFile);
-    }
-
-    if (videoFile) {
-      formData.append("video", videoFile);
-    }
-    renderImage(formData);
-
-    const response = await fetch(
-      `http://localhost:2020/api/course/update/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(course),
-      }
-    );
     if (response.ok) {
       const data = await response.json();
       setSuccessMessage(data.message);
+      // Redirect to the updated course page
       window.location.href = data.redirectUrl;
     } else {
       const errorData = await response.json();
@@ -83,7 +78,7 @@ const CourseUpdate = () => {
   };
   // Render the form only when course data is fetched
   return (
-    course && (
+    formData && (
       <div id="update-course-container-page">
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
@@ -102,7 +97,7 @@ const CourseUpdate = () => {
                   <label htmlFor="title">titulo:</label>
                   <input
                     name="title"
-                    value={course.title}
+                    value={formData.title}
                     onChange={handleChange}
                     type="text"
                     className="form-control"
@@ -112,7 +107,7 @@ const CourseUpdate = () => {
                   <label htmlFor="description">Descripcion:</label>
                   <input
                     name="description"
-                    value={course.description}
+                    value={formData.description}
                     onChange={handleChange}
                     type="text"
                     className="form-control"
@@ -124,7 +119,7 @@ const CourseUpdate = () => {
                   <label htmlFor="text_content">contenido texto:</label>
                   <textarea
                     name="text_content"
-                    value={course.text_content}
+                    value={formData.text_content}
                     onChange={handleChange}
                     type="text"
                     className="form-control"
@@ -180,7 +175,7 @@ const CourseUpdate = () => {
                     type="number"
                     id="ars_price"
                     name="ars_price"
-                    value={course.ars_price}
+                    value={formData.ars_price}
                     onChange={handleChange}
                   />
                 </div>
@@ -190,7 +185,7 @@ const CourseUpdate = () => {
                     type="number"
                     id="usd_price"
                     name="usd_price"
-                    value={course.usd_price}
+                    value={formData.usd_price}
                     onChange={handleChange}
                   />
                 </div>
@@ -212,7 +207,7 @@ const CourseUpdate = () => {
                     type="number"
                     id="discount_ars"
                     name="discount_ars"
-                    value={course.discount_ars}
+                    value={formData.discount_ars}
                     onChange={handleChange}
                   />
                 </div>
@@ -226,7 +221,7 @@ const CourseUpdate = () => {
                     type="number"
                     id="discount_usd"
                     name="discount_usd"
-                    value={course.discount_usd}
+                    value={formData.discount_usd}
                     onChange={handleChange}
                   />
                 </div>

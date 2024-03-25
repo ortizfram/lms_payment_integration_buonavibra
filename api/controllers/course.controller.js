@@ -110,13 +110,15 @@ export const courseUpdate = async (req, res, next) => {
     }
 
     const imageUrl =
-      req.files && req.files["image"]
+      (await req.files) && req.files["image"]
         ? "/uploads/imgs/" + req.files["image"][0].filename
         : null;
+    console.log(imageUrl);
     const videoUrl =
-      req.files && req.files["video"]
+      (await req.files) && req.files["video"]
         ? "/uploads/videos/" + req.files["video"][0].filename
         : null;
+    console.log(videoUrl);
 
     // Extract necessary data from request body
     const {
@@ -183,10 +185,14 @@ export const courselist = async (req, res, next) => {
     const user = req.user;
 
     // Fetch enrolled course IDs for the current user
-    const enrolledCourses = await UserCourse.find({ user_id: user }).distinct("course_id");
+    const enrolledCourses = await UserCourse.find({ user_id: user }).distinct(
+      "course_id"
+    );
 
     // Fetch courses that the user has not enrolled in
-    const coursesNotEnrolled = await Course.find({ _id: { $nin: enrolledCourses } })
+    const coursesNotEnrolled = await Course.find({
+      _id: { $nin: enrolledCourses },
+    })
       .populate("author", "name username avatar")
       .sort({ updated_at: -1 })
       .lean();
@@ -316,7 +322,9 @@ export const courseOwned = async (req, res, next) => {
     const user = req.user;
 
     // Fetch enrolled course IDs for the current user
-    const enrolledCourses = await UserCourse.find({ user_id: user }).distinct("course_id");
+    const enrolledCourses = await UserCourse.find({ user_id: user }).distinct(
+      "course_id"
+    );
 
     // Fetch courses based on enrolled course IDs
     const courses = await Course.find({ _id: { $in: enrolledCourses } })
@@ -345,7 +353,6 @@ export const courseOwned = async (req, res, next) => {
         avatar: course.author.avatar,
       },
     }));
-
 
     res.status(200).json({
       courses: formattedCourses,
