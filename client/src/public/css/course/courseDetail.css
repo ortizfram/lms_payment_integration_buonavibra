@@ -1,8 +1,8 @@
 .containerr {
-  background-image: url("../../../../public/images/auth/buonavibra-marce-frio.png");
+  /* background-image: url("../../../../public/images/auth/buonavibra-marce-frio.png");
   background-size: cover;
-  background-position: center; /* Centers the background image */
-  height: 110vh;
+  background-position: center; */
+  height: auto;
   width: 100vw;
   display: flex; /* For centering content */
   justify-content: center; /* Center horizontally */
@@ -12,25 +12,42 @@
 
 .containerr::before,
 .containerr::after {
-    content: ''; /* Required for pseudo-elements */
-    position: absolute; /* Position the shadows */
-    width: 100vw; /* Full width */
-    height: 110vh; /* Half of the container's height */
-    background: rgba(0, 0, 0, 0.1); /* Shadow color */
-    box-shadow: inset 0px 10px 20px rgba(0, 0, 0, 0.2); /* Inset box shadow */
+  content: '';
+  position: absolute;
+  width: 100vw;
+  height: 110vh;
+  background: rgba(0, 0, 0, 0);
+  box-shadow: inset 0px 10px 20px rgba(0, 0, 0, 0);
 }
+
 .cont-course-detail {
-  padding-top: calc(2%*9/16); /* Default padding */
+  padding-top: calc(10% * 9 / 16); /* Default padding */
 }
 
 .container {
-  margin: 6.2rem auto; /* Default margin */
+  
   position: relative; /* Ensures z-index works correctly */
   z-index: 1; /* Places the content above the blurred background */
-  color: white;
+  color: black;
+  max-width: 1200px;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    padding: 0 20px; /* Add horizontal padding for better spacing on XL screens */
+  }
+}
+
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1400px; /* Increase max-width for even larger screens */
+  }
 }
 
 .video-container {
+  background-image: url("../../../../public/images/auth/buonavibra-marce-frio.png");
+  background-size: cover;
+  background-position: center; /* Centers the background image */
   display: flex;
   justify-content: center;
 }
@@ -38,4 +55,19 @@
 .video-container video {
   max-width: 100%;
   max-height: 100%;
+}
+
+.author-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; /* Adjust as needed */
+}
+
+@media (max-width: 768px) {
+  .author-info {
+    flex-direction: column; /* Stack author info vertically on smaller screens */
+    align-items: center; /* Center align items on smaller screens */
+    margin-bottom: 10px; /* Reduce margin for smaller screens */
+  }
 }

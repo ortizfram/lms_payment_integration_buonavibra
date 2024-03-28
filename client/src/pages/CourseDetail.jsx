@@ -50,7 +50,7 @@ const CourseDetail = () => {
     <>
       <AlertMessage />
       <div className="containerr">
-        <div className="cont-course-detail" style={{ margin: "6.2rem auto" }}>
+        <div className="cont-course-detail">
           <div className="background-blur"></div>
           <div className="container">
             <div className="row">
@@ -73,7 +73,7 @@ const CourseDetail = () => {
             <div className="row">
               <div className="col-lg-12 text-center">
                 <div>
-                  <p>
+                  <p  className="author-info">
                     <span>
                       <img
                         className="avatar ms-4 me-2"
@@ -82,7 +82,7 @@ const CourseDetail = () => {
                       />
                     </span>
                     <span className="fw-bold">{course.author.name}</span> •
-                    <span>{course.author.email}</span>
+                    <span> {course.author.email}</span>
                     {isAdmin === true && (
                       <span className="course-admin-options opacity-50">
                         <button className="btn">
@@ -91,7 +91,7 @@ const CourseDetail = () => {
                               className="text-muted"
                               href={`/api/course/${course.id}/update?courseId=${course.id}`}
                             >
-                              <i className="fas fa-edit me-2 text-white"></i>
+                              <i className="fas fa-edit me-2">Editar</i>
                             </a>
                           </p>
                         </button>
@@ -101,7 +101,7 @@ const CourseDetail = () => {
                               className="text-muted"
                               href={`/api/course/${course.id}/delete?courseId=${course.id}`}
                             >
-                              <i className="fas fa-trash-alt me-2 text-white"></i>
+                              <i className="fas fa-trash-alt me-2 ">Borrar</i>
                             </a>
                           </p>
                         </button>
