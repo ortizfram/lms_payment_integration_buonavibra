@@ -98,8 +98,6 @@ export const courseCreate = async (req, res, next) => {
 };
 // Update
 export const courseUpdate = async (req, res, next) => {
-  console.log(req.files);
-
   try {
     const courseId = req.params.id;
 
@@ -110,16 +108,19 @@ export const courseUpdate = async (req, res, next) => {
       return next(errorHandler(400, `Course not found.`));
     }
 
-    const imageUrl =
-      (await req.files) && req.files["image"]
+    let imageUrl = course.thumbnail; // Preserve existing thumbnail URL
+    let videoUrl = course.video; // Preserve existing video URL
+
+    // Check if new files are provided in the request
+    if (req.files) {
+      imageUrl = req.files["image"]
         ? "/uploads/imgs/" + req.files["image"][0].filename
-        : null;
-    console.log(imageUrl);
-    const videoUrl =
-      (await req.files) && req.files["video"]
+        : imageUrl;
+
+      videoUrl = req.files["video"]
         ? "/uploads/videos/" + req.files["video"][0].filename
-        : null;
-    console.log(videoUrl);
+        : videoUrl;
+    }
 
     // Extract necessary data from request body
     const {
@@ -130,6 +131,7 @@ export const courseUpdate = async (req, res, next) => {
       usd_price,
       discount_ars,
       discount_usd,
+      author_id,
     } = req.body;
 
     if (typeof title !== "string") {
@@ -142,8 +144,6 @@ export const courseUpdate = async (req, res, next) => {
     const discountUsd = discount_usd || null;
 
     const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
-
-    const { author_id } = req.body;
 
     // Fetch the user object from the database using the author_id
     const author = await User.findById(author_id);

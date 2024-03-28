@@ -14,6 +14,9 @@ import Login from "./pages/auth/Login";
 import { useContext } from "react";
 import CourseLibrary from "./pages/CourseLibrary";
 import PromoCodes from "./pages/PromoCodes";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 axios.defaults.withCredentials = true;
 
@@ -23,6 +26,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Navbar />
+      <ToastContainer />
+
       <Routes>
         {/* Not Logged In */}
         {loggedIn === false && (

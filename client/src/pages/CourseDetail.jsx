@@ -5,7 +5,11 @@ import AlertMessage from "../components/alertMessage.jsx";
 import AuthContext from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import ReactMarkdown from "react-markdown"; // Import ReactMarkdown
+import ReactMarkdown from "react-markdown";
+// alerts
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const CourseDetail = () => {
   const { currentUser } = useContext(AuthContext);
@@ -22,13 +26,10 @@ const CourseDetail = () => {
           `http://localhost:2020/api/course/${id}/fetch`
         );
         if (fetchCourseRes.status === 200) {
-          // course found, setCourse state
           const data = await fetchCourseRes.data;
           setCourse(data.course);
         } else {
-          // could found course, redirect
           if (fetchCourseRes.status === 404) {
-            // Redirect to enroll page
             console.log("Redirecting to enrollment page...");
             navigate(`/course/all`);
             console.log("Redirection completed.");
@@ -41,6 +42,25 @@ const CourseDetail = () => {
 
     fetchCourse();
   }, [id, navigate]);
+
+  const handleDelete = async () => {
+    try {
+      const deleteCourseRes = await axios.delete(
+        `http://localhost:2020/api/course/delete/${course._id}`
+      );
+      if (deleteCourseRes.status === 200) {
+        console.log("Course deleted successfully");
+        toast.success("Course deleted successfully");
+        setTimeout(() => {
+          navigate(`/course/all`);
+        }, 2000);
+      } else {
+        console.error("Failed to delete course");
+      }
+    } catch (error) {
+      console.error("Error deleting course:", error);
+    }
+  };
 
   if (!course) {
     return <div>Loading...</div>;
@@ -73,7 +93,7 @@ const CourseDetail = () => {
             <div className="row">
               <div className="col-lg-12 text-center">
                 <div>
-                  <p  className="author-info">
+                  <p className="author-info">
                     <span>
                       <img
                         className="avatar ms-4 me-2"
@@ -81,7 +101,7 @@ const CourseDetail = () => {
                         alt="author_avatar"
                       />
                     </span>
-                    <span className="fw-bold">{course.author.name}</span> •
+                    <span className="fw-bold">{course.author.name} </span> •
                     <span> {course.author.email}</span>
                     {isAdmin === true && (
                       <span className="course-admin-options opacity-50">
@@ -89,20 +109,15 @@ const CourseDetail = () => {
                           <p>
                             <a
                               className="text-muted"
-                              href={`/api/course/${course.id}/update?courseId=${course.id}`}
+                              href={`/course/update/${course._id}`}
                             >
                               <i className="fas fa-edit me-2">Editar</i>
                             </a>
                           </p>
                         </button>
-                        <button className="btn">
+                        <button className="btn" onClick={handleDelete}>
                           <p>
-                            <a
-                              className="text-muted"
-                              href={`/api/course/${course.id}/delete?courseId=${course.id}`}
-                            >
-                              <i className="fas fa-trash-alt me-2 ">Borrar</i>
-                            </a>
+                            <i className="fas fa-trash-alt me-2 ">Borrar</i>
                           </p>
                         </button>
                       </span>
@@ -111,7 +126,6 @@ const CourseDetail = () => {
                   <h2 className="text-4xl mb-4">{course.title}</h2>
                   <h6 className="text-xl mb-2">{course.description}</h6>
                 </div>
-                {/* Render markdown content using ReactMarkdown */}
                 <ReactMarkdown>{course.text_content}</ReactMarkdown>
               </div>
             </div>
