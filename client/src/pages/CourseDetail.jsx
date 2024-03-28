@@ -5,6 +5,7 @@ import AlertMessage from "../components/alertMessage.jsx";
 import AuthContext from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ReactMarkdown from "react-markdown"; // Import ReactMarkdown
 
 const CourseDetail = () => {
   const { currentUser } = useContext(AuthContext);
@@ -107,10 +108,11 @@ const CourseDetail = () => {
                       </span>
                     )}
                   </p>
-                  <h2>{course.title}</h2>
-                  <h6>{course.description}</h6>
+                  <h2 className="text-4xl mb-4">{course.title}</h2>
+                  <h6 className="text-xl mb-2">{course.description}</h6>
                 </div>
-                <p>{course.text_content}</p>
+                {/* Render markdown content using ReactMarkdown */}
+                <ReactMarkdown>{course.text_content}</ReactMarkdown>
               </div>
             </div>
           </div>

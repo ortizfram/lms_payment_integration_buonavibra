@@ -52,7 +52,7 @@ function Navbar() {
           {currentUser && currentUser.isAdmin === true && (
             <>
               <Link to={"/course/create"}>crear Courso</Link>
-              <Link to={"/promoCodes"}>Codigo Promocional</Link>
+              {/* <Link to={"/promoCodes"}>Codigo Promocional</Link> */}
             </>
           )}
           <LogoutBtn />
