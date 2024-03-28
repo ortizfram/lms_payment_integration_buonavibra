@@ -29,3 +29,13 @@
   z-index: 1; /* Places the content above the blurred background */
   color: white;
 }
+
+.video-container {
+  display: flex;
+  justify-content: center;
+}
+
+.video-container video {
+  max-width: 100%;
+  max-height: 100%;
+}
