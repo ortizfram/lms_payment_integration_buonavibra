@@ -150,18 +150,20 @@ export const forgotPassword = async (req, res) => {
 
   try {
     const existingUser = await User.find({ email: email });
-    console.log(existingUser);
 
     if (!existingUser || existingUser.length === 0) {
       return res.status(404).json({ error: "Email not found" });
     }
 
-    const secret = process.env.JWT_SECRET + existingUser.password;
-    const userId = parseInt(existingUser._id);
+    // Accessing the _id property of the first user object in the array
+    const userId = existingUser[0]._id.toString();
+    const secret = process.env.JWT_SECRET + existingUser[0].password;
+
     const payload = {
-      email: existingUser.email,
-      id: existingUser._id,
+      email: existingUser[0].email,
+      id: userId,
     };
+
     const token = jwt.sign(payload, secret, { expiresIn: "1y" });
     const link = `${FRONTEND_URL}/reset-password/${userId}/${token}`;
 
@@ -180,6 +182,7 @@ export const forgotPassword = async (req, res) => {
     res.status(500).json({ error: "Error sending reset email" });
   }
 };
+
 
 // app.post("/reset-password/:id/:token", async (req, res) => {
 //   let { id, token } = req.params;

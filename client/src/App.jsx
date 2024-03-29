@@ -19,6 +19,7 @@ import "./public/css/icon.css"
 import "./public/css/sectionTitle.css"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ForgotPassword from "./components/auth/ForgotPassword";
 
 
 axios.defaults.withCredentials = true;
@@ -60,6 +61,8 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/course/all" element={<Courses />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+
       </Routes>
     </BrowserRouter>
   );
