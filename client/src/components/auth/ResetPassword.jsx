@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+// alerts
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ResetPassword = () => {
   const { id, token } = useParams();
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
 
   const handleResetPasswordSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +24,11 @@ const ResetPassword = () => {
       if (response.data.message) {
         setMessage(response.data.message);
         // Handle success, e.g., redirect or show a success message
+        console.log("password updated");
+        toast.success("⚙️ Contraseña actualizada. Ahora ingresa");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       } else {
         setMessage(
           response.data.error || "Unexpected response format. Please try again."
