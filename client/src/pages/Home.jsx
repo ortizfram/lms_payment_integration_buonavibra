@@ -2,11 +2,9 @@ import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import "../public/css/home/home.css"
+import "../public/css/home/home.css";
 
 // NodeJS endpoint reference
-const URI = "http://localhost:5002"; // Update the base URL
-const URI_sendEmail = "http://localhost:5002/send-email"; // Update the base URL
 
 const Home = () => {
   const { currentUser, loggedIn } = useContext(AuthContext);
@@ -27,7 +25,7 @@ const Home = () => {
   // Fetch Home
   const getHome = async () => {
     try {
-      await axios.get(URI); //  endpoint
+      await axios.get("http://localhost:2020/"); //  endpoint
     } catch (error) {
       console.error("Error fetching Home:", error);
     }
@@ -37,13 +35,24 @@ const Home = () => {
   const sendEmail = async (e) => {
     try {
       e.preventDefault();
-      const res = await axios.post(URI_sendEmail, {
-        name: name,
-        email: email,
-        msg: msg,
-      }); //  endpoint
-      console.log("Email sent successfully!", res.data);
-      navigate("/");
+      const resContactForm = await axios.post(
+        "http://localhost:2020/send-email",
+        {
+          name: name,
+          email: email,
+          msg: msg,
+        }
+      ); //  endpoint
+      if (resContactForm.status === 200) {
+        console.log("Email sent");
+        toast.success("📫Correo Enviado");
+        setTimeout(() => {
+          navigate(`/`);
+        }, 1000);
+      } else {
+        console.error("Email error");
+        toast.error("📫Correo Error");
+      }
     } catch (error) {
       console.error("Error sending Email:", error);
     }
@@ -151,9 +160,10 @@ const Home = () => {
                 <form onSubmit={sendEmail}>
                   {" "}
                   {/* /send-email */}
-                  <h3 className="highlight-txt mb-3 text-center text-white">Contactar por Email.</h3>
+                  <h3 className="highlight-txt mb-3 text-center text-white">
+                    Contactar por Email.
+                  </h3>
                   <div className="mb-3">
-                   
                     <input
                       type="text"
                       className="form-control"
@@ -161,21 +171,19 @@ const Home = () => {
                       value={name}
                       placeholder="Nombre completo"
                       onChange={(e) => setName(e.target.value)}
-                      />
+                    />
                   </div>
                   <div className="mb-3">
-              
                     <input
                       type="email"
                       className="form-control"
                       id="email"
-                      placeholder="Email"
+                      placeholder="Tu Email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      />
+                    />
                   </div>
                   <div className="mb-3">
-                    
                     <textarea
                       className="form-control"
                       id="msg"

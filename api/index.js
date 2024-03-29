@@ -6,6 +6,7 @@ import authRoute from "./routes/auth.route.js";
 import customerRoute from "./routes/customer.route.js";
 import courseRoute from "./routes/course.route.js";
 import paymentRoute from "./routes/payment.route.js"
+import indexRoute from "./routes/index.route.js"
 import cookieParser from "cookie-parser";
 import path from "path";
 
@@ -34,6 +35,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/customer", customerRoute);
 app.use("/api/course", courseRoute);
 app.use("/api/order", paymentRoute);// MP and Paypal
+app.use("/api", indexRoute);
 
 // error formatter for console
 // app.use((err, req, res, next) => {
