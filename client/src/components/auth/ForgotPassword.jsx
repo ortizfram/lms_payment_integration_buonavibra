@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../public/css/auth/forgotPassword.css"; // Import your custom CSS file for styling
+import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -57,6 +58,8 @@ const ForgotPassword = () => {
           <button type="submit" className="btn btn-primary">
             Enviar reset
           </button>
+          <p>Ya tengo una cuenta <Link to="/login" className="text-info">Ingresar</Link></p>
+
         </form>
         {error && <p className="error-msg">{error}</p>}
         <ToastContainer /> {/* Toast notifications container */}
