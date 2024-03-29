@@ -16,7 +16,9 @@ import CourseLibrary from "./pages/CourseLibrary";
 import PromoCodes from "./pages/PromoCodes";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import "./public/css/highlightText.css"
+import "./public/css/icon.css"
+import "./public/css/sectionTitle.css"
 
 axios.defaults.withCredentials = true;
 

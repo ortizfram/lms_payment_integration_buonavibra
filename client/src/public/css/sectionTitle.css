@@ -6,7 +6,9 @@
       justify-items: center;
       color: #EF7F72;
       margin-bottom: 40px;
-      font-family: "Poppins", sans-serif;
+      font-weight: 700;
+      font-style: italic;
+      font-size: xx-large;
     }
 
     body {
