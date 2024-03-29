@@ -25,7 +25,7 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h1 className="login-title section-title">Login</h1>
+      <h1 className="login-title section-title">Ingresar</h1>
       <form onSubmit={login}>
         <div className="form-group">
           <input

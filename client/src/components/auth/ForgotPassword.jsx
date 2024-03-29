@@ -41,7 +41,7 @@ const ForgotPassword = () => {
   return (
     <div className="forgot-password-wrapper">
       <div className="forgot-password-container">
-        <h2 className="section-title">Forgot Password</h2>
+        <h2 className="section-title">Olvidé contraseña</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input
@@ -55,7 +55,7 @@ const ForgotPassword = () => {
             />
           </div>
           <button type="submit" className="btn btn-primary">
-            Reset Password
+            Enviar reset
           </button>
         </form>
         {error && <p className="error-msg">{error}</p>}
