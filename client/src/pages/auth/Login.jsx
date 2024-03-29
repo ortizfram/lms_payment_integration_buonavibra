@@ -1,24 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
-import { useNavigate } from 'react-router-dom';
-
-
+import { Link, useNavigate } from 'react-router-dom';
+import "../../public/css/auth/Login.css"; // Import your custom CSS file for styling
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { getLoggedIn,currentUser  } = useContext(AuthContext);
+  const { getLoggedIn, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     // Redirect if user is already logged in
-  //     navigate("/");
-  //   }
-  // }, [currentUser, navigate]);
-
 
   async function login(e) {
     e.preventDefault();
@@ -31,24 +22,34 @@ function Login() {
       console.error(error);
     }
   }
-  return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={login}>
-        <input
-          type="email"
-          placeholder="email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-        <input
-          type="password"
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
 
-        <button type="submit">Login</button>
+  return (
+    <div className="login-container">
+      <h1 className="login-title section-title">Login</h1>
+      <form onSubmit={login}>
+        <div className="form-group">
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            className="form-control"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            className="form-control"
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">Login</button>
+        <div className="link-container">
+          <p>Olvidate tu contraseña? <Link to="/forgot-password">Recuperar</Link></p>
+          <p>Sin cuenta aún? <Link to="/register">Registrar</Link></p>
+        </div>
       </form>
     </div>
   );
