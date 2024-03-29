@@ -2,6 +2,8 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import { FRONTEND_URL } from "../config.js";
+import sendResetEmail from "../utils/sendEmail.js";
 
 const adminEmails = JSON.parse(process.env.ADMIN_EMAILS); // Parse the admin emails
 
@@ -29,7 +31,7 @@ export const signup = async (req, res) => {
       isAdmin = true;
     }
 
-    const newUser = new User({ username, email, password: hashP, isAdmin  });
+    const newUser = new User({ username, email, password: hashP, isAdmin });
 
     const savedUser = await newUser.save();
 
@@ -41,7 +43,7 @@ export const signup = async (req, res) => {
       process.env.JWT_SECRET
     );
 
-    req.user = savedUser._id
+    req.user = savedUser._id;
 
     res
       .cookie("token", token, {
@@ -77,7 +79,7 @@ export const login = async (req, res) => {
       process.env.JWT_SECRET
     );
 
-    req.user = existingUser._id
+    req.user = existingUser._id;
 
     res
       .cookie("token", token, {
@@ -138,3 +140,92 @@ export const getCurrentUser = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+// forgotpassword
+
+// resetPassword
+
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const existingUser = await User.find({ email: email });
+    console.log(existingUser);
+
+    if (!existingUser || existingUser.length === 0) {
+      return res.status(404).json({ error: "Email not found" });
+    }
+
+    const secret = process.env.JWT_SECRET + existingUser.password;
+    const userId = parseInt(existingUser._id);
+    const payload = {
+      email: existingUser.email,
+      id: existingUser._id,
+    };
+    const token = jwt.sign(payload, secret, { expiresIn: "1y" });
+    const link = `${FRONTEND_URL}/reset-password/${userId}/${token}`;
+
+    await sendResetEmail(
+      email,
+      "Password Reset",
+      "Sending Reset password Token, click the button for password changing",
+      `<button><a href="${link}">Go to Reset Password</a></button>`
+    );
+
+    res
+      .status(200)
+      .json({ message: "Password reset email sent, check your mailbox." });
+  } catch (error) {
+    console.error("Error sending Email for password reset:", error);
+    res.status(500).json({ error: "Error sending reset email" });
+  }
+};
+
+// app.post("/reset-password/:id/:token", async (req, res) => {
+//   let { id, token } = req.params;
+//   console.log(`id${id},token${token}`);
+//   const { password, repeat_password } = req.body;
+
+//   // Verify again if id and token are valid
+//   let sql = `SELECT * FROM users WHERE id = ?`;
+//   const [existingUser] = await db
+//     .promise()
+//     .execute(sql, [id], (err, result) => {
+//       if (err) {
+//         console.log("Error ", err);
+//       }
+//     });
+//   console.log("\n\nuser fetcher from id", existingUser[0]["id"], "\n\n");
+//   id = existingUser[0]["id"];
+//   if (!existingUser || existingUser.length === 0) {
+//     return res.status(400).json({ message: "User id not found" });
+//   }
+
+//   const user = existingUser[0];
+
+//   // We have valid id and valid user with this id
+//   const secret = process.env.JWT_SECRET + existingUser[0]["password"];
+//   try {
+//     const payload = jwt.verify(token, secret);
+//     // password must match
+//     if (password !== repeat_password) {
+//       return res.status(400).json({ message: "Passwords do not match" });
+//     }
+
+//     // update with a new password hashed
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     sql = "UPDATE users SET password = ? WHERE id = ?";
+//     await db.promise().execute(sql, [hashedPassword, id]);
+//     console.log("\n\nPassword updated\n\n");
+
+//     // Send JSON response
+//     res.status(200).json({
+//       message:
+//         "Password updated successfully. Please login with your new password.",
+//       user,
+//     });
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).json({ error: error.message });
+//   }
+// });

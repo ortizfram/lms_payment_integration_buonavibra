@@ -1,5 +1,5 @@
 import express from "express";
-import { getCurrentUser, loggedIn, login, logout, signup } from "../controllers/auth.controller.js";
+import { forgotPassword, getCurrentUser, loggedIn, login, logout, signup } from "../controllers/auth.controller.js";
 const router = express.Router();
 
 // register
@@ -12,5 +12,8 @@ router.get('/logout', logout)
 router.get('/loggedIn', loggedIn);
 // getcurrentUser data
 router.get('/currentUser', getCurrentUser);
+// forgotPassword
+router.post('/forgot-password', forgotPassword)
+// resetPassword
 
 export default router;
