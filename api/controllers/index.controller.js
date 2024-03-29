@@ -17,6 +17,4 @@ const sendEmail = async (req, res) => {
   res.status(200).json({ success: "sent" });
 };
 
-export default {
-  sendEmail,
-};
+export default sendEmail

@@ -3,6 +3,10 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import "../public/css/home/home.css";
+// alerts
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 // NodeJS endpoint reference
 
@@ -36,7 +40,7 @@ const Home = () => {
     try {
       e.preventDefault();
       const resContactForm = await axios.post(
-        "http://localhost:2020/send-email",
+        "http://localhost:2020/api/send-email",
         {
           name: name,
           email: email,

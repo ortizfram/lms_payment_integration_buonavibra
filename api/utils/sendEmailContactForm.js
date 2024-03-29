@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { NODEMAILER_EMAIL,NODEMAILER_PASS } from "../config";
+import { NODEMAILER_EMAIL,NODEMAILER_PASS } from "../config.js";
 
 const sendEmailContactForm = async (recipient, subject, text, html) => {
   try {
