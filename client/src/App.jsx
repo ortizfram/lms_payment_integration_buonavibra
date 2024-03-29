@@ -54,7 +54,7 @@ export default function App() {
                 <Route path="/course/update/:id" element={<CourseUpdate />} />
               </>
             )}
-          </>
+          </> 
         )}
         {/* No Restriction */}
         <Route path="*" element={<h1>404 Page Not FOund</h1>} />
