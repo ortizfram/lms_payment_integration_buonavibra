@@ -144,7 +144,6 @@ export const getCurrentUser = async (req, res) => {
 // forgotpassword
 
 // resetPassword
-
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -183,52 +182,48 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
+// resetPasword
+export const resetPassword = async (req, res) => {
+  let { id, token } = req.params;
+  console.log(`id${id},token${token}`);
+  const { password, repeat_password } = req.body;
 
-// app.post("/reset-password/:id/:token", async (req, res) => {
-//   let { id, token } = req.params;
-//   console.log(`id${id},token${token}`);
-//   const { password, repeat_password } = req.body;
+  const existingUser = await User.find({ _id: id });
+  console.log("\n\nuser fetcher from id", existingUser[0]._id, "\n\n");
+  id = existingUser[0]["id"];
+  if (!existingUser || existingUser.length === 0) {
+    return res.status(400).json({ message: "User id not found" });
+  }
 
-//   // Verify again if id and token are valid
-//   let sql = `SELECT * FROM users WHERE id = ?`;
-//   const [existingUser] = await db
-//     .promise()
-//     .execute(sql, [id], (err, result) => {
-//       if (err) {
-//         console.log("Error ", err);
-//       }
-//     });
-//   console.log("\n\nuser fetcher from id", existingUser[0]["id"], "\n\n");
-//   id = existingUser[0]["id"];
-//   if (!existingUser || existingUser.length === 0) {
-//     return res.status(400).json({ message: "User id not found" });
-//   }
+  let user = existingUser[0];
 
-//   const user = existingUser[0];
+  // We have valid id and valid user with this id
+  const secret = process.env.JWT_SECRET + existingUser[0].password;
+  try {
+    const payload = jwt.verify(token, secret);
+    // password must match
+    if (password !== repeat_password) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
 
-//   // We have valid id and valid user with this id
-//   const secret = process.env.JWT_SECRET + existingUser[0]["password"];
-//   try {
-//     const payload = jwt.verify(token, secret);
-//     // password must match
-//     if (password !== repeat_password) {
-//       return res.status(400).json({ message: "Passwords do not match" });
-//     }
+    const hashedPassword = await bcryptjs.hash(password, 10);
 
-//     // update with a new password hashed
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     sql = "UPDATE users SET password = ? WHERE id = ?";
-//     await db.promise().execute(sql, [hashedPassword, id]);
-//     console.log("\n\nPassword updated\n\n");
+    // update with a new password hashed
+    user = await User.findByIdAndUpdate(id, { password: hashedPassword }, { new: true });
 
-//     // Send JSON response
-//     res.status(200).json({
-//       message:
-//         "Password updated successfully. Please login with your new password.",
-//       user,
-//     });
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    console.log("\n\nPassword updated\n\n");
+
+    // Send JSON response
+    res.status(200).json({
+      message:
+        "Password updated successfully. Please login with your new password.",
+      user: user._id,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message });
+  }
+};

@@ -14,13 +14,13 @@ import Login from "./pages/auth/Login";
 import { useContext } from "react";
 import CourseLibrary from "./pages/CourseLibrary";
 import PromoCodes from "./pages/PromoCodes";
-import "./public/css/highlightText.css"
-import "./public/css/icon.css"
-import "./public/css/sectionTitle.css"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import "./public/css/highlightText.css";
+import "./public/css/icon.css";
+import "./public/css/sectionTitle.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from "./components/auth/ForgotPassword";
-
+import ResetPassword from "./components/auth/ResetPassword";
 
 axios.defaults.withCredentials = true;
 
@@ -62,7 +62,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/course/all" element={<Courses />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-
+        <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
       </Routes>
     </BrowserRouter>
   );

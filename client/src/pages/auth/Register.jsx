@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
-import { Link, useNavigate } from 'react-router-dom';
-import "../../public/css/auth/register.css"
+import { Link, useNavigate } from "react-router-dom";
+import "../../public/css/auth/register.css";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -19,7 +19,7 @@ function Register() {
       const registerData = { email, username, password, passwordVerify };
       await axios.post("http://localhost:2020/api/auth/signup", registerData);
       await getLoggedIn();
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -36,7 +36,7 @@ function Register() {
             onChange={(e) => setUsername(e.target.value)}
             value={username}
             className="form-control"
-            />
+          />
         </div>
         <div className="form-group">
           <input
@@ -65,8 +65,15 @@ function Register() {
             className="form-control"
           />
         </div>
-        <button type="submit" className="btn btn-primary">Registrar</button>
-        <p>Ya tengo una cuenta <Link to="/login" className="text-info">Ingresar</Link></p>
+        <button type="submit" className="btn btn-primary">
+          Registrar
+        </button>
+        <p>
+          Ya tengo una cuenta{" "}
+          <Link to="/login" className="text-info">
+            Ingresar
+          </Link>
+        </p>
       </form>
     </div>
   );

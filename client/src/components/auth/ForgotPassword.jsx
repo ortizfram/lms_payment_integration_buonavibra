@@ -58,8 +58,12 @@ const ForgotPassword = () => {
           <button type="submit" className="btn btn-primary">
             Enviar reset
           </button>
-          <p>Ya tengo una cuenta <Link to="/login" className="text-info">Ingresar</Link></p>
-
+          <p>
+            Ya tengo una cuenta{" "}
+            <Link to="/login" className="text-info">
+              Ingresar
+            </Link>
+          </p>
         </form>
         {error && <p className="error-msg">{error}</p>}
         <ToastContainer /> {/* Toast notifications container */}
