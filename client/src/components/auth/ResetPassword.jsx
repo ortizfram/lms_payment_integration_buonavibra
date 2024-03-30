@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import "../../public/css/auth/resetPassword.css"
 // alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -44,33 +45,27 @@ const ResetPassword = () => {
 
   return (
     <div id="reset-password-container" style={{ margin: "6.2rem auto" }}>
-      <h1 className="section-title">Reset Password</h1>
+      <h1 className="section-title">Nueva Contrasena</h1>
       <form onSubmit={handleResetPasswordSubmit} encType="multipart/form-data">
-        <label htmlFor="password" className="label">
-          New Password
-        </label>
         <input
           type="password"
           id="password"
           name="password"
-          placeholder="New Password"
+          placeholder="Nueva Contrasena"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
-        <label htmlFor="repeat-password" className="label">
-          Repeat Password
-        </label>
         <input
           type="password"
           id="repeat-password"
           name="repeat-password"
-          placeholder="Repeat Password"
+          placeholder="Repite Contrasena"
           value={repeatPassword}
           onChange={(e) => setRepeatPassword(e.target.value)}
         />
         <br />
-        <button type="submit">Reset Password</button>
+        <button type="submit">Enviar</button>
       </form>
       {message && <p>{message}</p>}
     </div>
