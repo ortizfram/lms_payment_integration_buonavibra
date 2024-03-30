@@ -5,11 +5,10 @@ import dotenv from "dotenv";
 import authRoute from "./routes/auth.route.js";
 import customerRoute from "./routes/customer.route.js";
 import courseRoute from "./routes/course.route.js";
-import paymentRoute from "./routes/payment.route.js"
-import indexRoute from "./routes/index.route.js"
+import paymentRoute from "./routes/payment.route.js";
+import indexRoute from "./routes/index.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
-
 
 dotenv.config();
 const port = process.env.PORT || 8080;
@@ -17,7 +16,8 @@ const DB_URI = process.env.DB_URI;
 
 const app = express();
 app.use(express.json());
-app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());  
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -34,7 +34,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/auth", authRoute);
 app.use("/api/customer", customerRoute);
 app.use("/api/course", courseRoute);
-app.use("/api/order", paymentRoute);// MP and Paypal
+app.use("/api/order", paymentRoute); // MP and Paypal
 app.use("/api", indexRoute);
 
 // error formatter for console
@@ -48,7 +48,6 @@ app.use("/api", indexRoute);
 //   });
 // });
 
-
 app.listen(port, () => {
   mongoose
     .connect(DB_URI)
@@ -60,4 +59,4 @@ app.listen(port, () => {
     });
 });
 
-export default app
+export default app;

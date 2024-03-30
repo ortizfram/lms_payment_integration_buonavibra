@@ -4,6 +4,7 @@ import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import { FRONTEND_URL } from "../config.js";
 import sendResetEmail from "../utils/sendEmail.js";
+import mongoose from "mongoose";
 
 const adminEmails = JSON.parse(process.env.ADMIN_EMAILS); // Parse the admin emails
 
@@ -156,7 +157,8 @@ export const forgotPassword = async (req, res) => {
 
     // Accessing the _id property of the first user object in the array
     const userId = existingUser[0]._id.toString();
-    const secret = process.env.JWT_SECRET + existingUser[0].password;
+
+    const secret = process.env.JWT_SECRET + userId;
 
     const payload = {
       email: existingUser[0].email,
@@ -164,7 +166,11 @@ export const forgotPassword = async (req, res) => {
     };
 
     const token = jwt.sign(payload, secret, { expiresIn: "1y" });
+    console.log("Generated token:", token);
+
     const link = `${FRONTEND_URL}/reset-password/${userId}/${token}`;
+    console.log("Generated reset password link:", link);
+
 
     await sendResetEmail(
       email,
@@ -188,9 +194,10 @@ export const resetPassword = async (req, res) => {
   console.log(`id${id},token${token}`);
   const { password, repeat_password } = req.body;
 
-  const existingUser = await User.find({ _id: id });
-  console.log("\n\nuser fetcher from id", existingUser[0]._id, "\n\n");
-  id = existingUser[0]["id"];
+  const existingUser = await User.find({
+    _id: new mongoose.Types.ObjectId(id),
+  });
+
   if (!existingUser || existingUser.length === 0) {
     return res.status(400).json({ message: "User id not found" });
   }
@@ -198,7 +205,8 @@ export const resetPassword = async (req, res) => {
   let user = existingUser[0];
 
   // We have valid id and valid user with this id
-  const secret = process.env.JWT_SECRET + existingUser[0].password;
+  const secret = process.env.JWT_SECRET + id;
+  console.log(typeof secret, " ", secret);
   try {
     const payload = jwt.verify(token, secret);
     // password must match
@@ -209,7 +217,11 @@ export const resetPassword = async (req, res) => {
     const hashedPassword = await bcryptjs.hash(password, 10);
 
     // update with a new password hashed
-    user = await User.findByIdAndUpdate(id, { password: hashedPassword }, { new: true });
+    user = await User.findByIdAndUpdate(
+      id,
+      { password: hashedPassword },
+      { new: true }
+    );
 
     if (!user) {
       throw new Error("User not found");

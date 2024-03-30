@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../public/css/auth/resetPassword.css"
@@ -18,11 +18,11 @@ const ResetPassword = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:2020/api/reset-password/${id}/${token}`,
+        `http://localhost:2020/api/auth/reset-password/${id}/${token}`,
         { password, repeat_password: repeatPassword }
       );
 
-      if (response.data.message) {
+      if (response.status === 200) {
         setMessage(response.data.message);
         // Handle success, e.g., redirect or show a success message
         console.log("password updated");
@@ -43,10 +43,17 @@ const ResetPassword = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("ID:", id);
+    console.log("Token:", token);
+  }, [id, token]);
+
   return (
     <div id="reset-password-container" style={{ margin: "6.2rem auto" }}>
       <h1 className="section-title">Nueva Contrasena</h1>
-      <form onSubmit={handleResetPasswordSubmit} encType="multipart/form-data">
+      <h1 className="text-xl">id:{id}</h1>
+      <h1 className="text-xl">token:{token}</h1>
+      <form onSubmit={handleResetPasswordSubmit}>
         <input
           type="password"
           id="password"
