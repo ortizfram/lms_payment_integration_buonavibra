@@ -1,17 +1,36 @@
 /* courses.css */
 .courses-page-container {
-  background-image: url("../../../../public/images/course/jay-castor-7AcMUSYRZpU-unsplash.jpg");
-   /* background: radial-gradient(circle, #EF7F72, #F7E3BF); */
+  background-image: url("../../../../public/images/blog-image.jpg");
+  /* background: radial-gradient(circle, #EF7F72, #F7E3BF); */
   background-size: cover;
   background-position: center; /* Centers the background image */
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
   height: 100%;
   width: 100vw;
   min-height: 100vh; /* Ensures the container takes at least the full height of the viewport */
+}
+.library-page-container {
+  /* background: radial-gradient(circle, #EF7F72, #F7E3BF); */
+  background-image: url("../../../../public/images/course/roonz-nl-ATgfRqpFfFI-unsplash.jpg");
+  background-size: cover;
+  background-position: center; /* Centers the background image */
+  
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+  width: 100vw;
+  min-height: 100vh; /* Ensures the container takes at least the full height of the viewport */
 }
 /* vignete overlay */
-.courses-page-container::before {
+.courses-page-container::before .library-page-container::before{
   content: '';
   background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%);
   z-index: 0; /* Set a lower z-index to stay beneath the content */
@@ -45,7 +64,7 @@ text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Adding shadow to the h1 */
 z-index: 1;
 }
 .timestamp {
-  color: #777;
+  color: #333;
   text-decoration: none;
 }
 
@@ -123,7 +142,7 @@ h1 {
   color: #777;
 }
 .course-item .timestamp {
-  color: #777;
+  color: #333;
   margin: 0;
 }
 /* Style for the author's information */
@@ -137,6 +156,13 @@ h1 {
   margin-top: 0;
   margin-bottom: 5px;
   font-size: 18px;
+  font-weight: 700;
+}
+
+.course-title {
+  font-size: 20px;
+  font-weight: 700;
+  font-family:'Times New Roman', Times, serif;
 }
 
 /* Style for the course prices */
@@ -218,26 +244,27 @@ h1 {
 
 /* ========================================================= */
 /* Media query for responsive layout */
+@media screen and (min-width: 960px) {
+  .courses-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 @media screen and (max-width: 960px) {
   .courses-grid {
-    grid-template-columns: repeat(
-      3,
-      1fr
-    ); /* Adjust to 3 columns for smaller screens */
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (max-width: 768px) {
   .courses-grid {
-    grid-template-columns: repeat(
-      2,
-      1fr
-    ); /* Adjust to 2 columns for even smaller screens */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media screen and (max-width: 480px) {
   .courses-grid {
-    grid-template-columns: 1fr; /* Single column for very small screens */
+    grid-template-columns: 1fr;
   }
 }
+
