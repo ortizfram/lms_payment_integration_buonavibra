@@ -16,20 +16,20 @@ function CourseList({ courses }) {
             <div className="course-item position-relative backdrop-filter shadow-lg">
               {/* DISCOUNT for ARS only */}
               {course.discount_ars >= 1 && course.discount_usd < 1 && (
-                <p className="position-absolute start-40 top-10 translate-middle-x  translate-middle-y text-white text-center fw-lighter text-xs bg-success p-[0.1] rounded">
+                <p className="position-absolute start-40 top-10 translate-middle-x  translate-middle-y  text-center fw-lighter text-xs bg-success p-[0.1] rounded">
                   ARS {course.discount_ars}%OFF
                 </p>
               )}
               {/* DISCOUNT for USD only */}
               {course.discount_usd >= 1 && course.discount_ars < 1 && (
-                <p className="position-absolute start-40 top-10 translate-middle-x translate-middle-y text-white text-center fw-lighter text-xs bg-success p-[0.1] rounded">
+                <p className="position-absolute start-40 top-10 translate-middle-x translate-middle-y  text-center fw-lighter text-xs bg-success p-[0.1] rounded">
                   USD ${course.discount_usd}%OFF
                 </p>
               )}
               {/* DISCOUNT for both ARS and USD */}
               {course.discount_ars >= 1 && course.discount_usd >= 1 && (
                 <div>
-                  <p className="position-absolute translate-middle-x translate-middle-y text-white text-center fw-lighter text-xs bg-success p-[0.1] rounded">
+                  <p className="position-absolute translate-middle-x translate-middle-y  text-center fw-lighter text-xs bg-success p-[0.1] rounded">
                     ARS {course.discount_ars}% USD ${course.discount_usd}%
                   </p>
                 </div>
@@ -39,7 +39,7 @@ function CourseList({ courses }) {
               <a href={`/course/enroll/${course._id}`}>
                 {/* COURSE DATA */}
                 <img src={course.thumbnail} alt={`thumbnail-${course.slug}`} />
-                <p className="timestamp text-white">{course.updated_at}</p>
+                <p className="timestamp ">{course.updated_at}</p>
 
                 {/* AUTHOR */}
                 <div className="author">
@@ -51,24 +51,24 @@ function CourseList({ courses }) {
                     />
                   )}
                   {course.author && (
-                    <p className="author-info text-white">
+                    <p className="aut">
                       <strong>{course.author.username}</strong> •{" "}
                       {course.author.name}
                     </p>
                   )}
                 </div>
-                <h2 className="text-white">{course.title}</h2>
+                <h2 className="">{course.title}</h2>
 
                 {/* PRICE */}
                 {course.usd_price || course.ars_price ? (
-                  <p className="text-white">
+                  <p className="">
                     USD {course.usd_price} | ARS {course.ars_price}
                   </p>
                 ) : null}
 
                 {/* DESCRIPTION */}
                 {course.description && (
-                  <p className="text-white">{course.description} </p>
+                  <p className="">{course.description} </p>
                 )}
               </a>
 
@@ -77,7 +77,7 @@ function CourseList({ courses }) {
               {isAdmin === true && (
                 <div className="course-actions">
                   {/* UPDATE */}
-                  <p className="text-white">
+                  <p className="">
                     <a
                       className="text-muted"
                       href={`/api/course/update/${course._id}`}

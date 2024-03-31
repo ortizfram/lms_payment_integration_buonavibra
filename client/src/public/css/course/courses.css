@@ -90,6 +90,7 @@ h1 {
   margin-bottom: 20px;
   position: relative; /* Adjust for button positioning */
   z-index: 1;
+  color: #333;
 }
 
 /* Style for the course image */

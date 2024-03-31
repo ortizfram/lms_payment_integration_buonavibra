@@ -153,7 +153,7 @@ const CourseEnroll = () => {
           </p>
         </div>
 
-        <div className="promo-code">
+        {/* <div className="promo-code">
           <div className="promo-input-container">
             <input
               type="text"
@@ -169,9 +169,9 @@ const CourseEnroll = () => {
               Aplicar
             </button>
           </div>
-        </div>
+        </div> */}
 
-        <div className="payment-options">
+        <div className="payment-options mt-2">
           {/* PAY WITH PAYPAL */}
           <form
             action={`http://localhost:2020/api/order/create-order-paypal?courseId=${id}&userId=${user._id}`}

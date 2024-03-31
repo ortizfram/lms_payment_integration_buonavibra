@@ -18,7 +18,7 @@ function courseOwnedList({ courses }) {
               <a href={`/course/${course._id}`}>
                 {/* COURSE DATA */}
                 <img src={course.thumbnail} alt={`thumbnail-${course.slug}`} />
-                <p className="timestamp text-white">{course.updated_at}</p>
+                <p className="timestamp">{course.updated_at}</p>
 
                 {/* AUTHOR */}
                 <div className="author">
@@ -30,19 +30,19 @@ function courseOwnedList({ courses }) {
                     />
                   )}
                   {course.author && (
-                    <p className="author-info text-white">
+                    <p className="author-info ">
                       <strong>{course.author.username}</strong> •{" "}
                       {course.author.name}
                     </p>
                   )}
                 </div>
-                <h2 className="text-white">{course.title}</h2>
+                <h2 className="">{course.title}</h2>
 
               
 
                 {/* DESCRIPTION */}
                 {course.description && (
-                  <p className="text-white">{course.description} </p>
+                  <p className="">{course.description} </p>
                 )}
               </a>
 
@@ -51,7 +51,7 @@ function courseOwnedList({ courses }) {
               {isAdmin === true && (
                 <div className="course-actions">
                   {/* UPDATE */}
-                  <p className="text-white">
+                  <p className="">
                     <a
                       className="text-muted"
                       href={`/api/course/update/${course._id}`}
