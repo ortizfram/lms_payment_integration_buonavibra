@@ -105,17 +105,17 @@ const CourseDetail = () => {
                     <span> {course.author.email}</span>
                     {isAdmin === true && (
                       <span className="course-admin-options opacity-50">
-                        <button className="btn">
+                        <button className="">
                           <p>
                             <a
                               className="text-muted"
                               href={`/course/update/${course._id}`}
                             >
-                              <i className="fas fa-edit me-2">Editar</i>
+                              <i className="fas fa-edit me-2 mx-2">Editar</i>
                             </a>
                           </p>
                         </button>
-                        <button className="btn" onClick={handleDelete}>
+                        <button className="" onClick={handleDelete}>
                           <p>
                             <i className="fas fa-trash-alt me-2 ">Borrar</i>
                           </p>

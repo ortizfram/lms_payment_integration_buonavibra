@@ -24,9 +24,9 @@ export const courseCreate = async (req, res, next) => {
         : null;
 
     if (!imageUrl && !videoUrl) {
-      return next(errorHandler(400, "Video and miniatura are required"));
+      return res.status(400).json({message:"Video and miniatura are required"})
     }
-
+    
     const {
       title,
       description,
@@ -36,7 +36,7 @@ export const courseCreate = async (req, res, next) => {
       discount_ars,
       discount_usd,
     } = req.body;
-
+    
     const requiredFields = [
       "title",
       "description",
@@ -46,7 +46,7 @@ export const courseCreate = async (req, res, next) => {
     ];
     for (const field of requiredFields) {
       if (!req.body[field]) {
-        return next(errorHandler(400, `The field '${field}' is required.`));
+        return res.status(400).json({message:`The field '${field}' is required.`})
       }
     }
 
