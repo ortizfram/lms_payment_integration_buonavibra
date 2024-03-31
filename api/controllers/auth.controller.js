@@ -2,7 +2,7 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
-import { FRONTEND_URL } from "../config.js";
+import { BACKEND_URL, FRONTEND_URL } from "../config.js";
 import sendResetEmail from "../utils/sendEmail.js";
 import mongoose from "mongoose";
 
@@ -160,15 +160,15 @@ export const forgotPassword = async (req, res) => {
 
     const secret = process.env.JWT_SECRET + userId;
 
-    const payload = {
-      email: existingUser[0].email,
-      id: userId,
-    };
+    // const payload = {
+    //   email: existingUser[0].email,
+    //   id: userId,
+    // };
 
-    const token = jwt.sign(payload, secret, { expiresIn: "1y" });
-    console.log("Generated token:", token);
+    // const token = jwt.sign(payload, secret, { expiresIn: "1y" });
+    // console.log("Generated token:", token);
 
-    const link = `${FRONTEND_URL}/reset-password/${userId}/${token}`;
+    const link = `${FRONTEND_URL}/reset-password/${userId}/${secret}`;
     console.log("Generated reset password link:", link);
 
 
@@ -191,7 +191,7 @@ export const forgotPassword = async (req, res) => {
 // resetPasword
 export const resetPassword = async (req, res) => {
   let { id, token } = req.params;
-  console.log(`id${id},token${token}`);
+  // console.log(`id${id},token${token}`);
   const { password, repeat_password } = req.body;
 
   const existingUser = await User.find({
@@ -205,10 +205,10 @@ export const resetPassword = async (req, res) => {
   let user = existingUser[0];
 
   // We have valid id and valid user with this id
-  const secret = process.env.JWT_SECRET + id;
-  console.log(typeof secret, " ", secret);
+  // const secret = process.env.JWT_SECRET + id;
+  // console.log(typeof secret, " ", secret);
   try {
-    const payload = jwt.verify(token, secret);
+    // const payload = jwt.verify(token, secret);
     // password must match
     if (password !== repeat_password) {
       return res.status(400).json({ message: "Passwords do not match" });

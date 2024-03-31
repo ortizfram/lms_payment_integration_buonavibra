@@ -43,16 +43,14 @@ const ResetPassword = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("ID:", id);
-    console.log("Token:", token);
-  }, [id, token]);
+  // useEffect(() => {
+  //   console.log("ID:", id);
+  //   console.log("Token:", token);
+  // }, [id, token]);
 
   return (
     <div id="reset-password-container" style={{ margin: "6.2rem auto" }}>
       <h1 className="section-title">Nueva Contrasena</h1>
-      <h1 className="text-xl">id:{id}</h1>
-      <h1 className="text-xl">token:{token}</h1>
       <form onSubmit={handleResetPasswordSubmit}>
         <input
           type="password"
