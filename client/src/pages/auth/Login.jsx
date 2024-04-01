@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import "../../public/css/auth/Login.css"; // Import your custom CSS file for styling
+import "../../public/css/auth/login.css"; // Import your custom CSS file for styling
 
 function Login() {
   const [email, setEmail] = useState("");
