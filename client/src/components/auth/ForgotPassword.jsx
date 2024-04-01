@@ -40,33 +40,35 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="forgot-password-wrapper">
-      <div className="forgot-password-container">
-        <h2 className="section-title">Olvidé contraseña</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <input
-              type="email"
-              id="email"
-              className="form-control"
-              placeholder="Tu Correo Electronico"
-              value={email}
-              onChange={handleEmailChange}
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Enviar reset
-          </button>
-          <p>
-            Ya tengo una cuenta{" "}
-            <Link to="/login" className="text-info">
-              Ingresar
-            </Link>
-          </p>
-        </form>
-        {error && <p className="error-msg">{error}</p>}
-        <ToastContainer /> {/* Toast notifications container */}
+    <div className="forgot-password-page-container">
+      <div className="forgot-password-wrapper">
+        <div className="forgot-password-container">
+          <h2 className="section-title">Olvidé contraseña</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <input
+                type="email"
+                id="email"
+                className="form-control"
+                placeholder="Tu Correo Electronico"
+                value={email}
+                onChange={handleEmailChange}
+                required
+              />
+            </div>
+            <button type="submit" className="btn btn-primary">
+              Enviar reset
+            </button>
+            <p>
+              Ya tengo una cuenta{" "}
+              <Link to="/login" className="text-info">
+                Ingresar
+              </Link>
+            </p>
+          </form>
+          {error && <p className="error-msg">{error}</p>}
+          <ToastContainer /> {/* Toast notifications container */}
+        </div>
       </div>
     </div>
   );

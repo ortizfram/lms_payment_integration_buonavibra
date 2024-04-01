@@ -1,4 +1,8 @@
 /* Login.css */
+.login-page-container{
+  min-width: 100vw;
+  margin-top: 10vh;
+}
 .login-container {
     max-width: 400px;
     margin: auto;

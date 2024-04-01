@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import "../../public/css/auth/Login.css"; // Import your custom CSS file for styling
 
 function Login() {
@@ -24,33 +24,42 @@ function Login() {
   }
 
   return (
-    <div className="login-container">
-      <h1 className="login-title section-title">Ingresar</h1>
-      <form onSubmit={login}>
-        <div className="form-group">
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            className="form-control"
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            className="form-control"
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">Login</button>
-        <div className="link-container">
-          <p>Olvidate tu contraseña? <Link to="/forgot-password">Recuperar</Link></p>
-          <p>Sin cuenta aún? <Link to="/register">Registrar</Link></p>
-        </div>
-      </form>
+    <div className="login-page-container">
+      <div className="login-container">
+        <h1 className="login-title section-title">Ingresar</h1>
+        <form onSubmit={login}>
+          <div className="form-group">
+            <input
+              type="email"
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              className="form-control"
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              className="form-control"
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Login
+          </button>
+          <div className="link-container">
+            <p>
+              Olvidate tu contraseña?{" "}
+              <Link to="/forgot-password">Recuperar</Link>
+            </p>
+            <p>
+              Sin cuenta aún? <Link to="/register">Registrar</Link>
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
