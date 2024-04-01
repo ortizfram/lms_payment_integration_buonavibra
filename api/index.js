@@ -52,7 +52,7 @@ app.listen(port, () => {
   mongoose
     .connect(DB_URI)
     .then((run) => {
-      console.log(`DB connected & api runnig on http://localhost:${port}`);
+      console.log(`DB connected & api runnig on ${port}`);
     })
     .catch((error) => {
       console.error("Error connecting DB or running api", error.message);
