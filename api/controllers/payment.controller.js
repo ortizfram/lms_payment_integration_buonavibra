@@ -195,7 +195,7 @@ export const createOrderMP = async (req, res) => {
         notification_url: `${MP_NOTIFICATION_URL}?courseId=${courseId}&userId=${userId}`,
       },
     })
-    .then((preference) => res.redirect(preference.sandbox_init_point))
+    .then((preference) => res.redirect(preference.init_point))
     .catch(console.log);
 };
 
