@@ -11,7 +11,7 @@ import cookieParser from "cookie-parser";
 import path from "path";
 
 dotenv.config();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 2020;
 const DB_URI = process.env.DB_URI;
 
 const app = express();
