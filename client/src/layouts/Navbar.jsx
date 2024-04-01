@@ -6,8 +6,6 @@ import LogoutBtn from "../components/auth/LogoutBtn";
 function Navbar() {
   const { loggedIn, currentUser } = useContext(AuthContext);
 
-
-
   return (
     <div>
       {currentUser && currentUser.isAdmin === true && (
@@ -19,7 +17,11 @@ function Navbar() {
       <div style={styles.navbar}>
         <div style={styles.navLinks}>
           <Link to={"/"} style={styles.link}>
-            Inicio
+            <img
+              className="h-15 w-20"
+              src="/images/home/white-logo-buonavibra.png"
+              alt=""
+            />
           </Link>
           <a href="/#about1" style={styles.link}>
             Acerca
@@ -30,9 +32,9 @@ function Navbar() {
 
           {loggedIn === false && (
             <>
-          <Link to={"/login"} style={styles.link}>
-            Cursos
-          </Link>
+              <Link to={"/login"} style={styles.link}>
+                Cursos
+              </Link>
               <Link to={"/register"} style={styles.link}>
                 Register
               </Link>
@@ -44,9 +46,9 @@ function Navbar() {
 
           {loggedIn === true && (
             <>
-          <Link to={"/course/all"} style={styles.link}>
-            Cursos
-          </Link>
+              <Link to={"/course/all"} style={styles.link}>
+                Cursos
+              </Link>
               {currentUser && currentUser.isAdmin === false && (
                 <Link to={"/course/library"} style={styles.link}>
                   Biblioteca
