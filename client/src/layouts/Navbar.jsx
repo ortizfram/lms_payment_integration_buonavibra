@@ -35,11 +35,11 @@ function Navbar() {
               <Link to={"/login"} style={styles.link}>
                 Cursos
               </Link>
-              <Link to={"/register"} style={styles.link}>
-                Register
+              <Link to={"/register"} style={styles.link} className="border rounded-md p-2 border-white">
+                Registrar
               </Link>
-              <Link to={"/login"} style={styles.link}>
-                Login
+              <Link to={"/login"} style={styles.link} className="border rounded-md p-2 border-white">
+                Ingresar
               </Link>
             </>
           )}
