@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import "../public/css/home/home.css";
 // alerts
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // NodeJS endpoint reference
 
@@ -134,11 +133,11 @@ const Home = () => {
 
               {/* <!-- Row for contact icons --> */}
               <div className="row mt-4 container">
-                <div className="col backdrop-filter p-4 rounded col-md-6 mx-auto d-flex justify-content-between">
+                <div className="col backdrop-filter p-4 rounded mx-auto d-flex justify-content-between">
                   <div className="list-unstyled d-flex justify-content-between">
                     <a href="https://wa.me/2615996913" target="_blank">
                       <img
-                        className="icon"
+                        className="icon w-10 "
                         src="images/home/whatsapp-white-icon.png"
                         alt="WhatsApp"
                       />
@@ -148,7 +147,7 @@ const Home = () => {
                       target="_blank"
                     >
                       <img
-                        className="icon"
+                        className="icon w-10"
                         src="images/home/instagram-white-icon.png"
                         alt="Instagram"
                       />

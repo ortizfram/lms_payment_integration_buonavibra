@@ -21,6 +21,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
+import Navbar2 from "./layouts/Navbar2";
 
 axios.defaults.withCredentials = true;
 
@@ -30,6 +31,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Navbar />
+      {/* <Navbar2 /> */}
       <ToastContainer />
 
       <Routes>

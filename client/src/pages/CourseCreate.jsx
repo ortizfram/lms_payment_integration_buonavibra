@@ -5,8 +5,7 @@ const CourseCreate = () => {
   const { currentUser } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const userId = currentUser?.['_id'];
-
+  const userId = currentUser?.["_id"];
 
   const renderImage = (formData) => {
     const file = formData.get("image");
@@ -51,7 +50,7 @@ const CourseCreate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-   
+
     const imageFile = formData.get("image");
     const videoFile = formData.get("video");
 
@@ -83,11 +82,9 @@ const CourseCreate = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-xl mx-auto">
-        {currentUser && (
-          <p className="text-primary">Hello, {userId}!</p>
-        )}
+    <div className="min-w-screen">
+      <div className="">
+        {currentUser && <p className="text-primary">Hello, {userId}!</p>}
         <h1 className="text-3xl font-semibold text-gray-800 mb-4">
           Creando Curso
         </h1>

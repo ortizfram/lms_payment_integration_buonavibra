@@ -4,62 +4,97 @@ import AuthContext from "../context/AuthContext";
 import LogoutBtn from "../components/auth/LogoutBtn";
 
 function Navbar() {
-  const { loggedIn, currentUser } = useContext(AuthContext); //destructure loggedIn
+  const { loggedIn, currentUser } = useContext(AuthContext);
+
+
 
   return (
     <div>
-      {/* isAdmin Div message*/}
       {currentUser && currentUser.isAdmin === true && (
-        <div
-          style={{
-            backgroundColor: "blue",
-            color: "white",
-            padding: "1px",
-            marginRight: "5px",
-            marginBottom: "10px",
-            width: "100%",
-            textAlign: "center",
-          }}
-        >
+        <div className=" bg-info text-center">
           Estás en cuenta admin, {currentUser.username}
         </div>
       )}
 
-      {/* No Restriction */}
-      <Link to={"/"}>Home</Link>
-      <Link to={"/about"}>About</Link>
-      <Link to={"/course/all"}>Courses</Link>
+      <div style={styles.navbar}>
+        <div style={styles.navLinks}>
+          <Link to={"/"} style={styles.link}>
+            Inicio
+          </Link>
+          <a href="/#about1" style={styles.link}>
+            Acerca
+          </a>
+          <a href="/#contact" style={styles.link}>
+            Contacto
+          </a>
 
-      {/* Not LoggedIn */}
-      {loggedIn === false && (
-        <>
-          <Link to={"/register"}>register</Link>
-          <Link to={"/login"}>login</Link>
-        </>
-      )}
-
-      {/* isLogged */}
-      {loggedIn === true && (
-        <>
-          {/* dont show for Admin, course he has adminPreview function */}
-          {currentUser && currentUser.isAdmin === false && (
+          {loggedIn === false && (
             <>
-              <Link to={"/course/library"}>Biblioteca</Link>
+          <Link to={"/login"} style={styles.link}>
+            Cursos
+          </Link>
+              <Link to={"/register"} style={styles.link}>
+                Register
+              </Link>
+              <Link to={"/login"} style={styles.link}>
+                Login
+              </Link>
             </>
           )}
 
-          {/* isAdmin */}
-          {currentUser && currentUser.isAdmin === true && (
+          {loggedIn === true && (
             <>
-              <Link to={"/course/create"}>crear Courso</Link>
-              {/* <Link to={"/promoCodes"}>Codigo Promocional</Link> */}
+          <Link to={"/course/all"} style={styles.link}>
+            Cursos
+          </Link>
+              {currentUser && currentUser.isAdmin === false && (
+                <Link to={"/course/library"} style={styles.link}>
+                  Biblioteca
+                </Link>
+              )}
+
+              {currentUser && currentUser.isAdmin === true && (
+                <>
+                  <Link to={"/course/create"} style={styles.link}>
+                    Crear Curso
+                  </Link>
+                </>
+              )}
+              <LogoutBtn />
             </>
           )}
-          <LogoutBtn />
-        </>
-      )}
+        </div>
+      </div>
     </div>
   );
 }
 
 export default Navbar;
+
+const styles = {
+  navbar: {
+    backgroundColor: "#333",
+    color: "#fff",
+    padding: "10px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  adminMessage: {
+    backgroundColor: "blue",
+    color: "white",
+    padding: "10px",
+    marginBottom: "10px",
+    textAlign: "center",
+  },
+  navLinks: {
+    display: "flex",
+    alignItems: "center",
+  },
+  link: {
+    textDecoration: "none",
+    color: "#fff",
+    padding: "10px",
+    margin: "0 5px",
+  },
+};

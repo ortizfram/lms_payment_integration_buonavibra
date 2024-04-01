@@ -15,7 +15,7 @@ import AuthContext from "../../context/AuthContext";
     await getLoggedIn(); // refresh boolean
     navigate('/')
   }
-  return (<><button onClick={logout}>Logout</button></>);
+  return (<><button onClick={logout}>Salir</button></>);
 }
 
 export default LogoutBtn;
