@@ -13,7 +13,6 @@ import axios from "axios";
 import AuthContext from "./context/AuthContext";``
 import { useContext } from "react";
 import CourseLibrary from "./pages/CourseLibrary";
-import PromoCodes from "./pages/PromoCodes";
 import "./public/css/highlightText.css";
 import "./public/css/icon.css";
 import "./public/css/sectionTitle.css";
@@ -50,7 +49,6 @@ export default function App() {
             {/* isAdmin */}
             {currentUser && currentUser.isAdmin === true && (
               <>
-                <Route path="/promoCodes" element={<PromoCodes />} />
                 <Route path="/course/create" element={<CourseCreate />} />
                 <Route path="/course/update/:id" element={<CourseUpdate />} />
               </>
