@@ -17,7 +17,7 @@ function Register() {
     e.preventDefault();
     try {
       const registerData = { email, username, password, passwordVerify };
-      await axios.post("http://localhost:2020/api/auth/signup", registerData);
+      await axios.post(`${BACKEND_URL}/api/auth/signup`, registerData);
       await getLoggedIn();
       navigate("/");
     } catch (error) {

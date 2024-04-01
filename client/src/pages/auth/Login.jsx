@@ -3,6 +3,7 @@ import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import "../../public/css/auth/login.css"; // Import your custom CSS file for styling
+import { BACKEND_URL } from "../../config";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ function Login() {
     e.preventDefault();
     try {
       const loginData = { email, password };
-      await axios.post("http://localhost:2020/api/auth/login", loginData);
+      await axios.post(`${BACKEND_URL}/api/auth/login`, loginData);
       await getLoggedIn();
       navigate("/");
     } catch (error) {
