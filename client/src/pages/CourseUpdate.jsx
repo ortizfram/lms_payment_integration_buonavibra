@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import { BACKEND_URL } from "../config";
 
 const CourseUpdate = () => {
   const { currentUser } = useContext(AuthContext);
@@ -21,7 +22,7 @@ const CourseUpdate = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await fetch(`http://localhost:2020/api/course/${id}/fetch`);
+        const response = await fetch(`${BACKEND_URL}/api/course/${id}/fetch`);
         if (response.ok) {
           const data = await response.json();
           const courseData = data.course;
@@ -61,7 +62,7 @@ const CourseUpdate = () => {
     const form = e.target;
     const formData = new FormData(form);
 
-    const response = await fetch(`http://localhost:2020/api/course/update/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/api/course/update/${id}`, {
       method: "PUT",
       body: formData,
     });

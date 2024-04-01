@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import AuthContext from "../context/AuthContext";
+import { BACKEND_URL } from "../config";
 
 const CourseCreate = () => {
   const { currentUser } = useContext(AuthContext);
@@ -65,7 +66,7 @@ const CourseCreate = () => {
     }
     renderImage(formData);
 
-    const response = await fetch("http://localhost:2020/api/course/create", {
+    const response = await fetch(`${BACKEND_URL}/api/course/create`, {
       method: "POST",
       body: formData,
     });

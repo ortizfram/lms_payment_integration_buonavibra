@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import "../public/css/course/courseEnroll.css";
 import AuthContext from "../context/AuthContext";
+import { BACKEND_URL } from "../config";
 
 const CourseEnroll = () => {
   const { currentUser } = useContext(AuthContext);
@@ -14,7 +15,7 @@ const CourseEnroll = () => {
     const fetchCourse = async () => {
       try {
         const response = await fetch(
-          `http://localhost:2020/api/course/${id}/fetch`,
+          `${BACKEND_URL}/api/course/${id}/fetch`,
           {
             method: "GET",
             headers: {
@@ -175,7 +176,7 @@ const CourseEnroll = () => {
         <div className="payment-options mt-2">
           {/* PAY WITH PAYPAL */}
           <form
-            action={`http://localhost:2020/api/order/create-order-paypal?courseId=${id}&userId=${user._id}`}
+            action={`${BACKEND_URL}/api/order/create-order-paypal?courseId=${id}&userId=${user._id}`}
             method="POST"
           >
             <button type="submit">
@@ -186,7 +187,7 @@ const CourseEnroll = () => {
 
           {/* PAY WITH MP */}
           <form
-            action={`http://localhost:2020/api/order/create-order-mp?courseId=${id}&userId=${user._id}`}
+            action={`${BACKEND_URL}s/api/order/create-order-mp?courseId=${id}&userId=${user._id}`}
             method="POST"
           >
             <button type="submit">

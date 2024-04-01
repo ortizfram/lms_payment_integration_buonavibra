@@ -9,6 +9,7 @@ import ReactMarkdown from "react-markdown";
 // alerts
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BACKEND_URL } from "../config.js";
 
 
 const CourseDetail = () => {
@@ -23,7 +24,7 @@ const CourseDetail = () => {
       try {
         console.log("courseDetail: fetchingCourse ");
         const fetchCourseRes = await axios.get(
-          `http://localhost:2020/api/course/${id}/fetch`
+          `${BACKEND_URL}/api/course/${id}/fetch`
         );
         if (fetchCourseRes.status === 200) {
           const data = await fetchCourseRes.data;
@@ -46,7 +47,7 @@ const CourseDetail = () => {
   const handleDelete = async () => {
     try {
       const deleteCourseRes = await axios.delete(
-        `http://localhost:2020/api/course/delete/${course._id}`
+        `${BACKEND_URL}/api/course/delete/${course._id}`
       );
       if (deleteCourseRes.status === 200) {
         console.log("Course deleted successfully");

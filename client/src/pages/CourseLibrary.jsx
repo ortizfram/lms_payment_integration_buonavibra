@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../public/css/course/courses.css";
 import CourseOwnedList from "../components/course/courseOwnedList";
 import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 function CourseLibrary() {
   const [courses, setCourses] = useState([]);
@@ -10,7 +11,7 @@ function CourseLibrary() {
 
   async function getCourses() {
     try {
-      const coursesRes = await axios.get("http://localhost:2020/api/course/owned");
+      const coursesRes = await axios.get(`${BACKEND_URL}/api/course/owned`);
       setCourses(coursesRes.data.courses);
     } catch (error) {
       setError(error.message);

@@ -3,6 +3,7 @@ import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import "../../public/css/auth/register.css";
+import { BACKEND_URL } from "../../config";
 
 function Register() {
   const [email, setEmail] = useState("");

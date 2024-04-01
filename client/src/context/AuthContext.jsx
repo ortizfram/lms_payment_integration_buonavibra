@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 const AuthContext = createContext();
 
@@ -23,14 +24,14 @@ function AuthContextProvider(props) {
   async function getLoggedIn() {
     try {
       const loggedInResp = await axios.get(
-        "http://localhost:2020/api/auth/loggedIn"
+        `${BACKEND_URL}/api/auth/loggedIn`
       );
       setLoggedIn(loggedInResp.data); // bool true/false
 
       // Fetch current user data if logged in
       if (loggedInResp.data) {
         const userResp = await axios.get(
-          "http://localhost:2020/api/auth/currentUser"
+          `${BACKEND_URL}/api/auth/currentUser`
         );
         setCurrentUser(userResp.data);
       }

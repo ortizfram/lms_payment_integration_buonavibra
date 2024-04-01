@@ -6,6 +6,7 @@ import "../public/css/home/home.css";
 // alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BACKEND_URL } from "../config";
 
 // NodeJS endpoint reference
 
@@ -28,7 +29,7 @@ const Home = () => {
   // Fetch Home
   const getHome = async () => {
     try {
-      await axios.get("http://localhost:2020/"); //  endpoint
+      await axios.get(`${BACKEND_URL}`); //  endpoint
     } catch (error) {
       console.error("Error fetching Home:", error);
     }
@@ -39,7 +40,7 @@ const Home = () => {
     try {
       e.preventDefault();
       const resContactForm = await axios.post(
-        "http://localhost:2020/api/send-email",
+        `${BACKEND_URL}/api/send-email`,
         {
           name: name,
           email: email,

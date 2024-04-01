@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../public/css/course/courses.css";
 import CourseList from "../components/course/courseList";
 import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 function Courses() {
   const [courses, setCourses] = useState([]);
@@ -10,7 +11,7 @@ function Courses() {
 
   async function getCourses() {
     try {
-      const coursesRes = await axios.get("http://localhost:2020/api/course/all");
+      const coursesRes = await axios.get(`${BACKEND_URL}/api/course/all`);
       setCourses(coursesRes.data.courses);
     } catch (error) {
       setError(error.message);
