@@ -8,9 +8,9 @@ import CourseUpdate from "./pages/CourseUpdate";
 import CourseEnroll from "./pages/CourseEnroll";
 import Navbar from "./layouts/Navbar";
 import Register from "./pages/auth/Register";
+import Login from "./pages/auth/Login"
 import axios from "axios";
-import AuthContext from "./context/AuthContext";
-import Login from "./pages/auth/Login";
+import AuthContext from "./context/AuthContext";``
 import { useContext } from "react";
 import CourseLibrary from "./pages/CourseLibrary";
 import PromoCodes from "./pages/PromoCodes";
@@ -21,7 +21,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
-import Navbar2 from "./layouts/Navbar2";
 
 axios.defaults.withCredentials = true;
 
