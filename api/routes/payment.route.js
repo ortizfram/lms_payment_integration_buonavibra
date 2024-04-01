@@ -4,6 +4,7 @@
     captureOrderPaypal,
     createOrderMP,
     createOrderPaypal,
+    // GetWebhookMP,
     successMP,
     webhookMP,
   } from "../controllers/payment.controller.js";
@@ -20,6 +21,9 @@
   // mercado pago
   router.post("/create-order-mp", createOrderMP)
   router.post("/webhook-mp", webhookMP)//listen to events
+  // router.get("/webhook-mp", GetWebhookMP)
+
+ //listen to events
   router.get("/success-mp", successMP)
   router.get("/pending-mp", (req, res)=>res.send("pending"))
   router.get("/failure-mp", (req, res)=>res.send("failure"))
