@@ -118,6 +118,7 @@ const CourseEnroll = () => {
 
   return (
     <>
+      <div className="enroll-page-container">
       <div className="page-container">
         <div className="course-overview">
           <div className="section-title2 mt-4 mb-4">
@@ -194,6 +195,7 @@ const CourseEnroll = () => {
             </button>
           </form>
         </div>
+      </div>
       </div>
     </>
   );

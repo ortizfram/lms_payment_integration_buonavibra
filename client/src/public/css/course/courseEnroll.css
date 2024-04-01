@@ -1,143 +1,73 @@
-/* General Styles */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+/* courseEnroll.css */
+
+.enroll-page-container {
+  min-width: 100vw;
+  margin-top: 10vh;
 }
 
 .page-container {
-  height: 100vh;
-}
-
-.avatar {
-  border-radius: 50%;
-  width: 25px; /* Adjust the width and height as needed */
-  height: 25px; /* Adjust the width and height as needed */
-  object-fit: cover; /* Maintain aspect ratio and cover the container */
-}
-
-/* Section Title */
-.section-title {
-  text-align: center;
-}
-
-.section-title h1 {
-  font-size: 2.5em;
-  color: #333;
-}
-
-/* Course Overview */
-.course-overview {
-  text-align: center;
-  max-width: 600px;
-}
-
-.course-overview img {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  border-radius: 5px;
-}
-
-.course-overview h2 {
-  font-size: 1.8em;
-  color: #444;
-}
-
-.course-overview div {
-  font-size: 1.2em;
-  color: #666;
-}
-
-.course-overview p {
-  font-size: 1em;
-  color: #666;
-  line-height: 1.6;
-}
-
-.course-overview .price-text {
-  font-weight: bold;
-  font-size: larger;
-}
-
-/* Payment Options */
-/* Payment Options */
-.payment-options {
-  text-align: center;
-}
-
-.payment-options h2 {
-  font-size: 1.8em;
-  color: #333;
-}
-
-.payment-options button {
-  margin-bottom: 10px;
+  padding: 20px;
   display: flex;
+  flex-direction: column;
   align-items: center;
+}
+
+.course-overview {
+  max-width: 600px; /* Limit width for larger screens */
+  text-align: center;
+}
+
+.price-text {
+  margin-top: 10px;
+}
+
+.payment-options {
+  display: flex;
   justify-content: center;
-  padding: 12px 24px;
-  font-size: 1em;
-  font-weight: bold;
-  background-color: #4caf50;
-  color: white;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.payment-options form button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f0f0;
   border: none;
+  padding: 10px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 100%; /* Set width to 100% */
 }
 
-.payment-options button:hover {
-  background-color: #45a049;
+.payment-options form button:hover {
+  background-color: #e0e0e0;
 }
 
-.payment-options button img {
-  width: 24px;
-  height: auto;
-  margin-right: 10px;
-}
-
-.payment-options button span {
-  font-size: 1em;
-}
-
-/* Promo Code */
-.promo-code input {
-  padding: 8px 12px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  border-color: #4caf50;
+.payment-options form button img {
+  width: 50px;
+  height: 50px;
   margin-bottom: 10px;
-  margin-top: 10px;
-  width: 100%;
-  box-sizing: border-box;
-  color: #45a049;
-  font-weight: bolder;
-  text-align: center;
-}
-.promo-code input:hover {
-  border-color: #45a049;
 }
 
-.promo-input-container {
-  position: relative;
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .course-overview {
+    max-width: 100%; /* Full width on smaller screens */
+  }
 }
 
-.promo-btn {
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 10px 10px;
-  border: none;
-  border-radius: 50%;
-  background-color: #4caf50;
-  color: white;
-  cursor: pointer;
-}
+@media screen and (max-width: 480px) {
+  .payment-options {
+    flex-direction: column; /* Stack payment options vertically */
+    align-items: center;
+  }
 
-.promo-btn:hover {
-  background-color: #45a049;
+  .payment-options form button {
+    width: 100%; /* Make payment buttons full width */
+  }
+
+  .payment-options form button + form {
+    margin-top: 10px; /* Add space between stacked buttons */
+  }
 }
