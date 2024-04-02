@@ -9,7 +9,7 @@ import ReactMarkdown from "react-markdown";
 // alerts
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BACKEND_URL } from "../config.js";
+import { BACKEND_URL, FRONTEND_URL } from "../config.js";
 
 
 const CourseDetail = () => {
@@ -32,7 +32,7 @@ const CourseDetail = () => {
         } else {
           if (fetchCourseRes.status === 404) {
             console.log("Redirecting to enrollment page...");
-            navigate(`/course/all`);
+            navigate(`${FRONTEND_URL}/course/all`);
             console.log("Redirection completed.");
           }
         }
@@ -53,7 +53,7 @@ const CourseDetail = () => {
         console.log("Course deleted successfully");
         toast.success("Course deleted successfully");
         setTimeout(() => {
-          navigate(`/course/all`);
+          navigate(`${FRONTEND_URL}/course/all`);
         }, 2000);
       } else {
         console.error("Failed to delete course");
@@ -110,7 +110,7 @@ const CourseDetail = () => {
                           <p>
                             <a
                               className="text-muted"
-                              href={`/course/update/${course._id}`}
+                              href={`${FRONTEND_URL}/course/update/${course._id}`}
                             >
                               <i className="fas fa-edit me-2 mx-2">Editar</i>
                             </a>

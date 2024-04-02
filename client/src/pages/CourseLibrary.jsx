@@ -3,7 +3,7 @@ import "../public/css/course/courses.css";
 import CourseOwnedList from "../components/course/courseOwnedList";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { BACKEND_URL } from "../config.js";
+import { BACKEND_URL, FRONTEND_URL } from "../config.js";
 
 function CourseLibrary() {
   const [courses, setCourses] = useState([]);
@@ -38,7 +38,7 @@ function CourseLibrary() {
       {courses.length === 0 ? (
         <div className="text-center">
           <p>No has elegido qué cursos tomar aún.</p>
-          <Link to={"/course/all"} className="btn btn-primary mr-2 text-white">
+          <Link to={`${FRONTEND_URL}/course/all`} className="btn btn-primary mr-2 text-white">
             Ver todos los cursos
           </Link>
         </div>

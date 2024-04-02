@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import "../../public/css/course/courses.css";
+import { BACKEND_URL, FRONTEND_URL } from "../../config.js";
 
 function CourseOwnedList({ courses }) {
   const { currentUser } = useContext(AuthContext);
@@ -23,7 +24,7 @@ function CourseOwnedList({ courses }) {
             <li key={index}>
               <div className="course-item position-relative backdrop-filter shadow-lg">
                 {/* NExt Link */}
-                <a href={`/course/${course._id}`}>
+                <a href={`${FRONTEND_URL}/course/${course._id}`}>
                   {/* COURSE DATA */}
                   <img
                     src={course.thumbnail}
@@ -63,7 +64,7 @@ function CourseOwnedList({ courses }) {
                     <p className="">
                       <a
                         className="text-muted"
-                        href={`/api/course/update/${course._id}`}
+                        href={`${BACKEND_URL}/api/course/update/${course._id}`}
                       >
                         <i className="fas fa-edit me-2"></i>
                       </a>
@@ -77,7 +78,7 @@ function CourseOwnedList({ courses }) {
                     <p>
                       <a
                         className="text-muted"
-                        href={`/api/course/delete/${course._id}`}
+                        href={`${BACKEND_URL}/api/course/delete/${course._id}`}
                       >
                         <i className="fas fa-trash-alt me-2"></i>
                       </a>

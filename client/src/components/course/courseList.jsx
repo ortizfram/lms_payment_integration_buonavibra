@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import "../../public/css/course/courses.css";
 import BtnAdminPreview from "./BtnAdminPreview";
-import { BACKEND_URL, FRONTEND_URL } from "../../config";
+import { BACKEND_URL, FRONTEND_URL } from "../../config.js";
 
 function CourseList({ courses }) {
   const { currentUser } = useContext(AuthContext);
