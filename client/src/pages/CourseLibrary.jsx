@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../public/css/course/courses.css";
 import CourseOwnedList from "../components/course/courseOwnedList";
 import axios from "axios";
+import Link from "react-router-dom";
 import { BACKEND_URL } from "../config.js";
 
 function CourseLibrary() {
@@ -32,7 +33,20 @@ function CourseLibrary() {
     return <div>Error: {error}</div>;
   }
 
-  return <CourseOwnedList courses={courses} />;
+  return (
+    <div>
+      {courses.length === 0 ? (
+        <div className="text-center">
+          <p>No has elegido qué cursos tomar aún.</p>
+          <Link to={"/course/all"} className="btn btn-primary mr-2">
+            Ver todos los cursos
+          </Link>
+        </div>
+      ) : (
+        <CourseOwnedList courses={courses} />
+      )}
+    </div>
+  );
 }
 
 export default CourseLibrary;
