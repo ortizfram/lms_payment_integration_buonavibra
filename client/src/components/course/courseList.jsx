@@ -14,7 +14,7 @@ function CourseList({ courses }) {
 
   const loadMore = () => {
     // Increase the number of visible courses by 5
-    setVisibleCourses(prev => prev + 5);
+    setVisibleCourses((prev) => prev + 5);
   };
 
   return (
@@ -47,7 +47,7 @@ function CourseList({ courses }) {
                 )}
 
                 {/* NExt Link */}
-                <a href={`${FRONTEND_URL}/course/enroll/${course._id}`}>
+                <a href={`/course/enroll/${course._id}`}>
                   {/* COURSE DATA */}
                   <img
                     src={course.thumbnail}
@@ -85,36 +85,6 @@ function CourseList({ courses }) {
                     <p className="">{course.description} </p>
                   )}
                 </a>
-
-                {/* ADMIN OPTIONS*/}
-                {/* Assuming currentUser is passed as a prop */}
-                {isAdmin === true && (
-                  <div className="course-actions">
-                    {/* UPDATE */}
-                    <p className="">
-                      <a
-                        className="text-muted"
-                        href={`${BACKEND_URL}/api/course/update/${course._id}`}
-                      >
-                        <i className="fas fa-edit me-2"></i>
-                      </a>
-                      <input
-                        type="hidden"
-                        name="author"
-                        value={course.author}
-                      />
-                    </p>
-                    {/* DEL */}
-                    <p>
-                      <a
-                        className="text-muted"
-                        href={`${BACKEND_URL}/api/course/delete/${course._id}`}
-                      >
-                        <i className="fas fa-trash-alt me-2"></i>
-                      </a>
-                    </p>
-                  </div>
-                )}
               </div>
             </li>
           ))}

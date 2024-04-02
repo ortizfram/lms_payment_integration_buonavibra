@@ -24,7 +24,7 @@ function CourseOwnedList({ courses }) {
             <li key={index}>
               <div className="course-item position-relative backdrop-filter shadow-lg">
                 {/* NExt Link */}
-                <a href={`${FRONTEND_URL}/course/${course._id}`}>
+                <a href={`/course/${course._id}`}>
                   {/* COURSE DATA */}
                   <img
                     src={course.thumbnail}
@@ -56,35 +56,6 @@ function CourseOwnedList({ courses }) {
                   )}
                 </a>
 
-                {/* ADMIN OPTIONS*/}
-                {/* Assuming currentUser is passed as a prop */}
-                {isAdmin === true && (
-                  <div className="course-actions">
-                    {/* UPDATE */}
-                    <p className="">
-                      <a
-                        className="text-muted"
-                        href={`${BACKEND_URL}/api/course/update/${course._id}`}
-                      >
-                        <i className="fas fa-edit me-2"></i>
-                      </a>
-                      <input
-                        type="hidden"
-                        name="author"
-                        value={course.author}
-                      />
-                    </p>
-                    {/* DEL */}
-                    <p>
-                      <a
-                        className="text-muted"
-                        href={`${BACKEND_URL}/api/course/delete/${course._id}`}
-                      >
-                        <i className="fas fa-trash-alt me-2"></i>
-                      </a>
-                    </p>
-                  </div>
-                )}
               </div>
             </li>
           ))}
