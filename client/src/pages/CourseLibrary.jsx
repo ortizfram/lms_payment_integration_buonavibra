@@ -34,11 +34,11 @@ function CourseLibrary() {
   }
 
   return (
-    <div>
+    <div className="library-page-container text-center">
       {courses.length === 0 ? (
         <div className="text-center">
           <p>No has elegido qué cursos tomar aún.</p>
-          <Link to={"/course/all"} className="btn btn-primary mr-2">
+          <Link to={"/course/all"} className="btn btn-primary mr-2 text-white">
             Ver todos los cursos
           </Link>
         </div>
