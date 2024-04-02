@@ -399,7 +399,7 @@ export const courseDetail = async (req, res, next) => {
 
     // add host predix to video\
     if (course.video) {
-      course.video = `${BACKEND_URL}/${course.video}`;
+      course.video = `${BACKEND_URL}${course.video}`;
     }
 
     // Fetch enrolled courses for the user

@@ -32,7 +32,7 @@ const CourseDetail = () => {
         } else {
           if (fetchCourseRes.status === 404) {
             console.log("Redirecting to enrollment page...");
-            navigate(`${FRONTEND_URL}/course/all`);
+            navigate(`/course/all`);
             console.log("Redirection completed.");
           }
         }
@@ -53,7 +53,7 @@ const CourseDetail = () => {
         console.log("Course deleted successfully");
         toast.success("Course deleted successfully");
         setTimeout(() => {
-          navigate(`${FRONTEND_URL}/course/all`);
+          navigate(`/course/all`);
         }, 2000);
       } else {
         console.error("Failed to delete course");
@@ -110,7 +110,7 @@ const CourseDetail = () => {
                           <p>
                             <a
                               className="text-muted"
-                              href={`${FRONTEND_URL}/course/update/${course._id}`}
+                              href={`course/update/${course._id}`}
                             >
                               <i className="fas fa-edit me-2 mx-2">Editar</i>
                             </a>
