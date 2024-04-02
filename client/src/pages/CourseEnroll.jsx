@@ -22,8 +22,7 @@ const CourseEnroll = () => {
         );
 
         if (response.status === 200) {
-          const data = await response.json();
-          setCourse(data.course);
+          setCourse(response.data.course);
         } else {
           console.error("Failed to fetch course data");
         }
@@ -121,7 +120,7 @@ const CourseEnroll = () => {
   const handleMercadoPagoOrder = async () => {
     try {
       await axios.post(
-        `${BACKEND_URL}s/api/order/create-order-mp?courseId=${id}&userId=${user._id}`
+        `${BACKEND_URL}/api/order/create-order-mp?courseId=${id}&userId=${user._id}`
       );
       setTimeout(() => {
         toast.success("↪️Redirigiendo a pagar con MercadoPago");

@@ -289,8 +289,8 @@ export const courseEnroll = async (req, res) => {
     return res.status(401).json("Unauthorized");
   }
 
-  const course = await Course.findById(courseId);
-  if (!course) {
+  const course = await Course.findById(courseId).exec(); // Execute the query as a promise
+  if (!course) { 
     return res.status(404).json("Course not found");
   }
 
