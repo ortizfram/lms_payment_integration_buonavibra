@@ -36,7 +36,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log("BACKEND_URL ", BACKEND_URL);
+    console.log("BACKEND_URL ", import.meta.env.BACKEND_URL);
   }, [BACKEND_URL]);
 
   // send contact Email
