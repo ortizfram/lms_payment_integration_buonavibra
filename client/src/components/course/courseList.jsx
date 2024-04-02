@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import "../../public/css/course/courses.css";
 import BtnAdminPreview from "./BtnAdminPreview";
+import { BACKEND_URL, FRONTEND_URL } from "../../config";
 
 function CourseList({ courses }) {
   const { currentUser } = useContext(AuthContext);
@@ -46,7 +47,7 @@ function CourseList({ courses }) {
                 )}
 
                 {/* NExt Link */}
-                <a href={`/course/enroll/${course._id}`}>
+                <a href={`${FRONTEND_URL}/course/enroll/${course._id}`}>
                   {/* COURSE DATA */}
                   <img
                     src={course.thumbnail}
@@ -93,7 +94,7 @@ function CourseList({ courses }) {
                     <p className="">
                       <a
                         className="text-muted"
-                        href={`/api/course/update/${course._id}`}
+                        href={`${BACKEND_URL}/api/course/update/${course._id}`}
                       >
                         <i className="fas fa-edit me-2"></i>
                       </a>
@@ -107,7 +108,7 @@ function CourseList({ courses }) {
                     <p>
                       <a
                         className="text-muted"
-                        href={`/api/course/delete/${course._id}`}
+                        href={`${BACKEND_URL}/api/course/delete/${course._id}`}
                       >
                         <i className="fas fa-trash-alt me-2"></i>
                       </a>
