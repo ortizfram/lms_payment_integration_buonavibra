@@ -35,18 +35,19 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("BACKEND_URL ", BACKEND_URL);
+  }, [BACKEND_URL]);
+
   // send contact Email
   const sendEmail = async (e) => {
     try {
       e.preventDefault();
-      const resContactForm = await axios.post(
-        `${BACKEND_URL}/api/send-email`,
-        {
-          name: name,
-          email: email,
-          msg: msg,
-        }
-      ); //  endpoint
+      const resContactForm = await axios.post(`${BACKEND_URL}/api/send-email`, {
+        name: name,
+        email: email,
+        msg: msg,
+      }); //  endpoint
       if (resContactForm.status === 200) {
         console.log("Email sent");
         toast.success("📫Correo Enviado");
