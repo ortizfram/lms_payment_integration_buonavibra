@@ -16,7 +16,7 @@ function Login() {
     e.preventDefault();
     try {
       const loginData = { email, password };
-      await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/auth/login`, loginData);
+      await axios.post(`${BACKEND_URL}/api/auth/login`, loginData);
       await getLoggedIn();
       navigate("/");
     } catch (error) {

@@ -14,7 +14,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/auth/forgot-password`,
+        `${BACKEND_URL}/api/auth/forgot-password`,
         { email }
       );
       console.log(response.data);

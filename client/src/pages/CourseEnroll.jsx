@@ -15,7 +15,7 @@ const CourseEnroll = () => {
     const fetchCourse = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/course/${id}/fetch`,
+          `${BACKEND_URL}/api/course/${id}/fetch`,
           {
             method: "GET",
             headers: {
@@ -176,7 +176,7 @@ const CourseEnroll = () => {
         <div className="payment-options mt-2">
           {/* PAY WITH PAYPAL */}
           <form
-            action={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/order/create-order-paypal?courseId=${id}&userId=${user._id}`}
+            action={`${BACKEND_URL}/api/order/create-order-paypal?courseId=${id}&userId=${user._id}`}
             method="POST"
           >
             <button type="submit">
@@ -187,7 +187,7 @@ const CourseEnroll = () => {
 
           {/* PAY WITH MP */}
           <form
-            action={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}s/api/order/create-order-mp?courseId=${id}&userId=${user._id}`}
+            action={`${BACKEND_URL}s/api/order/create-order-mp?courseId=${id}&userId=${user._id}`}
             method="POST"
           >
             <button type="submit">

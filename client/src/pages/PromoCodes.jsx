@@ -8,7 +8,7 @@ function PromoCodes() {
 
   async function getPromoCodes() {
     const codesRes = await axios.get(
-      `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/course/promo-codes`
+      `${BACKEND_URL}/api/course/promo-codes`
     );
     setCodes(codesRes.data);
   }

@@ -66,7 +66,7 @@ const CourseCreate = () => {
     }
     renderImage(formData);
 
-    const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/course/create`, {
+    const response = await fetch(`${BACKEND_URL}/api/course/create`, {
       method: "POST",
       body: formData,
     });

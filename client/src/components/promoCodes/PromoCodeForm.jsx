@@ -22,7 +22,7 @@ const PromoCodeForm = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/course/create/promoCode`,
+        `${BACKEND_URL}/api/course/create/promoCode`,
         {
           method: "POST",
           headers: {

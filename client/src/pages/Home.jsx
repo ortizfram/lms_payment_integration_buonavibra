@@ -37,15 +37,15 @@ const Home = () => {
 
   useEffect(() => {
     console.log("BACKEND_URL ",BACKEND_URL)
-    // console.log("BACKEND_URL ", import.meta.env.VITE_REACT_APP_BACKEND_URL);
+    // console.log("BACKEND_URL ", BACKEND_URL);
     console.log("isDev ", isDev)
-  }, [import.meta.env.VITE_REACT_APP_BACKEND_URL]);
+  }, [BACKEND_URL]);
 
   // send contact Email
   const sendEmail = async (e) => {
     try {
       e.preventDefault();
-      const resContactForm = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/send-email`, {
+      const resContactForm = await axios.post(`${BACKEND_URL}/api/send-email`, {
         name: name,
         email: email,
         msg: msg,

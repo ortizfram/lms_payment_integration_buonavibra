@@ -10,7 +10,7 @@ function CustomerForm({getCustomers}) {
       const customerData = {
         name: customerName,
       };
-      await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/customer`, customerData);
+      await axios.post(`${BACKEND_URL}/api/customer`, customerData);
       getCustomers()
     } catch (error) {
       console.error(error);

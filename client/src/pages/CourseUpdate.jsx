@@ -22,7 +22,7 @@ const CourseUpdate = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/course/${id}/fetch`);
+        const response = await fetch(`${BACKEND_URL}/api/course/${id}/fetch`);
         if (response.ok) {
           const data = await response.json();
           const courseData = data.course;
@@ -62,7 +62,7 @@ const CourseUpdate = () => {
     const form = e.target;
     const formData = new FormData(form);
 
-    const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/course/update/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/api/course/update/${id}`, {
       method: "PUT",
       body: formData,
     });
