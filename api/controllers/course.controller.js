@@ -7,6 +7,7 @@ import UserCourse from "../models/user_course.model.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import PromoCode from "../models/promo.code.model.js";
+import { BACKEND_URL } from "../config.js";
 
 // create
 export const courseCreate = async (req, res, next) => {
@@ -208,7 +209,7 @@ export const courselist = async (req, res, next) => {
       usd_price: course.usd_price,
       discount_ars: course.discount_ars,
       discount_usd: course.discount_usd,
-      thumbnail: `http://localhost:2020${course.thumbnail}`,
+      thumbnail: `${BACKEND_URL}${course.thumbnail}`,
       thumbnailPath: course.thumbnail,
       created_at: new Date().toLocaleString(),
       updated_at: new Date().toLocaleString(),
@@ -343,7 +344,7 @@ export const courseOwned = async (req, res, next) => {
       usd_price: course.usd_price,
       discount_ars: course.discount_ars,
       discount_usd: course.discount_usd,
-      thumbnail: `http://localhost:2020${course.thumbnail}`,
+      thumbnail: `${BACKEND_URL}${course.thumbnail}`,
       thumbnailPath: course.thumbnail,
       created_at: new Date().toLocaleString(),
       updated_at: new Date().toLocaleString(),
@@ -398,7 +399,7 @@ export const courseDetail = async (req, res, next) => {
 
     // add host predix to video\
     if (course.video) {
-      course.video = `http://localhost:2020${course.video}`;
+      course.video = `${BACKEND_URL}${course.video}`;
     }
 
     // Fetch enrolled courses for the user
