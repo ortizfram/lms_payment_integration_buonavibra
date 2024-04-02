@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL } from "../config.js";
 
 const CourseUpdate = () => {
   const { currentUser } = useContext(AuthContext);

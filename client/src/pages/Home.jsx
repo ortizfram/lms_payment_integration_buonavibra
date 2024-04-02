@@ -6,7 +6,7 @@ import "../public/css/home/home.css";
 // alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL, isDev } from "../config";
+import { BACKEND_URL, isDev } from "../config.js";
 
 // NodeJS endpoint reference
 

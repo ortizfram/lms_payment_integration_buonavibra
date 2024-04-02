@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import "../public/css/course/courseEnroll.css";
 import AuthContext from "../context/AuthContext";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL } from "../config.js";
 
 const CourseEnroll = () => {
   const { currentUser } = useContext(AuthContext);

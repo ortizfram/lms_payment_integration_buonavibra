@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../public/css/course/courses.css";
 import CourseList from "../components/course/courseList";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL } from "../config.js";
 
 function Courses() {
   const [courses, setCourses] = useState([]);

@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import AuthContext from "../context/AuthContext";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL } from "../config.js";
 
 const CourseCreate = () => {
   const { currentUser } = useContext(AuthContext);

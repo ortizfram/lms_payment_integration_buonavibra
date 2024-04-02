@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PromoCodeForm from "../components/promoCodes/promoCodeForm";
 import axios from "axios"
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL } from "../config.js";
 
 function PromoCodes() {
   const [codes, setCodes] = useState([]);
