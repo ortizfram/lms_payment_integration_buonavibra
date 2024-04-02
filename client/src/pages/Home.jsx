@@ -29,14 +29,15 @@ const Home = () => {
   // Fetch Home
   const getHome = async () => {
     try {
-      await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}`); //  endpoint
+      await axios.get(`${BACKEND_URL}`); //  endpoint
     } catch (error) {
       console.error("Error fetching Home:", error);
     }
   };
 
   useEffect(() => {
-    console.log("BACKEND_URL ", import.meta.env.VITE_REACT_APP_BACKEND_URL);
+    console.log("BACKEND_URL ",BACKEND_URL)
+    // console.log("BACKEND_URL ", import.meta.env.VITE_REACT_APP_BACKEND_URL);
     console.log("isDev ", isDev)
   }, [import.meta.env.VITE_REACT_APP_BACKEND_URL]);
 
