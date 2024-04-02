@@ -10,7 +10,7 @@ import Navbar from "./layouts/Navbar";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login"
 import axios from "axios";
-import AuthContext from "./context/AuthContext";``
+import AuthContext from "./context/AuthContext";
 import { useContext } from "react";
 import CourseLibrary from "./pages/CourseLibrary";
 import "./public/css/highlightText.css";
