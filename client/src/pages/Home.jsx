@@ -37,7 +37,7 @@ const Home = () => {
 
   useEffect(() => {
     console.log("BACKEND_URL ", import.meta.env.VITE_REACT_APP_BACKEND_URL);
-  }, [VITE_REACT_APP_BACKEND_URL]);
+  }, [import.meta.env.VITE_REACT_APP_BACKEND_URL]);
 
   // send contact Email
   const sendEmail = async (e) => {
