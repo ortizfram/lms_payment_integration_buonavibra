@@ -23,16 +23,12 @@ function AuthContextProvider(props) {
   //    make request
   async function getLoggedIn() {
     try {
-      const loggedInResp = await axios.get(
-        `${BACKEND_URL}/api/auth/loggedIn`
-      );
+      const loggedInResp = await axios.get(`${BACKEND_URL}/api/auth/loggedIn`);
       setLoggedIn(loggedInResp.data); // bool true/false
 
       // Fetch current user data if logged in
       if (loggedInResp.data) {
-        const userResp = await axios.get(
-          `${BACKEND_URL}/api/auth/currentUser`
-        );
+        const userResp = await axios.get(`${BACKEND_URL}/api/auth/currentUser`);
         setCurrentUser(userResp.data);
       }
     } catch (error) {
