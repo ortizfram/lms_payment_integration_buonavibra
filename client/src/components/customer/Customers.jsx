@@ -8,7 +8,7 @@ function Customers() {
   const [customers, setCustomers] = useState([]);
 
   async function getCustomers() {
-    const customerRes = await axios.get("http://localhost:2020/api/customer");
+    const customerRes = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/customer`);
     setCustomers(customerRes.data)
   }
 

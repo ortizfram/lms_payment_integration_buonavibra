@@ -11,7 +11,7 @@ function CourseLibrary() {
 
   async function getCourses() {
     try {
-      const coursesRes = await axios.get(`${BACKEND_URL}/api/course/owned`);
+      const coursesRes = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/course/owned`);
       setCourses(coursesRes.data.courses);
     } catch (error) {
       setError(error.message);

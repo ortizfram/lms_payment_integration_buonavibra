@@ -18,7 +18,7 @@ function Register() {
     e.preventDefault();
     try {
       const registerData = { email, username, password, passwordVerify };
-      await axios.post(`${BACKEND_URL}/api/auth/signup`, registerData);
+      await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/auth/signup`, registerData);
       await getLoggedIn();
       navigate("/");
     } catch (error) {

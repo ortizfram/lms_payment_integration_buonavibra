@@ -18,7 +18,7 @@ const ResetPassword = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:2020/api/auth/reset-password/${id}/${token}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/auth/reset-password/${id}/${token}`,
         { password, repeat_password: repeatPassword }
       );
 

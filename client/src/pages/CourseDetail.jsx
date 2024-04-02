@@ -24,7 +24,7 @@ const CourseDetail = () => {
       try {
         console.log("courseDetail: fetchingCourse ");
         const fetchCourseRes = await axios.get(
-          `${BACKEND_URL}/api/course/${id}/fetch`
+          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/course/${id}/fetch`
         );
         if (fetchCourseRes.status === 200) {
           const data = await fetchCourseRes.data;
@@ -47,7 +47,7 @@ const CourseDetail = () => {
   const handleDelete = async () => {
     try {
       const deleteCourseRes = await axios.delete(
-        `${BACKEND_URL}/api/course/delete/${course._id}`
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/course/delete/${course._id}`
       );
       if (deleteCourseRes.status === 200) {
         console.log("Course deleted successfully");

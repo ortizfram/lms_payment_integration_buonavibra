@@ -11,7 +11,7 @@ import AuthContext from "../../context/AuthContext";
     
   async function logout() {
     // return empty cookie
-    await axios.get("http://localhost:2020/api/auth/logout");
+    await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/auth/logout`);
     await getLoggedIn(); // refresh boolean
     navigate('/')
   }
