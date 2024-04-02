@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../public/css/course/courses.css";
 import CourseOwnedList from "../components/course/courseOwnedList";
 import axios from "axios";
-import Link from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BACKEND_URL } from "../config.js";
 
 function CourseLibrary() {
