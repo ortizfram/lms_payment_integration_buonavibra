@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import "../../public/css/course/courses.css";
-import { BACKEND_URL, FRONTEND_URL } from "../../config.js";
 
 function CourseOwnedList({ courses }) {
   const { currentUser } = useContext(AuthContext);

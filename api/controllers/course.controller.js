@@ -7,7 +7,7 @@ import UserCourse from "../models/user_course.model.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import PromoCode from "../models/promo.code.model.js";
-import { BACKEND_URL } from "../config.js";
+import { BACKEND_URL, FRONTEND_URL } from "../config.js";
 
 // create
 export const courseCreate = async (req, res, next) => {
@@ -213,7 +213,7 @@ export const courselist = async (req, res, next) => {
       thumbnailPath: course.thumbnail,
       created_at: new Date().toLocaleString(),
       updated_at: new Date().toLocaleString(),
-      next: `/course/${course._id}`, // Dynamic course link
+      next: `${FRONTEND_URL}/course/${course._id}`, // Dynamic course link
       author: {
         username: course.author.username,
         email: course.author.email,

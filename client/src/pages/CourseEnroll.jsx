@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import "../public/css/course/courseEnroll.css";
 import AuthContext from "../context/AuthContext";
 import { BACKEND_URL } from "../config.js";
+import axios from "axios";
 
 const CourseEnroll = () => {
   const { currentUser } = useContext(AuthContext);
@@ -14,14 +15,8 @@ const CourseEnroll = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await fetch(
-          `${BACKEND_URL}/api/course/${id}/fetch`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+        const response = await axios.get(
+          `${BACKEND_URL}/api/course/${id}/fetch`
         );
 
         if (response.status === 200) {
@@ -120,42 +115,46 @@ const CourseEnroll = () => {
   return (
     <>
       <div className="enroll-page-container">
-      <div className="page-container">
-        <div className="course-overview">
-          <div className="section-title2 mt-4 mb-4">
-            <h1>Detalles de Pago</h1>
-          </div>
-          {/* Payment Details */}
-          <img
-            className="mb-4"
-            src={course.thumbnail}
-            alt={`${course.title} Image`}
-          />
-          <h2>{course.title}</h2>
-          <p className="text-black">{course.description}</p>
-          <span className="">
-            <span className="row align-items-center text-muted">
-              <span>instructor:</span>
-              <div className="col-auto">
-                <img
-                  src={course.author.avatar}
-                  alt="User Avatar"
-                  className="rounded-circle me-2"
-                  style={{ width: "25px", height: "25px", objectFit: "cover" }}
-                />
-                <span>
-                  {course.author.username} • {course.author.email}
-                </span>
-              </div>
+        <div className="page-container">
+          <div className="course-overview">
+            <div className="section-title2 mt-4 mb-4">
+              <h1>Detalles de Pago</h1>
+            </div>
+            {/* Payment Details */}
+            <img
+              className="mb-4"
+              src={course.thumbnail}
+              alt={`${course.title} Image`}
+            />
+            <h2>{course.title}</h2>
+            <p className="text-black">{course.description}</p>
+            <span className="">
+              <span className="row align-items-center text-muted">
+                <span>instructor:</span>
+                <div className="col-auto">
+                  <img
+                    src={course.author.avatar}
+                    alt="User Avatar"
+                    className="rounded-circle me-2"
+                    style={{
+                      width: "25px",
+                      height: "25px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <span>
+                    {course.author.username} • {course.author.email}
+                  </span>
+                </div>
+              </span>
             </span>
-          </span>
 
-          <p className="price-text border border-success rounded p-1">
-            {renderPrice()}
-          </p>
-        </div>
+            <p className="price-text border border-success rounded p-1">
+              {renderPrice()}
+            </p>
+          </div>
 
-        {/* <div className="promo-code">
+          {/* <div className="promo-code">
           <div className="promo-input-container">
             <input
               type="text"
@@ -173,30 +172,30 @@ const CourseEnroll = () => {
           </div>
         </div> */}
 
-        <div className="payment-options mt-2">
-          {/* PAY WITH PAYPAL */}
-          <form
-            action={`${BACKEND_URL}/api/order/create-order-paypal?courseId=${id}&userId=${user._id}`}
-            method="POST"
-          >
-            <button type="submit">
-              <img src="/images/paypal.png" alt="paypal-icon" />
-              <p>Continue with Paypal</p>
-            </button>
-          </form>
+          <div className="payment-options mt-2">
+            {/* PAY WITH PAYPAL */}
+            <form
+              action={`${BACKEND_URL}/api/order/create-order-paypal?courseId=${id}&userId=${user._id}`}
+              method="POST"
+            >
+              <button type="submit">
+                <img src="/images/paypal.png" alt="paypal-icon" />
+                <p>Continue with Paypal</p>
+              </button>
+            </form>
 
-          {/* PAY WITH MP */}
-          <form
-            action={`${BACKEND_URL}s/api/order/create-order-mp?courseId=${id}&userId=${user._id}`}
-            method="POST"
-          >
-            <button type="submit">
-              <img src="/images/mercado-pago.png" alt="mercado-pago-icon" />
-              <p>Continue with Mercado Pago</p>
-            </button>
-          </form>
+            {/* PAY WITH MP */}
+            <form
+              action={`${BACKEND_URL}s/api/order/create-order-mp?courseId=${id}&userId=${user._id}`}
+              method="POST"
+            >
+              <button type="submit">
+                <img src="/images/mercado-pago.png" alt="mercado-pago-icon" />
+                <p>Continue with Mercado Pago</p>
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
       </div>
     </>
   );

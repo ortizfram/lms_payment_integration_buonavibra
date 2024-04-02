@@ -2,11 +2,10 @@ import React, { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import "../../public/css/course/courses.css";
 import BtnAdminPreview from "./BtnAdminPreview";
-import { BACKEND_URL, FRONTEND_URL } from "../../config.js";
+import { FRONTEND_URL } from "../../config.js";
 
 function CourseList({ courses }) {
   const { currentUser } = useContext(AuthContext);
-  const isAdmin = currentUser?.["isAdmin"];
 
   // State for pagination
   const [visibleCourses, setVisibleCourses] = useState(5); // Number of courses to initially display
@@ -47,7 +46,7 @@ function CourseList({ courses }) {
                 )}
 
                 {/* NExt Link */}
-                <a href={`/course/enroll/${course._id}`}>
+                <a href={`${FRONTEND_URL}/course/enroll/${course._id}`}>
                   {/* COURSE DATA */}
                   <img
                     src={course.thumbnail}
