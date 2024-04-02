@@ -96,6 +96,8 @@ export const logout = async (req, res) => {
   res
     .cookie("token", "", {
       httpOnly: true,
+      sameSite: "None",
+      secure: true,
       expires: new Date(0),
     })
     .send();
