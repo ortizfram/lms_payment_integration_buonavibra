@@ -6,7 +6,7 @@ import "../public/css/home/home.css";
 // alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL, isDev } from "../config";
 
 // NodeJS endpoint reference
 
@@ -37,6 +37,7 @@ const Home = () => {
 
   useEffect(() => {
     console.log("BACKEND_URL ", import.meta.env.VITE_REACT_APP_BACKEND_URL);
+    console.log("isDev ", isDev)
   }, [import.meta.env.VITE_REACT_APP_BACKEND_URL]);
 
   // send contact Email
