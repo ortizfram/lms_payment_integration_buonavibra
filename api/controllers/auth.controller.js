@@ -85,6 +85,8 @@ export const login = async (req, res) => {
     res
       .cookie("token", token, {
         httpOnly: true,
+        sameSite: "None",
+        secure: true,
       })
       .send();
   } catch (error) {}
@@ -170,7 +172,6 @@ export const forgotPassword = async (req, res) => {
 
     const link = `${FRONTEND_URL}/reset-password/${userId}/${secret}`;
     console.log("Generated reset password link:", link);
-
 
     await sendResetEmail(
       email,
