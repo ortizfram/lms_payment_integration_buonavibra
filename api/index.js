@@ -9,6 +9,7 @@ import paymentRoute from "./routes/payment.route.js";
 import indexRoute from "./routes/index.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
+import { FRONTEND_URL } from "./config.js";
 
 dotenv.config();
 const port = process.env.PORT || 2020;
@@ -20,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());  
 app.use(
   cors({
-    origin: '*',
+    origin: `${FRONTEND_URL}`,
     credentials: true,
   })
 );
