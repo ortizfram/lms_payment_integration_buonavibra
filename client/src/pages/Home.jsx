@@ -36,10 +36,10 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log("BACKEND_URL ", BACKEND_URL);
+    // console.log("BACKEND_URL ", BACKEND_URL);
     // console.log("BACKEND_URL ", BACKEND_URL);
     console.log("isDev ", isDev);
-  }, [BACKEND_URL]);
+  }, []);
 
   // send contact Email
   const sendEmail = async (e) => {

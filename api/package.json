@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon --require dotenv/config index.js",
     "start": "cross-env NODE_ENV=production node --require dotenv/config index.js",
-    "build": "npm install && npm install --prefix client && npm run build --prefix client"
+    "build": "npm install && npm install --prefix ../client && npm run build --prefix ../client"
   },
   "keywords": [],
   "author": "",
