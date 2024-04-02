@@ -4,13 +4,15 @@ import "../public/css/course/courseEnroll.css";
 import AuthContext from "../context/AuthContext";
 import { BACKEND_URL } from "../config.js";
 import axios from "axios";
+// alerts
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CourseEnroll = () => {
   const { currentUser } = useContext(AuthContext);
   const user = currentUser;
   const [course, setCourse] = useState(null);
   const { id } = useParams();
-  const [code, setCode] = useState(null);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -104,12 +106,29 @@ const CourseEnroll = () => {
     }
   };
 
-  const handlePromoCodeChange = (e) => {
-    setCode(e.target.value); // Update promo code state
-    console.log(e.target.value);
+  const handlePaypalOrder = async () => {
+    try {
+      await axios.post(
+        `${BACKEND_URL}/api/order/create-order-paypal?courseId=${id}&userId=${user._id}`
+      );
+      setTimeout(() => {
+        toast.success("↪️Redirigiendo a pagar con Paypal");
+      }, 2000);
+    } catch (error) {
+      throw new Error("Error creating PayPal order:", error);
+    }
   };
-  const SubmitPromoCode = (e) => {
-    e.preventDefault();
+  const handleMercadoPagoOrder = async () => {
+    try {
+      await axios.post(
+        `${BACKEND_URL}s/api/order/create-order-mp?courseId=${id}&userId=${user._id}`
+      );
+      setTimeout(() => {
+        toast.success("↪️Redirigiendo a pagar con MercadoPago");
+      }, 2000);
+    } catch (error) {
+      throw new Error("Error creating MercadoPago order:", error);
+    }
   };
 
   return (
@@ -154,30 +173,9 @@ const CourseEnroll = () => {
             </p>
           </div>
 
-          {/* <div className="promo-code">
-          <div className="promo-input-container">
-            <input
-              type="text"
-              name="code"
-              onChange={handlePromoCodeChange}
-              placeholder=" Ingresa: CODIGO-PROMOCIONAL"
-            />
-            <button
-              className="promo-btn"
-              onClick={SubmitPromoCode}
-              type="button"
-            >
-              Aplicar
-            </button>
-          </div>
-        </div> */}
-
           <div className="payment-options mt-2">
             {/* PAY WITH PAYPAL */}
-            <form
-              action={`${BACKEND_URL}/api/order/create-order-paypal?courseId=${id}&userId=${user._id}`}
-              method="POST"
-            >
+            <form onSubmit={handlePaypalOrder}>
               <button type="submit">
                 <img src="/images/paypal.png" alt="paypal-icon" />
                 <p>Continue with Paypal</p>
@@ -185,10 +183,7 @@ const CourseEnroll = () => {
             </form>
 
             {/* PAY WITH MP */}
-            <form
-              action={`${BACKEND_URL}s/api/order/create-order-mp?courseId=${id}&userId=${user._id}`}
-              method="POST"
-            >
+            <form onSubmit={handleMercadoPagoOrder}>
               <button type="submit">
                 <img src="/images/mercado-pago.png" alt="mercado-pago-icon" />
                 <p>Continue with Mercado Pago</p>
