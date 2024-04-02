@@ -60,8 +60,18 @@
 .author-info {
   display: flex;
   justify-content: center;
+  text-align: center;
   align-items: center;
   margin-bottom: 20px; /* Adjust as needed */
+}
+
+.author-info .avatar {
+  width: 40px; /* Adjust avatar size as needed */
+  height: 40px;
+}
+
+.author-info span {
+  margin-right: 5px; /* Adjust spacing between elements */
 }
 
 @media (max-width: 768px) {

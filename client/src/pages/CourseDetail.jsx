@@ -7,10 +7,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 // alerts
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { BACKEND_URL, FRONTEND_URL } from "../config.js";
-
 
 const CourseDetail = () => {
   const { currentUser } = useContext(AuthContext);
@@ -95,15 +94,15 @@ const CourseDetail = () => {
               <div className="col-lg-12 text-center">
                 <div>
                   <p className="author-info">
-                    <span>
+                    <span className="d-flex align-items-center">
                       <img
                         className="avatar ms-4 me-2"
                         src={course.author.avatar}
                         alt="author_avatar"
                       />
-                    </span>
                     <span className="fw-bold">{course.author.name} </span> •
                     <span> {course.author.email}</span>
+                    </span>
                     {isAdmin === true && (
                       <span className="course-admin-options opacity-50">
                         <button className="">
