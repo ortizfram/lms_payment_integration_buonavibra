@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
-import { BACKEND_URL } from "../../config";
+import { BACKEND_URL } from "../../config.js";
 
  function LogoutBtn() {
   // call auth context function & get token from cookie
