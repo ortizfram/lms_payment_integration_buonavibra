@@ -18,7 +18,7 @@ const CourseEnroll = () => {
     const fetchCourse = async () => {
       try {
         const response = await axios.get(
-          `${BACKEND_URL}/api/course/${id}/fetch`
+          `${BACKEND_URL}/api/course/${id}`
         );
 
         if (response.status === 200) {
