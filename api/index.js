@@ -36,7 +36,7 @@ app.use(express.static("../client/dist"))
 
 // render client for any path
 app.use("*", (req,res)=>{
-  res.sendFile("../client/dist/index.html")
+  res.sendFile(path.resolve("../client/dist/index.html"))
 })
 
 // routes
