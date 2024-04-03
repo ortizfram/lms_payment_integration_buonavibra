@@ -94,7 +94,7 @@ export const courseCreate = async (req, res, next) => {
       courseId: newCourse._id,
     });
   } catch (error) {
-    return next(error);
+    return res.status(400).json({message:"titulo del curso ya existe, busca uno nuevo"})
   }
 };
 // Update

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import "../public/css/course/courseDetail.css";
-import AlertMessage from "../components/alertMessage.jsx";
 import AuthContext from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -68,10 +67,8 @@ const CourseDetail = () => {
 
   return (
     <>
-      <AlertMessage />
       <div className="containerr">
         <div className="cont-course-detail">
-          <div className="background-blur"></div>
           <div className="container">
             <div className="row">
               <div className="col-lg-12 text-center">
@@ -109,7 +106,7 @@ const CourseDetail = () => {
                           <p>
                             <a
                               className="text-muted"
-                              href={`course/update/${course._id}`}
+                              href={`/course/update/${course._id}`}
                             >
                               <i className="fas fa-edit me-2 mx-2">Editar</i>
                             </a>

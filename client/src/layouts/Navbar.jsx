@@ -7,7 +7,7 @@ function Navbar() {
   const { loggedIn, currentUser } = useContext(AuthContext);
 
   return (
-    <div>
+    <div className="min-w-[100vw] mx-auto">
       {currentUser && currentUser.isAdmin === true && (
         <div className=" bg-info text-center">
           Estás en cuenta admin, {currentUser.username}
@@ -35,10 +35,18 @@ function Navbar() {
               <Link to={"/login"} style={styles.link}>
                 Cursos
               </Link>
-              <Link to={"/register"} style={styles.link} className="border rounded-md p-2 border-white">
+              <Link
+                to={"/register"}
+                style={styles.link}
+                className="border rounded-md p-2 border-white"
+              >
                 Registrar
               </Link>
-              <Link to={"/login"} style={styles.link} className="border rounded-md p-2 border-white">
+              <Link
+                to={"/login"}
+                style={styles.link}
+                className="border rounded-md p-2 border-white"
+              >
                 Ingresar
               </Link>
             </>
@@ -81,6 +89,7 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    zIndex: "1000",
   },
   adminMessage: {
     backgroundColor: "blue",

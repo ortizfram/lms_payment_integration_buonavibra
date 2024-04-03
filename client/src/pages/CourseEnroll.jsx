@@ -140,8 +140,8 @@ const CourseEnroll = () => {
             </div>
             {/* Payment Details */}
             <img
-              className="mb-4"
-              src={course.thumbnail}
+              className="mb-4 h-[12vh] mx-auto"
+              src={`${BACKEND_URL}${course.thumbnail}`}
               alt={`${course.title} Image`}
             />
             <h2>{course.title}</h2>
