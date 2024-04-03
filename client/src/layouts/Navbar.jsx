@@ -7,7 +7,7 @@ function Navbar() {
   const { loggedIn, currentUser } = useContext(AuthContext);
 
   return (
-    <div className="min-w-[100vw] mx-auto">
+    <div className="min-w-[100vw]" style={{ zIndex: 1000 }}>
       {currentUser && currentUser.isAdmin === true && (
         <div className=" bg-info text-center">
           Estás en cuenta admin, {currentUser.username}
