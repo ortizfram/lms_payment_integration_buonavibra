@@ -47,6 +47,7 @@ app.use("/api/order", paymentRoute); // MP and Paypal
 app.use("/api", indexRoute);
 
 app.listen(port, () => {
+  console.log("on port ", port)
   mongoose
     .connect(DB_URI)
     .then((run) => {

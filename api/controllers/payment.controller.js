@@ -6,7 +6,6 @@ import {
   FRONTEND_URL,
   MP_ACCESS_TOKEN,
   MP_NOTIFICATION_URL,
-  isDev,
 } from "../config.js";
 import axios from "axios";
 import Course from "../models/course.model.js";
@@ -88,12 +87,13 @@ export const createOrderPaypal = async (req, res) => {
     // Log the created order
     console.log("\n\nCreated Order:", response.data);
 
-    // paypal pay link + courseId
-    const courseIdParam = `courseId=${course._id}`;
-    const approveLink = `${response.data.links[1].href}&${courseIdParam}`;
+    // Extract the PayPal approval link from the response data
+    const approvalLink = response.data.links.find(
+      (link) => link.rel === "approve"
+    ).href;
 
-    // Redirect the user to the PayPal approval link
-    res.redirect(approveLink);
+    // Return the approval link in the response data
+    res.status(200).json({ approvalLink });
   } catch (error) {
     console.error("Error creating order:", error);
     res
@@ -144,36 +144,37 @@ export const cancelPaymentPaypal = (req, res) => res.redirect("/");
 export const createOrderMP = async (req, res) => {
   console.log("\n*** Creating MP order...\n");
   const { courseId, userId } = req.query;
-  console.log("courseId",typeof(courseId), " ",courseId)
-  console.log("userId",typeof(userId), " ",userId)
+  console.log("courseId", typeof courseId, " ", courseId);
+  console.log("userId", typeof userId, " ", userId);
 
-  // Fetch course details based on the courseId using Mongoose
-  const course = await Course.findById(courseId);
-  if (!course) {
-    console.log("Course not found");
-    return res.status(404).json({ message: "Course not found" });
-  }
-  console.log("\n\nFetched Course:", course);
+  try {
+    // Fetch course details based on the courseId using Mongoose
+    const course = await Course.findById(courseId);
+    if (!course) {
+      console.log("Course not found");
+      return res.status(404).json({ message: "Course not found" });
+    }
+    console.log("\n\nFetched Course:", course);
 
-  // Step 2: Initialize the client object
-  const client = new MercadoPagoConfig({
-    accessToken: MP_ACCESS_TOKEN,
-  });
+    // Step 2: Initialize the client object
+    const client = new MercadoPagoConfig({
+      accessToken: MP_ACCESS_TOKEN,
+    });
 
-  // calculate discount ARS for MP
-  let adjustedDiscount = null;
-  let withDiscount = null;
-  if (course.discount_ars !== null && course.discount_ars > 0) {
-    adjustedDiscount =
-      course.ars_price - (course.ars_price * course.discount_ars) / 100;
-  }
-  // Render the value based on the conditions
-  {
-    adjustedDiscount !== null ? (withDiscount = adjustedDiscount) : null;
-  }
+    // calculate discount ARS for MP
+    let adjustedDiscount = null;
+    let withDiscount = null;
+    if (course.discount_ars !== null && course.discount_ars > 0) {
+      adjustedDiscount =
+        course.ars_price - (course.ars_price * course.discount_ars) / 100;
+    }
+    // Render the value based on the conditions
+    {
+      adjustedDiscount !== null ? (withDiscount = adjustedDiscount) : null;
+    }
 
-  const preference = await new Preference(client)
-    .create({
+    // Creating the MercadoPago preference
+    const preference = await new Preference(client).create({
       body: {
         items: [
           {
@@ -194,9 +195,14 @@ export const createOrderMP = async (req, res) => {
         },
         notification_url: `${MP_NOTIFICATION_URL}?courseId=${courseId}&userId=${userId}`,
       },
-    })
-    .then((preference) => res.redirect(preference.init_point))
-    .catch(console.log);
+    });
+
+    // Redirect to the MercadoPago checkout page
+    res.redirect(preference.init_point);
+  } catch (error) {
+    console.log("Error creating MercadoPago order:", error);
+    res.status(500).json({ message: "Error creating MercadoPago order" });
+  }
 };
 
 export const webhookMP = async (req, res) => {
@@ -211,7 +217,6 @@ export const webhookMP = async (req, res) => {
     console.log("paymentId:", paymentId);
     console.log("paymentType:", paymentType);
     console.log("userId:", userId);
-    
 
     if (paymentType === "payment" && paymentId && courseId) {
       // Fetch course details based on the courseId using Mongoose

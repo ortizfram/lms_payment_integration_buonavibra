@@ -17,9 +17,7 @@ const CourseEnroll = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await axios.get(
-          `${BACKEND_URL}/api/course/${id}`
-        );
+        const response = await axios.get(`${BACKEND_URL}/api/course/${id}`);
 
         if (response.status === 200) {
           setCourse(response.data.course);
@@ -105,14 +103,17 @@ const CourseEnroll = () => {
     }
   };
 
-  const handlePaypalOrder = async () => {
+  const handlePaypalOrder = async (e) => {
+    e.preventDefault();
     try {
-      await axios.post(
+      const response = await axios.post(
         `${BACKEND_URL}/api/order/create-order-paypal?courseId=${id}&userId=${user._id}`
       );
-      setTimeout(() => {
-        toast.success("↪️Redirigiendo a pagar con Paypal");
-      }, 2000);
+
+      // Extract the approval link from the response data
+      const approvalLink = response.data.approvalLink;
+
+      window.location.href = approvalLink;
     } catch (error) {
       throw new Error("Error creating PayPal order:", error);
     }
