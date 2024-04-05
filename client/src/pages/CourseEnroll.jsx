@@ -118,11 +118,19 @@ const CourseEnroll = () => {
       throw new Error("Error creating PayPal order:", error);
     }
   };
-  const handleMercadoPagoOrder = async () => {
+  const handleMercadoPagoOrder = async (e) => {
+    e.preventDefault();
     try {
-      await axios.post(
+      const response = await axios.post(
         `${BACKEND_URL}/api/order/create-order-mp?courseId=${id}&userId=${user._id}`
       );
+
+      // Extract the approvalLink from the response data
+      const approvalLink = response.data.approvalLink;
+
+      // Redirect the user to the MercadoPago checkout page
+      window.location.href = approvalLink;
+
       setTimeout(() => {
         toast.success("↪️Redirigiendo a pagar con MercadoPago");
       }, 2000);

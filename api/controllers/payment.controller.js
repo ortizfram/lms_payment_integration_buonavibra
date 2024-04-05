@@ -6,6 +6,7 @@ import {
   FRONTEND_URL,
   MP_ACCESS_TOKEN,
   MP_NOTIFICATION_URL,
+  isDev,
 } from "../config.js";
 import axios from "axios";
 import Course from "../models/course.model.js";
@@ -147,34 +148,34 @@ export const createOrderMP = async (req, res) => {
   console.log("courseId", typeof courseId, " ", courseId);
   console.log("userId", typeof userId, " ", userId);
 
-  try {
-    // Fetch course details based on the courseId using Mongoose
-    const course = await Course.findById(courseId);
-    if (!course) {
-      console.log("Course not found");
-      return res.status(404).json({ message: "Course not found" });
-    }
-    console.log("\n\nFetched Course:", course);
+  // Fetch course details based on the courseId using Mongoose
+  const course = await Course.findById(courseId);
+  if (!course) {
+    console.log("Course not found");
+    return res.status(404).json({ message: "Course not found" });
+  }
+  console.log("\n\nFetched Course:", course);
 
-    // Step 2: Initialize the client object
-    const client = new MercadoPagoConfig({
-      accessToken: MP_ACCESS_TOKEN,
-    });
+  // Step 2: Initialize the client object
+  const client = new MercadoPagoConfig({
+    accessToken: MP_ACCESS_TOKEN,
+  });
 
-    // calculate discount ARS for MP
-    let adjustedDiscount = null;
-    let withDiscount = null;
-    if (course.discount_ars !== null && course.discount_ars > 0) {
-      adjustedDiscount =
-        course.ars_price - (course.ars_price * course.discount_ars) / 100;
-    }
-    // Render the value based on the conditions
-    {
-      adjustedDiscount !== null ? (withDiscount = adjustedDiscount) : null;
-    }
+  // calculate discount ARS for MP
+  let adjustedDiscount = null;
+  let withDiscount = null;
+  if (course.discount_ars !== null && course.discount_ars > 0) {
+    adjustedDiscount =
+      course.ars_price - (course.ars_price * course.discount_ars) / 100;
+  }
+  // Render the value based on the conditions
+  {
+    adjustedDiscount !== null ? (withDiscount = adjustedDiscount) : null;
+  }
 
-    // Creating the MercadoPago preference
-    const preference = await new Preference(client).create({
+  let approvalLink;
+  const preference = await new Preference(client)
+    .create({
       body: {
         items: [
           {
@@ -189,20 +190,24 @@ export const createOrderMP = async (req, res) => {
           },
         ],
         back_urls: {
+          // success: `${MP_NOTIFICATION_URL}?courseId=${course._id}&userId=${userId}`,
           success: `${FRONTEND_URL}/course/${courseId}`,
           failure: `${BACKEND_URL}/api/order/failure-mp`,
           pending: `${BACKEND_URL}/api/order/pending-mp`,
         },
         notification_url: `${MP_NOTIFICATION_URL}?courseId=${courseId}&userId=${userId}`,
       },
-    });
-
-    // Redirect to the MercadoPago checkout page
-    res.redirect(preference.init_point);
-  } catch (error) {
-    console.log("Error creating MercadoPago order:", error);
-    res.status(500).json({ message: "Error creating MercadoPago order" });
-  }
+    })
+    .then((preference) => {
+      console.log("preference ", preference);
+      if (isDev) {
+        approvalLink = `${preference.sandbox_init_point}`;
+      } else {
+        approvalLink = `${preference.init_point}`;
+      }
+      res.status(200).json({ approvalLink });
+    })
+    .catch(console.log);
 };
 
 export const webhookMP = async (req, res) => {
@@ -239,7 +244,7 @@ export const webhookMP = async (req, res) => {
 
         // here we must redirect in frontend
         // Return the HTML button to redirect to the course
-        const redirectUrl = `http://localhost:5173/course/${courseId}`;
+        const redirectUrl = `${FRONTEND_URL}/course/${courseId}`;
         const htmlResponse = `<button style="background-color: green; color: white; border: none; border-radius: 20px; padding: 15px 30px; font-size: 18px; display: block; margin: 0 auto;"><a href="${redirectUrl}" style="text-decoration: none; color: white;">Ir al curso</a></button>`;
         res.setHeader("Content-Type", "text/html");
         return res.status(201).send(htmlResponse);
