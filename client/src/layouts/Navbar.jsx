@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import LogoutBtn from "../components/auth/LogoutBtn";
+import "../public/css/layout/navbar.css"
 
 function Navbar() {
   const { loggedIn, currentUser } = useContext(AuthContext);
@@ -14,7 +15,7 @@ function Navbar() {
         </div>
       )}
 
-      <div style={styles.navbar}>
+      <div style={styles.navbar} className="navbar-container">
         <div style={styles.navLinks}>
           <Link to={"/"} style={styles.link}>
             <img

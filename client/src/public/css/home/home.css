@@ -17,7 +17,7 @@
   background-image: url("../../../../public/images/home/hero-image.jpg");
   background-size: cover;
   background-position: center; /* Centers the background image */
-  height: 110vh;
+  height: 120vh;
   width: 100vw;
   display: flex; /* For centering content */
   justify-content: center; /* Center horizontally */
