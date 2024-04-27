@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import LogoutBtn from "../../components/auth/LogoutBtn";
 
@@ -12,8 +12,14 @@ function HambMenu({ currentUser, loggedIn }) {
   return (
     <nav className="navbar navbar-expand-lg bg-[#333] text-white">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">Navbar</a>
-        <button className="navbar-toggler border-none" type="button" onClick={toggleMenu}>
+        <a className="navbar-brand" href="#">
+          Navbar
+        </a>
+        <button
+          className="navbar-toggler border-none"
+          type="button"
+          onClick={toggleMenu}
+        >
           <span className="navbar-toggler-icon">&#9776;</span>
         </button>
         <div className={`collapse navbar-collapse ${showMenu ? 'show' : ''}`}>
