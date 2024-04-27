@@ -24,7 +24,7 @@ export const createSubscriptionPaypal = async (req, res) => {
   console.log("\n*** createSubscriptionPaypal\n");
 
   const userId = req.query.userId;
-  const user = await User.findById(userId);
+  const user = await User.findById(new mongoose.Types.ObjectId(userId));
   try {
     // Create subscription object for PayPal
     const subscription = {

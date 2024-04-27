@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { BACKEND_URL } from "../../../api/config.js";
 import AuthContext from "../context/AuthContext.jsx";
+import axios from "axios";
 
 function Membership() {
   const { currentUser } = useContext(AuthContext);
@@ -28,7 +29,7 @@ function Membership() {
       <p>accede a todo el contenido sin restricciones</p>
       <div className="payment-options mt-2">
         {/* PAY WITH PAYPAL */}
-        <form onSubmit={""}>
+        <form onSubmit={handlePaypalOrder}>
           <button type="submit">
             <img src="/images/paypal.png" alt="paypal-icon" />
             <p>Continuar con Paypal</p>
