@@ -1,0 +1,47 @@
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .row {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  
+  /* Additional CSS for responsiveness */
+  #update-course-container-page {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  #update-course-container {
+    padding: 20px;
+  }
+  
+  .form {
+    margin-top: 20px;
+  }
+  
+  .row {
+    margin-bottom: 20px;
+  }
+  
+  .col-lg-6 {
+    width: 100%;
+  }
+  
+  .preview {
+    text-align: center;
+  }
+  
+  .preview img {
+    max-width: 100%;
+  }
+  
+  .items-center {
+    display: flex;
+    align-items: center;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
