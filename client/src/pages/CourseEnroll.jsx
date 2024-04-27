@@ -145,19 +145,19 @@ const CourseEnroll = () => {
         <div className="page-container">
           <div className="course-overview">
             <div className="section-title2 mt-4 mb-4">
-              <h1>Detalles de Pago</h1>
+              <h1 className="fs-1">Detalles de Pago</h1>
             </div>
             {/* Payment Details */}
             <img
-              className="mb-4 h-[12vh] mx-auto"
+              className="mb-4 h-[30vh] mx-auto"
               src={`${BACKEND_URL}${course.thumbnail}`}
               alt={`${course.title} Image`}
             />
-            <h2>{course.title}</h2>
+            <h2 className="fs-4 fw-bold">{course.title}</h2>
             <p className="text-black">{course.description}</p>
             <span className="">
               <span className="row align-items-center text-muted">
-                <span>instructor:</span>
+                <span className="fw-semibold">instructor:</span>
                 <div className="col-auto">
                   <img
                     src={course.author.avatar}
@@ -169,14 +169,14 @@ const CourseEnroll = () => {
                       objectFit: "cover",
                     }}
                   />
-                  <span>
+                  <span className=" italic">
                     {course.author.username} • {course.author.email}
                   </span>
                 </div>
               </span>
             </span>
 
-            <p className="price-text border border-success rounded p-1">
+            <p className="price-text border border-success rounded p-1 fw-bold fs-3">
               {renderPrice()}
             </p>
           </div>
