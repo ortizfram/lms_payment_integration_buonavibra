@@ -1,5 +1,5 @@
-.home-page-container {
-}
+/* .home-page-container {
+} */
 
 /* vignete overlay */
 .home-page-container::before {
@@ -13,35 +13,52 @@
   height: 100%;
 }
 
+/* Hero section */
 .home-hero {
   background-image: url("../../../../public/images/home/hero-image.jpg");
   background-size: cover;
-  background-position: center; /* Centers the background image */
-  height: 120vh;
-  width: 100vw;
-  display: flex; /* For centering content */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  background-position: center;
+  min-height: 100vh; /* Ensure hero covers the viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
 }
 
 .hero-logo {
-  max-width: 50%; /* Adjust the logo size */
-  max-height: 20rem; /* Maintain aspect ratio */
+  max-width: 100%; /* Adjust logo size */
+  max-height: 10rem; /* Maintain aspect ratio */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-logo {
+    max-height: 8rem; /* Adjust logo size for smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-logo {
+    max-height: 6rem; /* Further adjust logo size for extra small screens */
+  }
+}
+
+/* About section */
+.about {
+  padding: 20px 0; /* Add padding top and bottom */
 }
 
 
-
+/* Contact section */
 #contact {
   background-image: url("../../../../public/images/home/lotus-flower.jpg");
   background-size: cover;
-  background-position: center; /* Centers the background image */
-  height: 100vh;
-  width: 100vw;
-  display: flex; /* For centering content */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  margin-top: 20px;
+  background-position: center;
+  min-height: 100vh; /* Ensure contact covers the viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* Add padding for better readability */
 }
 
 .backdrop-filter {

@@ -78,7 +78,7 @@ const Home = () => {
         </div>
 
         {/* <!-- about --> */}
-        <div className="container about" id="about1">
+        <div className="container about px-4" id="about1">
           <h1 className="section-title">Acerca de.</h1>
 
           <div className="row">

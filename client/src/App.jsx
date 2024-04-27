@@ -29,7 +29,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      {/* <Navbar2 /> */}
       <ToastContainer />
 
       <Routes>
