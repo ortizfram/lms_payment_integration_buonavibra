@@ -27,9 +27,9 @@ function HambMenu({ currentUser, loggedIn }) {
             <Link to={"/"} className="nav-link fw-bold" style={{ zIndex: 1000 }}>
               Home
             </Link>
-            <Link to={"/#about1"} className="nav-link fw-bold" style={{ zIndex: 1000 }}>
+            <a href="/#about1" className="nav-link fw-bold" style={{ zIndex: 1000 }}>
               Acerca
-            </Link>
+            </a>
             <Link to={"/#contact"} className="nav-link fw-bold" style={{ zIndex: 1000 }}>
               Contacto
             </Link>
