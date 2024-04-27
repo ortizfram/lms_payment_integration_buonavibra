@@ -1,10 +1,10 @@
 /* Register.css */
 .register-page-container{
   min-width: 100vw;
-  margin-top: 20vh;
+  margin-top: 10vh;
 }
 .register-container {
-    max-width: 400px;
+    max-width: 350px;
     margin: auto;
     padding: 20px;
     border: 1px solid #ccc;

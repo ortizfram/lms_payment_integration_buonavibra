@@ -16,7 +16,7 @@ import { BACKEND_URL } from "../../config.js";
     await getLoggedIn(); // refresh boolean
     navigate('/')
   }
-  return (<><button onClick={logout} className="border rounded-md p-2 border-white">Salir</button></>);
+  return (<><button onClick={logout} className="border rounded-md p-2 border-white text-white">Salir</button></>);
 }
 
 export default LogoutBtn;

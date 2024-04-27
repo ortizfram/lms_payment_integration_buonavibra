@@ -16,6 +16,8 @@ const CourseCreate = () => {
 
   const $image = useRef(null);
   let $file = useRef(null);
+  let $videoFile = useRef(null);
+
 
   const [formData, setFormData] = useState({
     title: "",
@@ -98,81 +100,70 @@ const CourseCreate = () => {
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="title"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Título:
-                </label>
                 <input
                   name="title"
                   onChange={handleChange}
                   type="text"
-                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  placeholder="Titulo"
+                  className="text-black mt-1 p-2 w-full border border-black rounded-md"
                 />
               </div>
               <div>
-                <label
-                  htmlFor="description"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Descripción:
-                </label>
                 <input
                   name="description"
                   onChange={handleChange}
                   type="text"
-                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  placeholder="Descripcion"
+                  className="text-black mt-1 p-2 w-full border border-black rounded-md"
                 />
               </div>
             </div>
             <div>
-              <label
-                htmlFor="text_content"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Contenido Texto:
-              </label>
               <textarea
                 name="text_content"
                 onChange={handleChange}
                 type="text"
-                className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                placeholder="Contenido de texto"
+                className="text-black mt-1 p-2 w-full border border-black rounded-md"
               ></textarea>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="video"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Subir Video:
-                </label>
                 <input
                   type="file"
+                  id="video"
                   name="video"
-                  accept="video/*"
+                  accept="video/mp4,video/x-m4v,video/*"
                   onChange={handleChange}
-                  className="text-black "
+                  className="hidden"
+                  ref={$videoFile} // Reference to the file input element
                 />
+                <button
+                  onClick={() => $videoFile.current.click()} // Trigger file input click
+                  className="text-black mt-1 p-2 w-full border border-black rounded-md bg-gray-300 hover:bg-gray-200"
+                >
+                  Seleccione un video
+                </button>
               </div>
               <div>
-                <label
-                  htmlFor="image"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Subir Miniatura:
-                </label>
                 <input
                   type="file"
-                  id="file"
+                  id="image"
                   name="image"
                   accept="image/*"
                   onChange={handleChange}
-                  className="text-black "
+                  className="hidden"
+                  ref={$file} // Reference to the file input element
                 />
+                <button
+                  onClick={() => $file.current.click()} // Trigger file input click
+                  className="text-black mt-1 p-2 w-full border border-black rounded-md bg-gray-300 hover:bg-gray-200"
+                >
+                  Seleccione una miniatura
+                </button>
               </div>
             </div>
+
             <div className="col-span-2">
               <div className="preview">
                 <img
@@ -185,65 +176,45 @@ const CourseCreate = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="ars_price"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  ARS Price:
-                </label>
                 <input
                   type="number"
                   id="ars_price"
                   name="ars_price"
+                  placeholder="ARS precio"
                   onChange={handleChange}
-                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  className="text-black mt-1 p-2 w-full border border-black rounded-md"
                 />
               </div>
               <div>
-                <label
-                  htmlFor="usd_price"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  USD Price:
-                </label>
                 <input
                   type="number"
                   id="usd_price"
                   name="usd_price"
+                  placeholder="USD precio"
                   onChange={handleChange}
-                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  className="text-black mt-1 p-2 w-full border border-black rounded-md"
                 />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="discount_ars"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Descuento ARS (Opcional):
-                </label>
                 <input
                   type="number"
                   id="discount_ars"
                   name="discount_ars"
+                  placeholder="Descuento ARS (solo en enteros)"
                   onChange={handleChange}
-                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  className="text-black mt-1 p-2 w-full border border-black rounded-md"
                 />
               </div>
               <div>
-                <label
-                  htmlFor="discount_usd"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Descuento USD (Opcional):
-                </label>
                 <input
                   type="number"
                   id="discount_usd"
+                  placeholder="Descuento USD (solo en enteros)"
                   name="discount_usd"
                   onChange={handleChange}
-                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  className="text-black mt-1 p-2 w-full border border-black rounded-md"
                 />
               </div>
             </div>

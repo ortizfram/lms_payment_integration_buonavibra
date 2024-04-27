@@ -9,6 +9,13 @@ function WebMenu({ currentUser, loggedIn }) {
     setShowMenu(!showMenu);
   };
 
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="min-w-[100vw]" style={{ zIndex: 1000 }}>
       {currentUser && currentUser.isAdmin === true && (
@@ -97,12 +104,12 @@ function WebMenu({ currentUser, loggedIn }) {
             <Link to={"/"} style={styles.mobileLink}>
               Home
             </Link>
-            <Link to={"/#about1"} style={styles.mobileLink}>
+            {/* <Link to={"/#about1"} style={styles.mobileLink}>
               About
             </Link>
             <Link to={"/#contact"} style={styles.mobileLink}>
               Contact
-            </Link>
+            </Link> */}
 
             {loggedIn === false && (
               <>
