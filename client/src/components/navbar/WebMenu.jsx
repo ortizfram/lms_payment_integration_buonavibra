@@ -28,7 +28,7 @@ function WebMenu({ currentUser, loggedIn }) {
             />
           </Link>
           {/* Menu Desktop Links */}
-          <div className="hidden md:block">
+          <div className="hidden md:block fs-4">
             <a href="/#about1" style={styles.link}>
               Acerca
             </a>
@@ -85,24 +85,69 @@ function WebMenu({ currentUser, loggedIn }) {
         {/* Hamburger menu icon */}
         <div className="mr-3 pr-3 d-block d-md-none">
           <button onClick={toggleMenu} style={styles.hamburger}>
-          &#9776;
+            &#9776;
           </button>
         </div>
       </div>
 
-      {/* Menu Hamburger */}
+      {/* Menu Hamburger Links*/}
       {showMenu && (
         <div className="lg:hidden mt-10" style={styles.mobileMenu}>
-          <Link to={"/"} style={styles.mobileLink}>
-            Home
-          </Link>
-          <Link to={"/#about1"} style={styles.mobileLink}>
-            About
-          </Link>
-          <Link to={"/#contact"} style={styles.mobileLink}>
-            Contact
-          </Link>
-          {/* Add more links as needed */}
+          <div className="mobileMenuLinks container text-center fs-3 ">
+            <Link to={"/"} style={styles.mobileLink}>
+              Home
+            </Link>
+            <Link to={"/#about1"} style={styles.mobileLink}>
+              About
+            </Link>
+            <Link to={"/#contact"} style={styles.mobileLink}>
+              Contact
+            </Link>
+
+            {loggedIn === false && (
+              <>
+                <Link to={"/login"} style={styles.mobileLink}>
+                  Cursos
+                </Link>
+                <Link
+                  to={"/register"}
+                  style={styles.mobileLink}
+                  className="border rounded-md p-2 border-white"
+                >
+                  Registrar
+                </Link>
+                <Link
+                  to={"/login"}
+                  style={styles.mobileLink}
+                  className="border rounded-md p-2 border-white"
+                >
+                  Ingresar
+                </Link>
+              </>
+            )}
+
+            {loggedIn === true && (
+              <>
+                <Link to={"/course/all"} style={styles.mobileLink}>
+                  Cursos
+                </Link>
+                {currentUser && currentUser.isAdmin === false && (
+                  <Link to={"/course/library"} style={styles.mobileLink}>
+                    Biblioteca
+                  </Link>
+                )}
+
+                {currentUser && currentUser.isAdmin === true && (
+                  <>
+                    <Link to={"/course/create"} style={styles.mobileLink}>
+                      Crear Curso
+                    </Link>
+                  </>
+                )}
+                <LogoutBtn />
+              </>
+            )}
+          </div>
         </div>
       )}
     </div>
