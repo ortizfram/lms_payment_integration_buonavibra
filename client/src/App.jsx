@@ -8,7 +8,7 @@ import CourseUpdate from "./pages/CourseUpdate";
 import CourseEnroll from "./pages/CourseEnroll";
 import Navbar from "./layouts/Navbar";
 import Register from "./pages/auth/Register";
-import Login from "./pages/auth/Login"
+import Login from "./pages/auth/Login";
 import axios from "axios";
 import AuthContext from "./context/AuthContext";
 import { useContext } from "react";
@@ -20,6 +20,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
+import Membership from "./pages/Membership";
 
 axios.defaults.withCredentials = true;
 
@@ -38,13 +39,16 @@ export default function App() {
           <>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/membership" element={<Login />} />
           </>
         )}
         {/* isLogged */}
         {loggedIn === true && (
           <>
+            <Route path="/membership" element={<Membership />} />
             <Route path="/course/library" element={<CourseLibrary />} />
             <Route path="/course/:id" element={<CourseDetail />} />
+            <Route path="/course/enroll/:id" element={<CourseEnroll />} />
             <Route path="/course/enroll/:id" element={<CourseEnroll />} />
             {/* isAdmin */}
             {currentUser && currentUser.isAdmin === true && (
@@ -53,7 +57,7 @@ export default function App() {
                 <Route path="/course/update/:id" element={<CourseUpdate />} />
               </>
             )}
-          </> 
+          </>
         )}
         {/* No Restriction */}
         <Route path="*" element={<h1>404 Page Not FOund</h1>} />

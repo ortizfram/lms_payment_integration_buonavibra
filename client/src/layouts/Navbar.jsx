@@ -30,6 +30,9 @@ function Navbar() {
           <a href="/#contact" style={styles.link}>
             Contacto
           </a>
+          <a href="/membership" style={styles.link}>
+            Subcripcion
+          </a>
 
           {loggedIn === false && (
             <>
