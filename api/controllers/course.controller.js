@@ -196,7 +196,7 @@ export const courselist = async (req, res, next) => {
       _id: { $nin: enrolledCourses },
     })
       .populate("author", "name username avatar")
-      .sort({ updated_at: -1 })
+      .sort({ createdAt: -1 })
       .lean();
 
     // Map courses to desired response format
@@ -211,8 +211,8 @@ export const courselist = async (req, res, next) => {
       discount_usd: course.discount_usd,
       thumbnail: `${BACKEND_URL}${course.thumbnail}`,
       thumbnailPath: course.thumbnail,
-      created_at: new Date().toLocaleString(),
-      updated_at: new Date().toLocaleString(),
+      created_at: course.timestamps,
+      updated_at: course.timestamps,
       next: `${FRONTEND_URL}/course/${course._id}`, // Dynamic course link
       author: {
         username: course.author.username,
@@ -331,7 +331,7 @@ export const courseOwned = async (req, res, next) => {
     // Fetch courses based on enrolled course IDs
     const courses = await Course.find({ _id: { $in: enrolledCourses } })
       .populate("author", "name username avatar")
-      .sort({ updated_at: -1 })
+      .sort({ createdAt: -1 })
       .lean();
 
     // Map courses to desired response format
@@ -346,8 +346,8 @@ export const courseOwned = async (req, res, next) => {
       discount_usd: course.discount_usd,
       thumbnail: `${BACKEND_URL}${course.thumbnail}`,
       thumbnailPath: course.thumbnail,
-      created_at: new Date().toLocaleString(),
-      updated_at: new Date().toLocaleString(),
+      created_at: course.timestamps,
+      updated_at: course.timestamps,
       next: `/course/${course._id}`, // Dynamic course link
       author: {
         username: course.author.username,
