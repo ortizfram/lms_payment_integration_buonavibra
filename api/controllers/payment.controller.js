@@ -195,7 +195,7 @@ export const createOrderMP = async (req, res) => {
           failure: `${BACKEND_URL}/api/order/failure-mp`,
           pending: `${BACKEND_URL}/api/order/pending-mp`,
         },
-        notification_url: `${MP_NOTIFICATION_URL}?courseId=${courseId}&userId=${userId}`,
+        notification_url: `${MP_NOTIFICATION_URL}?courseId=${course._id}&userId=${userId}`,
       },
     })
     .then((preference) => {
