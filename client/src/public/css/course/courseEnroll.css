@@ -2,7 +2,7 @@
 
 .enroll-page-container {
   min-width: 100vw;
-  margin-top: 1vh;
+  /* margin-top: 1vh; */
 }
 
 .page-container {
@@ -30,14 +30,19 @@
 
 .payment-options form button {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  background-color: #f0f0f0;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
+  justify-content: center;
+  padding: 10px; /* Adjust as needed */
+  border: 1px solid #666; /* Adjust border style and color */
+  background-color: transparent; /* Set background color */
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-align: center;
+  width: 100%; /* Ensure buttons take up full width */
+}
+
+.payment-options form button p {
+  margin: 0;
 }
 
 .payment-options form button:hover {
@@ -45,9 +50,8 @@
 }
 
 .payment-options form button img {
-  width: 50px;
-  height: 50px;
-  margin-bottom: 10px;
+  max-width: 24px; /* Adjust as needed */
+  margin-right: 10px; /* Adjust spacing between icon and text */
 }
 
 /* Responsive styles */

@@ -2,6 +2,9 @@ import React, { useContext, useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import { BACKEND_URL } from "../config.js";
+// alerts
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CourseUpdate = () => {
   const { currentUser } = useContext(AuthContext);
@@ -17,6 +20,7 @@ const CourseUpdate = () => {
     discount_ars: 0,
     discount_usd: 0,
   });
+  
   const $image = useRef(null);
   let $file = useRef(null);
   let $videoFile = useRef(null);
@@ -72,8 +76,12 @@ const CourseUpdate = () => {
     if (response.ok) {
       const data = await response.json();
       setSuccessMessage(data.message);
-      // Redirect to the updated course page
-      window.location.href = data.redirectUrl;
+      console.log("course updated successfully");
+      toast.success("Actualizaste un curso");
+      setTimeout(() => {
+        // Redirect to the updated course page
+        window.location.href = data.redirectUrl;
+      }, 200);
     } else {
       const errorData = await response.json();
       setErrorMessage(errorData.message);

@@ -32,16 +32,14 @@ const CourseEnroll = () => {
     fetchCourse();
   }, [id]);
 
-
-
   const renderPrice = () => {
     // * DISCOUNT for USD * \\
     if (course.discount_usd > 0 && !course.discount_ars) {
       return (
         <>
-          <del >USD {course.usd_price}</del>
+          <del>USD {course.usd_price}</del>
           <p>
-            <span >
+            <span>
               USD{" "}
               {course.usd_price -
                 (course.usd_price * course.discount_usd) / 100}
@@ -56,8 +54,7 @@ const CourseEnroll = () => {
       return (
         <>
           <span className="text-xs fw-lighter">
-            USD {course.usd_price} |{" "}
-            <del>ARS {course.ars_price}</del>
+            USD {course.usd_price} | <del>ARS {course.ars_price}</del>
           </span>
           <p>
             USD {course.usd_price} |{" "}
@@ -139,6 +136,7 @@ const CourseEnroll = () => {
 
   return (
     <>
+    {course && (
       <div className="enroll-page-container">
         <div className="page-container">
           <div className="course-overview">
@@ -182,7 +180,7 @@ const CourseEnroll = () => {
           <div className="payment-options mt-2">
             {/* PAY WITH PAYPAL */}
             <form onSubmit={handlePaypalOrder}>
-              <button type="submit">
+              <button type="submit" className="border border-slate-600">
                 <img src="/images/paypal.png" alt="paypal-icon" />
                 <p>Continue with Paypal</p>
               </button>
@@ -190,7 +188,7 @@ const CourseEnroll = () => {
 
             {/* PAY WITH MP */}
             <form onSubmit={handleMercadoPagoOrder}>
-              <button type="submit">
+              <button type="submit" className="border border-slate-600">
                 <img src="/images/mercado-pago.png" alt="mercado-pago-icon" />
                 <p>Continue with Mercado Pago</p>
               </button>
@@ -198,6 +196,7 @@ const CourseEnroll = () => {
           </div>
         </div>
       </div>
+    )}
     </>
   );
 };
