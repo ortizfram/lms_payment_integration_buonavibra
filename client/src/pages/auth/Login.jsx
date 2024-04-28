@@ -4,21 +4,32 @@ import AuthContext from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import "../../public/css/auth/login.css"; // Import your custom CSS file for styling
 import { BACKEND_URL } from "../../config.js";
+// alerts
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const { getLoggedIn, currentUser } = useContext(AuthContext);
+  const { getLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
   async function login(e) {
     e.preventDefault();
     try {
       const loginData = { email, password };
-      await axios.post(`${BACKEND_URL}/api/auth/login`, loginData);
-      await getLoggedIn();
-      navigate("/");
+      const loginRes = await axios.post(
+        `${BACKEND_URL}/api/auth/login`,
+        loginData
+      );
+      if (loginRes.status === 200) {
+        console.log("Hola Nuevamente");
+        toast.success("Hola Nuevamente");
+        await getLoggedIn();
+        setTimeout(() => {
+          navigate(`/`);
+        }, 2000);
+      }
     } catch (error) {
       console.error(error);
     }

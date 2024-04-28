@@ -24,8 +24,6 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // console.log("BACKEND_URL ", BACKEND_URL);
-    // console.log("BACKEND_URL ", BACKEND_URL);
     console.log("isDev ", isDev);
   }, []);
 

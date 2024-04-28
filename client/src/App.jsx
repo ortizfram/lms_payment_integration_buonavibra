@@ -74,7 +74,7 @@ export default function App() {
           </>
         )}
         {/* No Restriction */}
-        <Route path="*" element={<h1>404 Page Not Found</h1>} />
+        <Route path="*" element={<Loader />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/course/all" element={<Courses />} />
