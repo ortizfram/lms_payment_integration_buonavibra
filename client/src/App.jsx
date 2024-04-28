@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -8,7 +9,7 @@ import CourseUpdate from "./pages/CourseUpdate";
 import CourseEnroll from "./pages/CourseEnroll";
 import Navbar from "./layouts/Navbar";
 import Register from "./pages/auth/Register";
-import Login from "./pages/auth/Login"
+import Login from "./pages/auth/Login";
 import axios from "axios";
 import AuthContext from "./context/AuthContext";
 import { useContext } from "react";
@@ -20,11 +21,29 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
+import Loader from "./components/loader/Loader";
 
 axios.defaults.withCredentials = true;
 
 export default function App() {
-  const { loggedIn, currentUser } = useContext(AuthContext); //destructure loggedIn
+  const { loggedIn, currentUser } = useContext(AuthContext); // destructure loggedIn
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading delay with setTimeout
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000); // Change the delay time as needed
+
+    // Cleanup function
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return (
+      <Loader />
+    ); 
+  }
 
   return (
     <BrowserRouter>
@@ -52,10 +71,10 @@ export default function App() {
                 <Route path="/course/update/:id" element={<CourseUpdate />} />
               </>
             )}
-          </> 
+          </>
         )}
         {/* No Restriction */}
-        <Route path="*" element={<h1>404 Page Not FOund</h1>} />
+        <Route path="*" element={<h1>404 Page Not Found</h1>} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/course/all" element={<Courses />} />
