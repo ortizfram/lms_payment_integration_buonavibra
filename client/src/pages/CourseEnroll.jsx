@@ -32,9 +32,7 @@ const CourseEnroll = () => {
     fetchCourse();
   }, [id]);
 
-  if (!course) {
-    return <div>Loading...</div>;
-  }
+
 
   const renderPrice = () => {
     // * DISCOUNT for USD * \\
