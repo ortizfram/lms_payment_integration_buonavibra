@@ -41,9 +41,9 @@ const CourseEnroll = () => {
     if (course.discount_usd > 0 && !course.discount_ars) {
       return (
         <>
-          <del className="text-success">USD {course.usd_price}</del>
+          <del >USD {course.usd_price}</del>
           <p>
-            <span className="text-success">
+            <span >
               USD{" "}
               {course.usd_price -
                 (course.usd_price * course.discount_usd) / 100}
@@ -59,11 +59,11 @@ const CourseEnroll = () => {
         <>
           <span className="text-xs fw-lighter">
             USD {course.usd_price} |{" "}
-            <del className="text-success">ARS {course.ars_price}</del>
+            <del>ARS {course.ars_price}</del>
           </span>
           <p>
             USD {course.usd_price} |{" "}
-            <span className="text-success">
+            <span>
               ARS{" "}
               {course.ars_price -
                 (course.ars_price * course.discount_ars) / 100}

@@ -16,6 +16,11 @@ function CourseList({ courses }) {
     setVisibleCourses((prev) => prev + 5);
   };
 
+  // Calculate the biggest discount
+  const biggestDiscount = Math.max(
+    ...courses.map((course) => Math.max(course.discount_ars, course.discount_usd))
+  );
+
   return (
     <div className="courses-page-container">
       <div className="courses-container">
@@ -24,25 +29,11 @@ function CourseList({ courses }) {
             <li key={index}>
               <BtnAdminPreview courseId={course._id} />
               <div className="course-item position-relative backdrop-filter shadow-lg">
-                {/* DISCOUNT for ARS only */}
-                {course.discount_ars >= 1 && course.discount_usd < 1 && (
-                  <p className="position-absolute start-40 top-10 translate-middle-x  translate-middle-y  text-center fw-lighter text-xs bg-success p-[0.1] rounded">
-                    ARS {course.discount_ars}%OFF
+                {/* Render the biggest discount */}
+                {biggestDiscount >= 1 && (
+                  <p className="position-absolute top-0 ms-10 start-50 translate-right-x translate-right-y fw-bold fs-6 text-success p-2 rounded z-50 discount-overlay ">
+                    {biggestDiscount}% OFF
                   </p>
-                )}
-                {/* DISCOUNT for USD only */}
-                {course.discount_usd >= 1 && course.discount_ars < 1 && (
-                  <p className="position-absolute start-40 top-10 translate-middle-x translate-middle-y  text-center fw-lighter text-xs bg-success p-[0.1] rounded">
-                    USD ${course.discount_usd}%OFF
-                  </p>
-                )}
-                {/* DISCOUNT for both ARS and USD */}
-                {course.discount_ars >= 1 && course.discount_usd >= 1 && (
-                  <div>
-                    <p className="position-absolute translate-middle-x translate-middle-y  text-center fw-lighter text-xs bg-success p-[0.1] rounded">
-                      ARS {course.discount_ars}% USD ${course.discount_usd}%
-                    </p>
-                  </div>
                 )}
 
                 {/* NExt Link */}
