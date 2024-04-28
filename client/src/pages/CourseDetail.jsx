@@ -102,7 +102,7 @@ const CourseDetail = () => {
                           <p>
                             <a
                               className="text-muted"
-                              href={`/course/update/${course._id}`}
+                              href={`${FRONTEND_URL}/course/update/${course._id}`}
                             >
                               <i className="fas fa-edit me-2 mx-2">Editar</i>
                             </a>
