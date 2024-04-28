@@ -4,6 +4,7 @@
   background-position: center; */
   height: auto;
   width: 100%;
+  margin-top: 4rem;
   display: flex; /* For centering content */
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
@@ -11,19 +12,7 @@
 
 }
 
-.containerr::before,
-.containerr::after {
-  content: '';
-  position: absolute;
-  width: 100vw;
-  height: 120vh;
-  background: rgba(0, 0, 0, 0);
-  box-shadow: inset 0px 10px 20px rgba(0, 0, 0, 0);
-}
 
-.cont-course-detail {
-  padding-top: calc(10% * 9 / 16); /* Default padding */
-}
 
 .container {
   
