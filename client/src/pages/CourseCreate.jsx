@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import AuthContext from "../context/AuthContext";
-import { BACKEND_URL } from "../config.js";
+import { BACKEND_URL, FRONTEND_URL } from "../config.js";
 
 const CourseCreate = () => {
   const { currentUser } = useContext(AuthContext);
@@ -75,7 +75,7 @@ const CourseCreate = () => {
       const data = await response.json();
       const courseId = data.courseId;
       // Redirect to the specified URL
-      window.location.href = `/course/${courseId}`;
+      window.location.href = `${FRONTEND_URL}/course/${courseId}`;
     } else {
       // Handle error response
       const errorData = await response.json();
