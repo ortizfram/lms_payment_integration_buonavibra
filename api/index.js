@@ -31,13 +31,6 @@ const __dirname = path.resolve();
 // Serve static files from the 'uploads' directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// use Client app
-// app.use(express.static("../client/dist"))
-
-// render client for any path
-// app.use("*", (req,res)=>{
-//   res.sendFile(path.resolve("../client/dist/index.html"))
-// })
 
 // routes
 app.use("/api/auth", authRoute);

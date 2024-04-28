@@ -1,14 +1,10 @@
 import axios from "axios";
-import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import "../public/css/home/home.css";
-// alerts
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { BACKEND_URL, isDev } from "../config.js";
+import ContactForm from "../components/contactForm/ContactForm.jsx";
 
-// NodeJS endpoint reference
 
 const Home = () => {
   const { currentUser, loggedIn } = useContext(AuthContext);
@@ -17,14 +13,6 @@ const Home = () => {
     maxWidth: "300px",
     height: "auto",
   };
-
-  // mail form data declaration
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [msg, setMsg] = useState("");
-  const navigate = useNavigate();
-
-  useEffect(() => {}, []);
 
   // Fetch Home
   const getHome = async () => {
@@ -40,30 +28,6 @@ const Home = () => {
     // console.log("BACKEND_URL ", BACKEND_URL);
     console.log("isDev ", isDev);
   }, []);
-
-  // send contact Email
-  const sendEmail = async (e) => {
-    try {
-      e.preventDefault();
-      const resContactForm = await axios.post(`${BACKEND_URL}/api/send-email`, {
-        name: name,
-        email: email,
-        msg: msg,
-      }); //  endpoint
-      if (resContactForm.status === 200) {
-        console.log("Email sent");
-        toast.success("📫Correo Enviado");
-        setTimeout(() => {
-          navigate(`/`);
-        }, 1000);
-      } else {
-        console.error("Email error");
-        toast.error("📫Correo Error");
-      }
-    } catch (error) {
-      console.error("Error sending Email:", error);
-    }
-  };
 
   return (
     <>
@@ -137,9 +101,9 @@ const Home = () => {
 
               {/* <!-- Row for contact icons --> */}
               <div className="row mt-4 container">
-                <div className="col backdrop-filter p-4 rounded mx-auto d-flex justify-content-between">
-                  <div className="list-unstyled d-flex justify-content-between">
-                    <a href="https://wa.me/2615996913" target="_blank">
+                <div className="col backdrop-filter p-4 rounded mx-auto d-flex justify-content-between items-center text-center align-middle">
+                  <div className="list-unstyled d-flex justify-content-between items-center text-center align-middle">
+                    <a href="https://wa.me/2615996913" target="_blank" className="mr-8">
                       <img
                         className="icon w-10 "
                         src="images/home/whatsapp-white-icon.png"
@@ -162,50 +126,7 @@ const Home = () => {
             </div>
 
             {/* <!-- contact form --> */}
-            <div className="row mt-4">
-              <div className="col rounded">
-                <form onSubmit={sendEmail}>
-                  {" "}
-                  {/* /send-email */}
-                  <h3 className="highlight-txt mb-3 text-center text-white">
-                    Contactar por Email.
-                  </h3>
-                  <div className="mb-3">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="name"
-                      value={name}
-                      placeholder="Nombre completo"
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      placeholder="Tu Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <textarea
-                      className="form-control"
-                      id="msg"
-                      rows="3"
-                      placeholder="Deja tu mensaje..."
-                      value={msg}
-                      onChange={(e) => setMsg(e.target.value)}
-                    ></textarea>
-                  </div>
-                  <button type="submit" className="btn btn-primary">
-                    Enviar
-                  </button>
-                </form>
-              </div>
-            </div>
+            <ContactForm />
           </div>
         </div>
       </div>
