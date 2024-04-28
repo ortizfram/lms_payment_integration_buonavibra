@@ -63,6 +63,7 @@ const CourseDetail = () => {
 
   return (
     <>
+    {course && (
       <div className="containerr">
         <div className="cont-course-detail">
           <div className="container">
@@ -125,6 +126,7 @@ const CourseDetail = () => {
           </div>
         </div>
       </div>
+    )}
     </>
   );
 };
