@@ -9,6 +9,10 @@ function WebMenu({ currentUser, loggedIn }) {
     setShowMenu(!showMenu);
   };
 
+  const closeMenu = () => {
+    setShowMenu(false);
+  };
+
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
@@ -27,7 +31,7 @@ function WebMenu({ currentUser, loggedIn }) {
       <div style={styles.navbar} className="navbar-container">
         {/* Menu Desktop */}
         <div style={styles.navLinks}>
-          <Link to={"/"} style={styles.link}>
+          <Link to={"/"} style={styles.link} onClick={closeMenu}>
             <img
               className="h-15 w-20"
               src="/images/home/white-logo-buonavibra.png"
@@ -36,22 +40,23 @@ function WebMenu({ currentUser, loggedIn }) {
           </Link>
           {/* Menu Desktop Links */}
           <div className="hidden md:block fs-4">
-            <a href="/#about1" style={styles.link}>
+            <a href="/#about1" style={styles.link} onClick={closeMenu}>
               Acerca
             </a>
-            <a href="/#contact" style={styles.link}>
+            <a href="/#contact" style={styles.link} onClick={closeMenu}>
               Contacto
             </a>
 
             {loggedIn === false && (
               <>
-                <Link to={"/login"} style={styles.link}>
+                <Link to={"/login"} style={styles.link} onClick={closeMenu}>
                   Cursos
                 </Link>
                 <Link
                   to={"/register"}
                   style={styles.link}
                   className="border rounded-md p-2 border-white"
+                  onClick={closeMenu}
                 >
                   Registrar
                 </Link>
@@ -59,6 +64,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   to={"/login"}
                   style={styles.link}
                   className="border rounded-md p-2 border-white"
+                  onClick={closeMenu}
                 >
                   Ingresar
                 </Link>
@@ -67,18 +73,18 @@ function WebMenu({ currentUser, loggedIn }) {
 
             {loggedIn === true && (
               <>
-                <Link to={"/course/all"} style={styles.link}>
+                <Link to={"/course/all"} style={styles.link} onClick={closeMenu}>
                   Cursos
                 </Link>
                 {currentUser && currentUser.isAdmin === false && (
-                  <Link to={"/course/library"} style={styles.link}>
+                  <Link to={"/course/library"} style={styles.link} onClick={closeMenu}>
                     Biblioteca
                   </Link>
                 )}
 
                 {currentUser && currentUser.isAdmin === true && (
                   <>
-                    <Link to={"/course/create"} style={styles.link}>
+                    <Link to={"/course/create"} style={styles.link} onClick={closeMenu}>
                       Crear Curso
                     </Link>
                   </>
@@ -101,25 +107,26 @@ function WebMenu({ currentUser, loggedIn }) {
       {showMenu && (
         <div className="lg:hidden mt-10" style={styles.mobileMenu}>
           <div className="mobileMenuLinks container text-center fs-3 ">
-            <Link to={"/"} style={styles.mobileLink}>
+            <Link to={"/"} style={styles.mobileLink} onClick={closeMenu}>
               Home
             </Link>
-            {/* <Link to={"/#about1"} style={styles.mobileLink}>
+            {/* <Link to={"/#about1"} style={styles.mobileLink} onClick={closeMenu}>
               About
             </Link>
-            <Link to={"/#contact"} style={styles.mobileLink}>
+            <Link to={"/#contact"} style={styles.mobileLink} onClick={closeMenu}>
               Contact
             </Link> */}
 
             {loggedIn === false && (
               <>
-                <Link to={"/login"} style={styles.mobileLink}>
+                <Link to={"/login"} style={styles.mobileLink} onClick={closeMenu}>
                   Cursos
                 </Link>
                 <Link
                   to={"/register"}
                   style={styles.mobileLink}
                   className="border rounded-md p-2 border-white"
+                  onClick={closeMenu}
                 >
                   Registrar
                 </Link>
@@ -127,6 +134,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   to={"/login"}
                   style={styles.mobileLink}
                   className="border rounded-md p-2 border-white"
+                  onClick={closeMenu}
                 >
                   Ingresar
                 </Link>
@@ -135,18 +143,18 @@ function WebMenu({ currentUser, loggedIn }) {
 
             {loggedIn === true && (
               <>
-                <Link to={"/course/all"} style={styles.mobileLink}>
+                <Link to={"/course/all"} style={styles.mobileLink} onClick={closeMenu}>
                   Cursos
                 </Link>
                 {currentUser && currentUser.isAdmin === false && (
-                  <Link to={"/course/library"} style={styles.mobileLink}>
+                  <Link to={"/course/library"} style={styles.mobileLink} onClick={closeMenu}>
                     Biblioteca
                   </Link>
                 )}
 
                 {currentUser && currentUser.isAdmin === true && (
                   <>
-                    <Link to={"/course/create"} style={styles.mobileLink}>
+                    <Link to={"/course/create"} style={styles.mobileLink} onClick={closeMenu}>
                       Crear Curso
                     </Link>
                   </>

@@ -27,19 +27,19 @@
 
 .hero-logo {
   max-width: 100%; /* Adjust logo size */
-  max-height: 10rem; /* Maintain aspect ratio */
+  max-height: 30rem; /* Maintain aspect ratio */
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .hero-logo {
-    max-height: 8rem; /* Adjust logo size for smaller screens */
+    max-height: 20rem; /* Adjust logo size for smaller screens */
   }
 }
 
 @media (max-width: 576px) {
   .hero-logo {
-    max-height: 6rem; /* Further adjust logo size for extra small screens */
+    max-height: 20rem; /* Further adjust logo size for extra small screens */
   }
 }
 
