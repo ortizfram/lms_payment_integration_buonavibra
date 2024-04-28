@@ -18,11 +18,11 @@ function WebMenu({ currentUser, loggedIn }) {
 
   return (
     <div className="min-w-[100vw]" style={{ zIndex: 1000 }}>
-      {currentUser && currentUser.isAdmin === true && (
+      {/* {currentUser && currentUser.isAdmin === true && (
         <div className=" bg-info text-center">
           Estás en cuenta admin, {currentUser.username}
         </div>
-      )}
+      )} */}
 
       <div style={styles.navbar} className="navbar-container">
         {/* Menu Desktop */}

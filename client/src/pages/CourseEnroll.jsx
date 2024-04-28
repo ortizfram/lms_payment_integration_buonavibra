@@ -145,7 +145,7 @@ const CourseEnroll = () => {
         <div className="page-container">
           <div className="course-overview">
             <div className="section-title2 mt-4 mb-4">
-              <h1 className="fs-1">Detalles de Pago</h1>
+              <h1 className="fs-1 fw-bolder">Detalles de Pago</h1>
             </div>
             {/* Payment Details */}
             <img
@@ -176,7 +176,7 @@ const CourseEnroll = () => {
               </span>
             </span>
 
-            <p className="price-text border border-success rounded p-1 fw-bold fs-3">
+            <p className="price-text border border-success rounded p-1 fw-bold fs-3 bg-success text-white">
               {renderPrice()}
             </p>
           </div>
