@@ -3,6 +3,9 @@ import { BACKEND_URL } from "../../config";
 import AuthContext from "../../context/AuthContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+// alerts
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function PlanDetail() {
   const { currentUser } = useContext(AuthContext);
@@ -39,17 +42,16 @@ function PlanDetail() {
   const handleDelete = async () => {
     try {
       const deletePlanRes = await axios.delete(
-        `${BACKEND_URL}/api/plans/${plan._id}`
+        `${BACKEND_URL}/api/plans/delete/${id}`
       );
-      if (deletePlanRes.status === 200) {
+      if (deletePlanRes.status === 204 || deletePlanRes.status === 200) {
         console.log("Pan deleted successfully");
-        toast.success("Pan borrado exitosamente");
+        toast.success("Plan borrado exitosamente");
         setTimeout(() => {
-          navigate(`/plans`);
+          window.location.href = `/plans`;
         }, 2000);
-      } else {
-        console.error("Failed to delete plan");
       }
+      console.error("Failed to delete plan");
     } catch (error) {
       console.error("Error deleting plan:", error);
     }
@@ -62,7 +64,10 @@ function PlanDetail() {
             <div className="container">
               <div className="row">
                 <div className="col-lg-12 max-w-[450px] mb-3">
-                  <img src={`${BACKEND_URL}${plan.thumbnail}`} className="rounded-lg"/>
+                  <img
+                    src={`${BACKEND_URL}${plan.thumbnail}`}
+                    className="rounded-lg"
+                  />
                 </div>
               </div>
 
@@ -75,14 +80,25 @@ function PlanDetail() {
                       <li>USD {plan.usd_price}</li>
                       <li>${plan.ars_price}</li>
                     </ul>
-                    <div id="buy-btns" className="space-y-2 mt-3 bg-[#333] border rounded-lg p-3">
+                    <div
+                      id="buy-btns"
+                      className="space-y-2 mt-3 bg-[#333] border rounded-lg p-3"
+                    >
                       <button className="btn border-success bg-transparent text-white fw-bold fs-3">
-                        <Link to={`${plan.payment_link_ars}`+`?planId=${plan._id}`}>
+                        <Link
+                          to={
+                            `${plan.payment_link_ars}` + `?planId=${plan._id}`
+                          }
+                        >
                           Comprar como Argentino{" "}
                         </Link>
                       </button>
                       <button className="btn border-success bg-transparent text-white fw-bold fs-3">
-                        <Link to={`${plan.payment_link_usd}`+`?planId=${plan._id}`}>
+                        <Link
+                          to={
+                            `${plan.payment_link_usd}` + `?planId=${plan._id}`
+                          }
+                        >
                           Comprar como Extranjero{" "}
                         </Link>
                       </button>
@@ -91,27 +107,32 @@ function PlanDetail() {
                 </div>
               </div>
             </div>
-<div className="col-lg-12 text-center mt-4">
-{isAdmin === true && (
-                      <span className="course-admin-options opacity-50 space-x-5">
-                        <button className="btn border-neutral-600   bg-transparent p-2">
-                          <p>
-                            <a
-                              className="text-muted"
-                              href={`/plans/update/${plan._id}`}
-                            >
-                              <i className="fas fa-edit me-2 mx-2">Editar</i>
-                            </a>
-                          </p>
-                        </button>
-                        <button className="btn border-neutral-600   bg-transparent p-2" onClick={handleDelete}>
-                          <p>
-                            <i className="fas fa-trash-alt me-2 text-danger">Borrar</i>
-                          </p>
-                        </button>
-                      </span>
-                    )}
-          </div>
+            <div className="col-lg-12 text-center mt-4">
+              {isAdmin === true && (
+                <span className="course-admin-options opacity-50 space-x-5">
+                  <button className="btn border-neutral-600   bg-transparent p-2">
+                    <p>
+                      <a
+                        className="text-muted"
+                        href={`/plans/update/${plan._id}`}
+                      >
+                        <i className="fas fa-edit me-2 mx-2">Editar</i>
+                      </a>
+                    </p>
+                  </button>
+                  <button
+                    className="btn border-neutral-600   bg-transparent p-2"
+                    onClick={handleDelete}
+                  >
+                    <p>
+                      <i className="fas fa-trash-alt me-2 text-danger">
+                        Borrar
+                      </i>
+                    </p>
+                  </button>
+                </span>
+              )}
+            </div>
           </div>
         </div>
       )}

@@ -15,7 +15,7 @@ route.post("/", upload.fields([{ name: "image" }]), createPlan);
 route.get("/", getPlans);
 route.get("/:id", getPlanById);
 route.put("/update/:id", upload.fields([{ name: "image"}]), updatePlan);
-route.delete("/:id", deletePlan);
+route.delete("/delete/:id", deletePlan);
 // list 1 from id
 route.get("/:id/fetch", getPlanById);
 
