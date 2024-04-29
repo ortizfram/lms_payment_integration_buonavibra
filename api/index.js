@@ -7,6 +7,7 @@ import customerRoute from "./routes/customer.route.js";
 import courseRoute from "./routes/course.route.js";
 import paymentRoute from "./routes/payment.route.js";
 import indexRoute from "./routes/index.route.js";
+import planRoute from "./routes/plan.routes.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { FRONTEND_URL } from "./config.js";
@@ -18,7 +19,7 @@ const DB_URI = process.env.DB_URI;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());  
+app.use(cookieParser());
 app.use(
   cors({
     origin: `${FRONTEND_URL}`,
@@ -31,16 +32,16 @@ const __dirname = path.resolve();
 // Serve static files from the 'uploads' directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-
 // routes
 app.use("/api/auth", authRoute);
 app.use("/api/customer", customerRoute);
 app.use("/api/course", courseRoute);
 app.use("/api/order", paymentRoute); // MP and Paypal
+app.use("/api/plans", planRoute);
 app.use("/api", indexRoute);
 
 app.listen(port, () => {
-  console.log("on port ", port)
+  console.log("on port ", port);
   mongoose
     .connect(DB_URI)
     .then((run) => {

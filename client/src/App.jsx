@@ -22,6 +22,11 @@ import "react-toastify/dist/ReactToastify.css";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 import Loader from "./components/loader/Loader";
+import Plans from "./pages/plans/Plans";
+import CreatePlan from "./pages/plans/CreatePlan";
+import PlanDetail from "./pages/plans/PlanDetail";
+import PlanEnroll from "./pages/plans/PlanEnroll";
+import UpdatePlan from "./pages/plans/UpdatePlan";
 
 axios.defaults.withCredentials = true;
 
@@ -56,6 +61,7 @@ export default function App() {
           <>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/plans" element={<Login />} />
           </>
         )}
         {/* isLogged */}
@@ -64,11 +70,16 @@ export default function App() {
             <Route path="/course/library" element={<CourseLibrary />} />
             <Route path="/course/:id" element={<CourseDetail />} />
             <Route path="/course/enroll/:id" element={<CourseEnroll />} />
+            <Route path="/plans" element={<Plans />} />
+            <Route path="/plans/:id" element={<PlanDetail />} />
+            <Route path="/plans/:id/enroll" element={<PlanEnroll />} />
             {/* isAdmin */}
             {currentUser && currentUser.isAdmin === true && (
               <>
                 <Route path="/course/create" element={<CourseCreate />} />
                 <Route path="/course/update/:id" element={<CourseUpdate />} />
+                <Route path="/plans/create" element={<CreatePlan />} />
+                <Route path="/plans/update/:id" element={<UpdatePlan />} />
               </>
             )}
           </>
