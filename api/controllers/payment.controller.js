@@ -12,10 +12,9 @@ import axios from "axios";
 import Course from "../models/course.model.js";
 import UserCourse from "../models/user_course.model.js";
 import User from "../models/user.model.js";
-import mercadopago, {
+import  {
   MercadoPagoConfig,
   Preference,
-  Payment,
 } from "mercadopago";
 import mongoose from "mongoose";
 

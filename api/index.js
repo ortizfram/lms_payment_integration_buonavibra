@@ -8,6 +8,7 @@ import courseRoute from "./routes/course.route.js";
 import paymentRoute from "./routes/payment.route.js";
 import indexRoute from "./routes/index.route.js";
 import planRoute from "./routes/plan.routes.js";
+import membershipRoute from "./routes/membership.routes.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { FRONTEND_URL } from "./config.js";
@@ -38,6 +39,7 @@ app.use("/api/customer", customerRoute);
 app.use("/api/course", courseRoute);
 app.use("/api/order", paymentRoute); // MP and Paypal
 app.use("/api/plans", planRoute);
+app.use("/api/membership", membershipRoute);
 app.use("/api", indexRoute);
 
 app.listen(port, () => {

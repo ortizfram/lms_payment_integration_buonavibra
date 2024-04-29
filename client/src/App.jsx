@@ -27,6 +27,7 @@ import CreatePlan from "./pages/plans/CreatePlan";
 import PlanDetail from "./pages/plans/PlanDetail";
 import PlanEnroll from "./pages/plans/PlanEnroll";
 import UpdatePlan from "./pages/plans/UpdatePlan";
+import Thanks from "./pages/Thanks";
 
 axios.defaults.withCredentials = true;
 
@@ -86,6 +87,7 @@ export default function App() {
         )}
         {/* No Restriction */}
         <Route path="*" element={<Loader />} />
+        <Route path="/thanks" element={<Thanks />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/course/all" element={<Courses />} />

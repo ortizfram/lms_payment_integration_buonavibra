@@ -39,6 +39,28 @@ function PlanDetail() {
     fetchPlan();
   }, [id, navigate]);
 
+  const membershipMP = async () => {
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/membership/create-mp?planId=${id}&userId=${currentUser._id}`
+      );
+
+      // Assuming the response contains an approval link
+      const approvalLink = response.data.approvalLink;
+
+      if (response.status === 200) {
+        toast.success("Abriendo Mercado Pago...");
+        setTimeout(() => {
+          // Redirect the user to MercadoPago for payment
+          window.location.href = approvalLink;
+        }, 2000);
+      }
+    } catch (error) {
+      console.error("Error initiating MercadoPago payment:", error);
+      toast.error("Error initiating payment. Please try again later.");
+    }
+  };
+
   const handleDelete = async () => {
     try {
       const deletePlanRes = await axios.delete(
@@ -84,13 +106,16 @@ function PlanDetail() {
                       id="buy-btns"
                       className="space-y-2 mt-3 bg-[#333] border rounded-lg p-3"
                     >
-                      <button className="btn border-success bg-transparent text-white fw-bold fs-3">
+                      <button
+                        // onClick={membershipMP}
+                        className="btn border-success bg-transparent text-white fw-bold fs-3"
+                      >
                         <Link
                           to={
                             `${plan.payment_link_ars}` + `?planId=${plan._id}`
                           }
                         >
-                          Comprar como Argentino{" "}
+                        Comprar como Argentino
                         </Link>
                       </button>
                       <button className="btn border-success bg-transparent text-white fw-bold fs-3">
@@ -99,7 +124,7 @@ function PlanDetail() {
                             `${plan.payment_link_usd}` + `?planId=${plan._id}`
                           }
                         >
-                          Comprar como Extranjero{" "}
+                          Comprar como Extranjero
                         </Link>
                       </button>
                     </div>
