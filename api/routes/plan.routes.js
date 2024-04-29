@@ -14,7 +14,7 @@ const route = express.Router();
 route.post("/", upload.fields([{ name: "image" }]), createPlan);
 route.get("/", getPlans);
 route.get("/:id", getPlanById);
-route.put("/:id", upload.fields([{ name: "image"}]), updatePlan);
+route.put("/update/:id", upload.fields([{ name: "image"}]), updatePlan);
 route.delete("/:id", deletePlan);
 // list 1 from id
 route.get("/:id/fetch", getPlanById);

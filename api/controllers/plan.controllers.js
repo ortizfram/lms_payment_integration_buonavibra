@@ -94,20 +94,18 @@ const updatePlan = async (req, res) => {
   try {
     const planId = req.params.id;
 
-    // Fetch existing course from the database
+    // Fetch existing plan from the database
     const plan = await Plan.findById(planId);
 
     if (!plan) {
-      return next(errorHandler(400, `Course not found.`));
+      return res.status(400).json({ message: `Plan not found.` });
     }
 
-    let imageUrl = course.thumbnail; // Preserve existing thumbnail URL
+    let imageUrl = plan.thumbnail; // Preserve existing thumbnail URL
 
     // Check if new files are provided in the request
-    if (req.files) {
-      imageUrl = req.files["image"]
-        ? "/uploads/imgs/" + req.files["image"][0].filename
-        : imageUrl;
+    if (req.files && req.files["image"]) {
+      imageUrl = "/uploads/imgs/" + req.files["image"][0].filename;
     }
 
     // Extract necessary data from request body
@@ -123,45 +121,47 @@ const updatePlan = async (req, res) => {
       author_id,
     } = req.body;
 
-    if (typeof title !== "string") {
-      String(title);
-    }
+    // Convert title to string if it's not already
+    const updatedTitle = typeof title === "string" ? title : String(title);
 
-    const discountArs = discount_ars || null;
-    const discountUsd = discount_usd || null;
+    // Validate and set discount values
+    const discountArs = parseInt(discount_ars) || null;
+    const discountUsd = parseInt(discount_usd) || null;
 
-    const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
-
-    // Fetch the user object from the database using the author_id
-
+    // Construct update data object
     const updateData = {
-      ...req.body,
-      title,
+      title: updatedTitle,
+      description,
+      ars_price,
+      usd_price,
       discount_ars: discountArs,
       discount_usd: discountUsd,
+      payment_link_ars,
+      payment_link_usd,
+      author_id,
       thumbnail: imageUrl,
-      updated_at: currentTimestamp,
     };
 
-    // Update course details
-    const updatePlan = await Plan.findByIdAndUpdate(new mongoose.Types.ObjectId(planId), updateData, {
+    console.log("Updating plan...");
+
+    // Update plan details
+    const updatedPlan = await Plan.findByIdAndUpdate(planId, updateData, {
       new: true,
     });
 
-    const updatedPlan = await updatePlan.save();
-
-    console.log("\nUpdating plan...");
-    console.log("\Plan:", updatedPlan);
+    console.log("Plan updated successfully");
 
     return res.status(200).json({
       message: "Plan updated successfully",
-      planId,
-      redirectUrl: `${FRONTEND_URL}/plans/${planId}`,
+      planId: updatedPlan._id,
+      redirectUrl: `/plans/${updatedPlan._id}`,
     });
   } catch (error) {
-    return res.json({message:"error updating plan", error});
+    console.error("Error updating plan:", error);
+    return res.status(500).json({ message: "Error updating plan", error });
   }
 };
+
 
 const deletePlan = async (req, res) => {
   try {

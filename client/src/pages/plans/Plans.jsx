@@ -25,7 +25,7 @@ function Plans() {
         {plans.map((plan) => (
           <>
             <Link to={`/plans/${plan._id}`}>
-              <li>{plan.thumbnail}</li>
+            <img src={`${BACKEND_URL}${plan.thumbnail}`} />
               <li>{plan.title}</li>
               <li>{plan.description}</li>
               <li>{plan.ars_price}</li>

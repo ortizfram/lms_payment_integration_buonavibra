@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    planId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Plan',
+      required: false,
+    },
   },
   { timestamps: true }
 );

@@ -69,7 +69,7 @@ const UpdatePlan = () => {
     const form = e.target;
     const formData = new FormData(form);
 
-    const response = await fetch(`${BACKEND_URL}/api/plans/${id}`, {
+    const response = await fetch(`${BACKEND_URL}/api/plans/update/${id}`, {
       method: "PUT",
       body: formData,
     });
@@ -81,7 +81,7 @@ const UpdatePlan = () => {
       toast.success("Plan ha sido actualizado");
       setTimeout(() => {
         // navigate(`/`);
-        window.location.href = `/plans/${data._id}`;
+        window.location.href = data.redirectUrl;
       }, 2000);
     } else {
       const errorData = await response.json();

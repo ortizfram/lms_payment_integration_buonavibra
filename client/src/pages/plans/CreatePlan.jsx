@@ -70,6 +70,8 @@ function CreatePlan() {
                 <input
                   type="text"
                   name="title"
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+
                   onChange={handleChange}
                 />
               </div>

@@ -58,12 +58,11 @@ function PlanDetail() {
     <>
       {plan && (
         <div className="containerr">
-          <div className="cont-course-detail">
+          <div className="cont-course-detail mb-3">
             <div className="container">
               <div className="row">
-                <div className="col-lg-12 text-center">
-                  {/* thubmnail */}
-                  <img src={plan.thumbnail} alt={`${plan.title}`} />
+                <div className="col-lg-12 max-w-[450px] mb-3">
+                  <img src={`${BACKEND_URL}${plan.thumbnail}`} className="rounded-lg"/>
                 </div>
               </div>
 
