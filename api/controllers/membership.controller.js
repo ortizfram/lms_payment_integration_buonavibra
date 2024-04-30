@@ -38,3 +38,38 @@ export const asignPlanToUserMP = async (req, res,uid) => {//api/membership/succe
     }
   }
 };
+
+export const asignPlanToUserPP = async (req,res,uid)=> {//api/membership/success-pp
+  const paymentType = req.query.type;
+  const planId = req.query.id;
+  const userId = uid;
+
+  if (paymentType === "pp" && planId) {
+    // Fetch plan details based on the planId using Mongoose
+    const plan = await Plan.findById(new mongoose.Types.ObjectId(planId));
+    if (!plan) {
+      console.log("Plan not found");
+      return res.status(404).json({ message: "Plan not found" });
+    }
+
+    console.log(userId, typeof(userId))
+    console.log(planId, typeof(planId))
+
+    if (plan && userId) {
+      const newUserPlan = new UserPlan({
+        user_id: userId,
+        plan_id: planId,
+      });
+      await newUserPlan.save();
+
+      console.log(
+        `👌🏽 --Inserted into UserPlan: user_id: ${userId}, plan_id: ${planId}`
+      );
+
+      // here we must redirect in frontend
+      // Return the HTML button to redirect to the course
+      const redirectUrl = `${FRONTEND_URL}/course/all?q=${planId}`;
+      return res.status(201).send(redirectUrl);
+    }
+  }
+}

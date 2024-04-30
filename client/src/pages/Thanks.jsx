@@ -20,6 +20,20 @@ function Thanks() {
     }
   };
 
+  const asignPPandGoCourses = async () => {
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/membership/success-pp`,
+        { uid: currentUser._id }
+      );
+      const redirectUrl = response.data.redirectUrl;
+      console.log("Redirect URL:", redirectUrl);
+      window.location.href = redirectUrl;
+    } catch (error) {
+      console.error("Error assigning plan to user:", error);
+    }
+  };
+
   return (
     <div className="text-center mt-[40vh]">
       ❤️✨ Gracias por tu compra ✨❤️
