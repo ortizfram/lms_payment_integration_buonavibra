@@ -1,39 +1,49 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import AuthContext from "../context/AuthContext";
+import Loader from "../components/loader/Loader";
 
-async function Thanks() {
+function Thanks() {
   const { currentUser } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
 
-  //thanks?type=&id=&uid=
+  useEffect(() => {
+    if (currentUser) {
+      setLoading(false);
+    }
+  }, [currentUser]);
+
   const asignMPandGoCourses = async () => {
+    if (!currentUser) {
+      // Handle case where currentUser is not available yet
+      return;
+    }
+
     try {
       const response = await axios.post(
         `${BACKEND_URL}/api/membership/success-mp`,
-        { uid: currentUser._id } // Pass currentUser._id as data
+        { uid: currentUser._id }
       );
-      const redirectUrl = response.data.redirectUrl; ///course/all?q=${planId}
+      const redirectUrl = response.data.redirectUrl;
       console.log("Redirect URL:", redirectUrl);
       window.location.href = redirectUrl;
     } catch (error) {
       console.error("Error assigning plan to user:", error);
     }
   };
+
   return (
-    <>
       <div className="text-center mt-[40vh]">
         ❤️✨ Gracias por tu compra ✨❤️
-      </div>
-      <div>
+        <br />
         <button
           onClick={asignMPandGoCourses}
-          className="text-white bg-success text-center"
+          className="text-white bg-success text-center p-3 rounded-lg mt-3"
         >
           Ir a Cursos
         </button>
       </div>
-    </>
   );
 }
 

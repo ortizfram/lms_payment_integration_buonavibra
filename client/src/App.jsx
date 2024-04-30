@@ -46,9 +46,7 @@ export default function App() {
   }, []);
 
   if (loading) {
-    return (
-      <Loader />
-    ); 
+    return <Loader />;
   }
 
   return (
@@ -87,8 +85,9 @@ export default function App() {
         )}
         {/* No Restriction */}
         <Route path="*" element={<Loader />} />
-        <Route path="/thanks" element={<Thanks />} />
         <Route path="/" element={<Home />} />
+        <Route path="/thanks" element={<Thanks />} />
+        {/* <Route path="/thanks" element={<h1>Graciass</h1>} /> */}
         <Route path="/about" element={<About />} />
         <Route path="/course/all" element={<Courses />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
