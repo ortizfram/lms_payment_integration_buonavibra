@@ -11,7 +11,7 @@ import planRoute from "./routes/plan.routes.js";
 import membershipRoute from "./routes/membership.routes.js";
 import cookieParser from "cookie-parser";
 import path from "path";
-import { FRONTEND_URL } from "./config.js";
+import { FRONTEND_URL, isDev } from "./config.js";
 
 dotenv.config();
 const port = process.env.PORT || 2020;
@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: `${FRONTEND_URL}`,
+    origin: isDev ? "https://buonavibra.com.ar": "http://localhost:5173",//`${FRONTEND_URL}`,
     credentials: true,
   })
 );
