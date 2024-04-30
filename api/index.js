@@ -23,8 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://buonavibra.com.ar",  //production
-    // origin: "http://localhost:5173",  // development
+    // origin: "https://buonavibra.com.ar",  //production
+    origin: "http://localhost:5173",  // development
     credentials: true,
   })
 );
