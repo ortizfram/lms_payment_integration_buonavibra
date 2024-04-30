@@ -90,7 +90,7 @@ function PlanDetail() {
                       >
                         <Link
                           to={
-                            `${plan.payment_link_ars}` + `?uid=${currentUser._id}`
+                            `${plan.payment_link_ars}`
                           }
                         >
                         Comprar como Argentino
