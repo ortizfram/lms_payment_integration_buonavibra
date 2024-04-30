@@ -1,15 +1,33 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import { BACKEND_URL } from "../config.js";
+import { fetchPlans } from "../fetchPlans.js";
 // alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 const CourseCreate = () => {
   const { currentUser } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedPlan, setSelectedPlan] = useState("");
+  const [plans, setPlans] = useState([]);
 
   const userId = currentUser?.["_id"];
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await fetchPlans();
+        console.log("Fetched plans data:", data);
+        setPlans(data);
+      } catch (error) {
+        console.error("Error fetching plans:", error);
+        setErrorMessage("Failed to fetch plans. Please try again later.");
+      }
+    }
+    fetchData();
+  }, []);
 
   const renderImage = (formData) => {
     const file = formData.get("image");
@@ -35,6 +53,7 @@ const CourseCreate = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setSelectedPlan(value);
 
     // Validate input for discount fields to ensure positive integers
     if (name === "discount_ars" || name === "discount_usd") {
@@ -54,6 +73,8 @@ const CourseCreate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+
+    formData.append("plan_id", selectedPlan);
 
     const imageFile = formData.get("image");
     const videoFile = formData.get("video");
@@ -103,7 +124,39 @@ const CourseCreate = () => {
                 {errorMessage}
               </p>
             )}
+            {/* Select PLAN */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="plan"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Seleccionar Plan:
+                </label>
+                {/* render all plan names */}
+                <select
+                  name="plan"
+                  id="plan"
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  onChange={handleChange}
+                  value={selectedPlan}
+                >
+                  <option value="">Seleccione un plan</option>
+                  {(() => {
+                    const options = [];
+                    for (let i = 0; i < plans.length; i++) {
+                      const plan = plans[i];
+                      options.push(
+                        <option key={plan._id} value={plan._id}>
+                          {plan.name}
+                        </option>
+                      );
+                    }
+                    return options;
+                  })()}
+                </select>
+              </div>
+
               <div>
                 <label
                   htmlFor="title"
