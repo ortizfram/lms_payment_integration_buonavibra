@@ -1,8 +1,8 @@
 import express from "express"
-import { createMembershipMP } from "../controllers/membership.controller.js"
+import { asignPlanToUserMP } from "../controllers/membership.controller.js"
 const router = express.Router()
 
-
-router.post("/create-mp", createMembershipMP)//api/membership/create-mp
+//api/membership
+router.post("/success-mp", asignPlanToUserMP)
 
 export default router

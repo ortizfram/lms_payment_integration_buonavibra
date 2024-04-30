@@ -39,28 +39,6 @@ function PlanDetail() {
     fetchPlan();
   }, [id, navigate]);
 
-  const membershipMP = async () => {
-    try {
-      const response = await axios.post(
-        `${BACKEND_URL}/api/membership/create-mp?planId=${id}&userId=${currentUser._id}`
-      );
-
-      // Assuming the response contains an approval link
-      const approvalLink = response.data.approvalLink;
-
-      if (response.status === 200) {
-        toast.success("Abriendo Mercado Pago...");
-        setTimeout(() => {
-          // Redirect the user to MercadoPago for payment
-          window.location.href = approvalLink;
-        }, 2000);
-      }
-    } catch (error) {
-      console.error("Error initiating MercadoPago payment:", error);
-      toast.error("Error initiating payment. Please try again later.");
-    }
-  };
-
   const handleDelete = async () => {
     try {
       const deletePlanRes = await axios.delete(
@@ -112,7 +90,7 @@ function PlanDetail() {
                       >
                         <Link
                           to={
-                            `${plan.payment_link_ars}` + `?planId=${plan._id}`
+                            `${plan.payment_link_ars}` + `?uid=${currentUser._id}`
                           }
                         >
                         Comprar como Argentino

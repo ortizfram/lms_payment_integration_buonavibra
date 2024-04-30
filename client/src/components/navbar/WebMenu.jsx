@@ -52,6 +52,9 @@ function WebMenu({ currentUser, loggedIn }) {
                 <Link to={"/login"} style={styles.link} onClick={closeMenu}>
                   Cursos
                 </Link>
+                <Link to={"/login"} style={styles.link} onClick={closeMenu}>
+                  Planes
+                </Link>
                 <Link
                   to={"/register"}
                   style={styles.link}
@@ -73,19 +76,41 @@ function WebMenu({ currentUser, loggedIn }) {
 
             {loggedIn === true && (
               <>
-                <Link to={"/course/all"} style={styles.link} onClick={closeMenu}>
+                <Link
+                  to={"/course/all"}
+                  style={styles.link}
+                  onClick={closeMenu}
+                >
                   Cursos
                 </Link>
+                <Link to={"/plans"} style={styles.link} onClick={closeMenu}>
+                  Planes
+                </Link>
                 {currentUser && currentUser.isAdmin === false && (
-                  <Link to={"/course/library"} style={styles.link} onClick={closeMenu}>
+                  <Link
+                    to={"/course/library"}
+                    style={styles.link}
+                    onClick={closeMenu}
+                  >
                     Biblioteca
                   </Link>
                 )}
 
                 {currentUser && currentUser.isAdmin === true && (
                   <>
-                    <Link to={"/course/create"} style={styles.link} onClick={closeMenu}>
+                    <Link
+                      to={"/course/create"}
+                      style={styles.link}
+                      onClick={closeMenu}
+                    >
                       Crear Curso
+                    </Link>
+                    <Link
+                      to={"/plans/create"}
+                      style={styles.link}
+                      onClick={closeMenu}
+                    >
+                      Nuevo Plan
                     </Link>
                   </>
                 )}
@@ -119,7 +144,18 @@ function WebMenu({ currentUser, loggedIn }) {
 
             {loggedIn === false && (
               <>
-                <Link to={"/login"} style={styles.mobileLink} onClick={closeMenu}>
+                <Link
+                  to={"/login"}
+                  style={styles.mobileLink}
+                  onClick={closeMenu}
+                >
+                  Planes
+                </Link>
+                <Link
+                  to={"/login"}
+                  style={styles.mobileLink}
+                  onClick={closeMenu}
+                >
                   Cursos
                 </Link>
                 <Link
@@ -143,19 +179,47 @@ function WebMenu({ currentUser, loggedIn }) {
 
             {loggedIn === true && (
               <>
-                <Link to={"/course/all"} style={styles.mobileLink} onClick={closeMenu}>
+                <Link
+                  to={"/course/all"}
+                  style={styles.mobileLink}
+                  onClick={closeMenu}
+                >
                   Cursos
                 </Link>
+                <Link
+                  to={"/plans"}
+                  style={styles.mobileLink}
+                  onClick={closeMenu}
+                >
+                  Planes
+                </Link>
                 {currentUser && currentUser.isAdmin === false && (
-                  <Link to={"/course/library"} style={styles.mobileLink} onClick={closeMenu}>
-                    Biblioteca
-                  </Link>
+                  <>
+                    <Link
+                      to={"/course/library"}
+                      style={styles.mobileLink}
+                      onClick={closeMenu}
+                    >
+                      Biblioteca
+                    </Link>
+                  </>
                 )}
 
                 {currentUser && currentUser.isAdmin === true && (
                   <>
-                    <Link to={"/course/create"} style={styles.mobileLink} onClick={closeMenu}>
+                    <Link
+                      to={"/course/create"}
+                      style={styles.mobileLink}
+                      onClick={closeMenu}
+                    >
                       Crear Curso
+                    </Link>
+                    <Link
+                      to={"/plans/create"}
+                      style={styles.mobileLink}
+                      onClick={closeMenu}
+                    >
+                      Nuevo Plan
                     </Link>
                   </>
                 )}
