@@ -41,7 +41,6 @@ export const courseCreate = async (req, res, next) => {
     const requiredFields = [
       "title",
       "description",
-      "text_content",
       "ars_price",
       "usd_price",
     ];

@@ -5,7 +5,7 @@ export const fetchPlans = async () => {
     const response = await fetch(`${BACKEND_URL}/api/plans`);
     if (response.ok) {
       const data = await response.json();
-      return data;
+      return data.data;
     } else {
       throw new Error("Failed to fetch plans");
     }

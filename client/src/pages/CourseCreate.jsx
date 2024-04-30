@@ -147,8 +147,8 @@ const CourseCreate = () => {
                     for (let i = 0; i < plans.length; i++) {
                       const plan = plans[i];
                       options.push(
-                        <option key={plan._id} value={plan._id}>
-                          {plan.name}
+                        <option  key={plan._id} value={plan._id}>
+                          <p className="text-black">{plan.title}</p>
                         </option>
                       );
                     }
@@ -240,70 +240,6 @@ const CourseCreate = () => {
                   ref={$image}
                   className="mt-4"
                   style={{ width: 300 }}
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label
-                  htmlFor="ars_price"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  ARS Price:
-                </label>
-                <input
-                  type="number"
-                  id="ars_price"
-                  name="ars_price"
-                  onChange={handleChange}
-                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="usd_price"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  USD Price:
-                </label>
-                <input
-                  type="number"
-                  id="usd_price"
-                  name="usd_price"
-                  onChange={handleChange}
-                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label
-                  htmlFor="discount_ars"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Descuento ARS (Opcional):
-                </label>
-                <input
-                  type="number"
-                  id="discount_ars"
-                  name="discount_ars"
-                  onChange={handleChange}
-                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="discount_usd"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Descuento USD (Opcional):
-                </label>
-                <input
-                  type="number"
-                  id="discount_usd"
-                  name="discount_usd"
-                  onChange={handleChange}
-                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
                 />
               </div>
             </div>
