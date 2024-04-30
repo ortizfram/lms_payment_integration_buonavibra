@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: isDev ? "https://buonavibra.com.ar": "http://localhost:5173",//`${FRONTEND_URL}`,
+    origin: "https://buonavibra.com.ar",//`${FRONTEND_URL}`,
     credentials: true,
   })
 );
