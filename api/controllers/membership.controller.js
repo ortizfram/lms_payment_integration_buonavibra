@@ -17,6 +17,9 @@ export const asignPlanToUserMP = async (req, res,uid) => {//api/membership/succe
       return res.status(404).json({ message: "Plan not found" });
     }
 
+    console.log(userId, typeof(userId))
+    console.log(planId, typeof(planId))
+
     if (plan && userId) {
       const newUserPlan = new UserPlan({
         user_id: userId,

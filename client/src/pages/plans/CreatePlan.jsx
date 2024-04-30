@@ -117,6 +117,7 @@ function CreatePlan() {
                 />
               </div>
             </div>
+            <p className="text-red fs-4">Nunca olvides tambien crear el precio del producto en <Link to={"https://www.mercadopago.com.ar/subscription-plans/list"}>Mercado Pago Planes</Link> y  <Link to={"https://www.paypal.com/billing/plans"}>Paypal Subscripciones</Link></p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label
