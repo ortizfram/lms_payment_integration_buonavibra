@@ -11,7 +11,7 @@ function Thanks() {
   const user_id = currentUser?.["_id"];
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
-      const type = urlParams.get("type");
+  const type = urlParams.get("type");
 
   //get id and type from params
 
@@ -23,14 +23,14 @@ function Thanks() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ user_id,id,type }),
+        body: JSON.stringify({ user_id, id, type }),
       });
-      if (response.status === 204) {
+      if (response.ok) {
         toast.success("Gracias, dirigiendo a Cursos");
-        // const redirectUrl = response.data.redirectUrl;
-        // setTimeout(() => {
-        //   window.location.href = redirectUrl;
-        // }, 200);
+        const redirectUrl = response.data;
+        setTimeout(() => {
+          window.location.href = `/course/all?q=${id}`;
+        }, 200);
       } else {
         console.error("Failed to send data to backend.");
       }

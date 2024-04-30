@@ -35,10 +35,7 @@ export const asignPlanToUserMP = async (req, res) => {
         `👌🏽 --Inserted into UserPlan: user_id: ${user_id}, plan_id: ${id}`
       );
 
-      // here we must redirect in frontend
-      // Return the HTML button to redirect to the course
-      const redirectUrl = `${FRONTEND_URL}/course/all?q=${id}`;
-      return res.status(201).json({ redirectUrl });
+      return res.status(200).json({ sucess:true, message:"plan asigned" });
     }
   }
 };
