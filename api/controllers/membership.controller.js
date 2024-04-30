@@ -4,10 +4,10 @@ import Plan from "../models/plan.model.js";
 import UserPlan from "../models/user_plan.model.js";
 
 // this is after btn subscription success redirect link
-export const asignPlanToUserMP = async (req, res) => {//api/membership/success-mp
+export const asignPlanToUserMP = async (req, res,uid) => {//api/membership/success-mp
   const paymentType = req.query.type;
   const planId = req.query.id;
-  const userId = req.query.uid;
+  const userId = uid;
 
   if (paymentType === "mp" && planId) {
     // Fetch plan details based on the planId using Mongoose
