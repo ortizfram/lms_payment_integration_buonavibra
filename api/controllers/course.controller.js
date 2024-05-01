@@ -201,8 +201,8 @@ export const courselist = async (req, res, next) => {
         discount_usd: course.discount_usd,
         thumbnail: `${BACKEND_URL}${course.thumbnail}`,
         thumbnailPath: course.thumbnail,
-        created_at: course.timestamps,
-        updated_at: course.timestamps,
+        created_at: course.createdAt,
+        updated_at: course.updatedAt,
         next: `${FRONTEND_URL}/course/${course._id}`, // Dynamic course link
         author: {
           username: course.author.username,

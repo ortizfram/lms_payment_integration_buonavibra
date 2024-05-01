@@ -55,14 +55,14 @@ function WebMenu({ currentUser, loggedIn }) {
                 <Link to={"/login"} style={styles.link} onClick={closeMenu}>
                   Planes
                 </Link>
-                <Link
+                {/* <Link
                   to={"/register"}
                   style={styles.link}
                   className="border rounded-md p-2 border-white"
                   onClick={closeMenu}
                 >
                   Registrar
-                </Link>
+                </Link> */}
                 <Link
                   to={"/login"}
                   style={styles.link}
@@ -158,14 +158,14 @@ function WebMenu({ currentUser, loggedIn }) {
                 >
                   Cursos
                 </Link>
-                <Link
+                {/* <Link
                   to={"/register"}
                   style={styles.mobileLink}
                   className="border rounded-md p-2 border-white"
                   onClick={closeMenu}
                 >
                   Registrar
-                </Link>
+                </Link> */}
                 <Link
                   to={"/login"}
                   style={styles.mobileLink}

@@ -3,6 +3,8 @@ import AuthContext from "../../context/AuthContext";
 import "../../public/css/course/courses.css";
 import BtnAdminPreview from "./BtnAdminPreview";
 import { FRONTEND_URL } from "../../config.js";
+import { formatDistanceToNow } from 'date-fns';
+
 
 function CourseList({ courses }) {
   const { currentUser } = useContext(AuthContext);
@@ -44,7 +46,7 @@ function CourseList({ courses }) {
                     src={course.thumbnail}
                     alt={`thumbnail-${course.slug}`}
                   />
-                  <p className="timestamp">{course.updatedAt}</p>
+                  <p className="timestamp">{formatDistanceToNow(course.updated_at)}</p>
 
                   {/* AUTHOR */}
                   <div className="author">
