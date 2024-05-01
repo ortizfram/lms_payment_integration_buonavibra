@@ -7,11 +7,6 @@ import { FRONTEND_URL } from "../../config.js";
 function CourseList({ courses }) {
   const { currentUser } = useContext(AuthContext);
 
-  const queryParams = new URLSearchParams(location.search);
-  const queryParam = queryParams.get("q");
-  useEffect(()=>{
-    console.log(queryParam)
-  }, [])
 
   // State for pagination
   const [visibleCourses, setVisibleCourses] = useState(5); // Number of courses to initially display

@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import PromoCode from "../models/promo.code.model.js";
 import { BACKEND_URL, FRONTEND_URL } from "../config.js";
+import { getNewestEnrolledPlan } from "../utils/userNewestEnrolledPlan.js";
 
 // create
 export const courseCreate = async (req, res, next) => {
@@ -25,24 +26,19 @@ export const courseCreate = async (req, res, next) => {
         : null;
 
     if (!imageUrl && !videoUrl) {
-      return res.status(400).json({message:"Video and miniatura are required"})
+      return res
+        .status(400)
+        .json({ message: "Video and miniatura are required" });
     }
-    
-    const {
-      title,
-      description,
-      text_content,
-      plan_id,
-    } = req.body;
-    
-    const requiredFields = [
-      "title",
-      "description",
-      "plan_id",
-    ];
+
+    const { title, description, text_content, plan_id } = req.body;
+
+    const requiredFields = ["title", "description", "plan_id"];
     for (const field of requiredFields) {
       if (!req.body[field]) {
-        return res.status(400).json({message:`The field '${field}' is required.`})
+        return res
+          .status(400)
+          .json({ message: `The field '${field}' is required.` });
       }
     }
 
@@ -83,7 +79,9 @@ export const courseCreate = async (req, res, next) => {
       courseId: newCourse._id,
     });
   } catch (error) {
-    return res.status(400).json({message:"titulo del curso ya existe, busca uno nuevo"})
+    return res
+      .status(400)
+      .json({ message: "titulo del curso ya existe, busca uno nuevo" });
   }
 };
 // Update
@@ -113,13 +111,7 @@ export const courseUpdate = async (req, res, next) => {
     }
 
     // Extract necessary data from request body
-    const {
-      plan_id,
-      title,
-      description,
-      text_content,
-      author_id,
-    } = req.body;
+    const { plan_id, title, description, text_content, author_id } = req.body;
 
     if (typeof title !== "string") {
       String(title);
@@ -167,23 +159,24 @@ export const courselist = async (req, res, next) => {
   try {
     const message = req.query.message;
     const user = req.user;
+    const planId = req.query.plan_id;
+    console.log("planId", planId);
 
-    // Fetch enrolled course IDs for the current user
-    const enrolledCourses = await UserCourse.find({ user_id: user }).distinct(
-      "course_id"
-    );
+    // Fetch newest enrolled plan ID for the current user
+    const enrolledPlan = await getNewestEnrolledPlan(user);
 
     // Fetch courses that the user has not enrolled in
-    const coursesNotEnrolled = await Course.find({
-      _id: { $nin: enrolledCourses },
+    const coursesEnrolled = await Course.find({
+      plan_id:enrolledPlan
     })
       .populate("author", "name username avatar")
       .sort({ createdAt: -1 })
       .lean();
 
     // Map courses to desired response format
-    const formattedCourses = coursesNotEnrolled.map((course) => ({
+    const formattedCourses = coursesEnrolled.map((course) => ({
       _id: course._id,
+      plan_id: course.plan_id,
       title: course.title,
       slug: course.slug,
       description: course.description,
@@ -272,7 +265,7 @@ export const courseEnroll = async (req, res) => {
   }
 
   const course = await Course.findById(courseId).exec(); // Execute the query as a promise
-  if (!course) { 
+  if (!course) {
     return res.status(404).json("Course not found");
   }
 

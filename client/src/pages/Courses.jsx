@@ -8,10 +8,14 @@ function Courses() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const queryParams = new URLSearchParams(location.search);
+  const q = queryParams.get("q");
 
   async function getCourses() {
     try {
-      const coursesRes = await axios.get(`${BACKEND_URL}/api/course/all`);
+      const coursesRes = await axios.get(`${BACKEND_URL}/api/course/all`, {
+        params: { plan_id: q },
+      });
       setCourses(coursesRes.data.courses);
     } catch (error) {
       setError(error.message);
@@ -21,8 +25,8 @@ function Courses() {
   }
 
   useEffect(() => {
-    getCourses();
-  }, []);
+    getCourses(q);
+  }, [q]);
 
   if (error) {
     return <div>Error: {error}</div>;
