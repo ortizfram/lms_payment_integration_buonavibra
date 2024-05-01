@@ -175,7 +175,7 @@ export const courselist = async (req, res, next) => {
         .populate("author", "name username avatar")
         .sort({ createdAt: -1 })
         .lean();
-    } else {
+    } else if (enrolledPlan) {
       // return courses for your plan
       coursesEnrolled = await Course.find({
         plan_id: enrolledPlan,
@@ -183,34 +183,39 @@ export const courselist = async (req, res, next) => {
         .populate("author", "name username avatar")
         .sort({ createdAt: -1 })
         .lean();
+    } else {
+      // return empty if no plan
+      coursesEnrolled = [];
     }
 
     // Map courses to desired response format
-    const formattedCourses = await Promise.all(coursesEnrolled.map(async (course) => {
-      const plan = await Plan.findById(course.plan_id).exec(); // Fetch plan asynchronously
-      return {
-        _id: course._id,
-        plan_id: course.plan_id,
-        plan_title: plan ? plan.title : "Unknown", // Check if plan exists
-        title: course.title,
-        slug: course.slug,
-        description: course.description,
-        ars_price: course.ars_price,
-        usd_price: course.usd_price,
-        discount_ars: course.discount_ars,
-        discount_usd: course.discount_usd,
-        thumbnail: `${BACKEND_URL}${course.thumbnail}`,
-        thumbnailPath: course.thumbnail,
-        created_at: course.createdAt,
-        updated_at: course.updatedAt,
-        next: `${FRONTEND_URL}/course/${course._id}`, // Dynamic course link
-        author: {
-          username: course.author.username,
-          email: course.author.email,
-          avatar: course.author.avatar,
-        },
-      };
-    }));
+    const formattedCourses = await Promise.all(
+      coursesEnrolled.map(async (course) => {
+        const plan = await Plan.findById(course.plan_id).exec(); // Fetch plan asynchronously
+        return {
+          _id: course._id,
+          plan_id: course.plan_id,
+          plan_title: plan ? plan.title : "Unknown", // Check if plan exists
+          title: course.title,
+          slug: course.slug,
+          description: course.description,
+          ars_price: course.ars_price,
+          usd_price: course.usd_price,
+          discount_ars: course.discount_ars,
+          discount_usd: course.discount_usd,
+          thumbnail: `${BACKEND_URL}${course.thumbnail}`,
+          thumbnailPath: course.thumbnail,
+          created_at: course.createdAt,
+          updated_at: course.updatedAt,
+          next: `${FRONTEND_URL}/course/${course._id}`, // Dynamic course link
+          author: {
+            username: course.author.username,
+            email: course.author.email,
+            avatar: course.author.avatar,
+          },
+        };
+      })
+    );
 
     res.status(200).json({
       courses: formattedCourses,
