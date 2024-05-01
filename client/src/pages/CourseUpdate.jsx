@@ -6,7 +6,6 @@ import { BACKEND_URL } from "../config.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const CourseUpdate = () => {
   const { currentUser } = useContext(AuthContext);
   const { id } = useParams();
@@ -16,10 +15,6 @@ const CourseUpdate = () => {
     title: "",
     description: "",
     text_content: "",
-    ars_price: 0,
-    usd_price: 0,
-    discount_ars: 0,
-    discount_usd: 0,
   });
   const $image = useRef(null);
 
@@ -31,7 +26,6 @@ const CourseUpdate = () => {
           const data = await response.json();
           const courseData = data.course;
           setFormData(courseData);
-          
         } else {
           throw new Error("Failed to fetch course data");
         }
@@ -72,7 +66,7 @@ const CourseUpdate = () => {
       body: formData,
     });
 
-    if (response.status ===200) {
+    if (response.status === 200) {
       const data = await response.json();
       setSuccessMessage(data.message);
       // Redirect to the updated course page
@@ -102,7 +96,6 @@ const CourseUpdate = () => {
             </p>
           )}
           <div>
-            
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* CONTENT */}
               <h3>Titulo & contenido:</h3>
@@ -200,84 +193,7 @@ const CourseUpdate = () => {
                   />
                 </div>
               </div>
-              <hr />
 
-              {/* PRICE */}
-              <h3>Configurar precio</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="ars_price"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    ARS Price:
-                  </label>
-                  <input
-                    type="number"
-                    id="ars_price"
-                    name="ars_price"
-                    value={formData.ars_price}
-                    onChange={handleChange}
-                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="usd_price"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    USD Price:
-                  </label>
-                  <input
-                    type="number"
-                    id="usd_price"
-                    name="usd_price"
-                    value={formData.usd_price}
-                    onChange={handleChange}
-                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-              </div>
-              <hr />
-
-              {/* DISCOUNT */}
-              <h3>Adicionales & descuentos</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="discount_ars"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    descuento_ars opcional (numeros enteros):
-                  </label>
-                  <br />
-                  <strong>% ARS </strong>
-                  <input
-                    type="number"
-                    id="discount_ars"
-                    name="discount_ars"
-                    value={formData.discount_ars}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="discount_usd"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    descuento_usd opcional (numeros enteros):
-                  </label>
-                  <br />
-                  <strong>% USD </strong>
-                  <input
-                    type="number"
-                    id="discount_usd"
-                    name="discount_usd"
-                    value={formData.discount_usd}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
               <input type="hidden" name="author_id" value={currentUser._id} />
               <div className="flex justify-center mt-6">
                 <button

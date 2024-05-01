@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/AuthContext";
 import "../../public/css/course/courses.css";
 import BtnAdminPreview from "./BtnAdminPreview";
@@ -6,6 +6,12 @@ import { FRONTEND_URL } from "../../config.js";
 
 function CourseList({ courses }) {
   const { currentUser } = useContext(AuthContext);
+
+  const queryParams = new URLSearchParams(location.search);
+  const queryParam = queryParams.get("q");
+  useEffect(()=>{
+    console.log(queryParam)
+  }, [])
 
   // State for pagination
   const [visibleCourses, setVisibleCourses] = useState(5); // Number of courses to initially display

@@ -32,17 +32,13 @@ export const courseCreate = async (req, res, next) => {
       title,
       description,
       text_content,
-      ars_price,
-      usd_price,
-      discount_ars,
-      discount_usd,
+      plan_id,
     } = req.body;
     
     const requiredFields = [
       "title",
       "description",
-      "ars_price",
-      "usd_price",
+      "plan_id",
     ];
     for (const field of requiredFields) {
       if (!req.body[field]) {
@@ -57,9 +53,6 @@ export const courseCreate = async (req, res, next) => {
 
     const courseSlug = slugify(courseTitle, { lower: true, strict: true });
 
-    const discountArs = discount_ars || null;
-    const discountUsd = discount_usd || null;
-
     const currentDate = new Date();
     const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
@@ -68,14 +61,11 @@ export const courseCreate = async (req, res, next) => {
     const author = await User.findById(author_id);
 
     const newCourse = new Course({
+      plan_id,
       title: courseTitle,
       slug: courseSlug,
       description,
       text_content,
-      ars_price,
-      usd_price,
-      discount_ars: discountArs,
-      discount_usd: discountUsd,
       thumbnail: imageUrl,
       video: videoUrl,
       created_at: currentTimestamp,
@@ -124,13 +114,10 @@ export const courseUpdate = async (req, res, next) => {
 
     // Extract necessary data from request body
     const {
+      plan_id,
       title,
       description,
       text_content,
-      ars_price,
-      usd_price,
-      discount_ars,
-      discount_usd,
       author_id,
     } = req.body;
 
@@ -140,9 +127,6 @@ export const courseUpdate = async (req, res, next) => {
 
     const courseSlug = slugify(title, { lower: true, strict: true });
 
-    const discountArs = discount_ars || null;
-    const discountUsd = discount_usd || null;
-
     const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
     // Fetch the user object from the database using the author_id
@@ -150,10 +134,9 @@ export const courseUpdate = async (req, res, next) => {
 
     const updateData = {
       ...req.body,
+      plan_id,
       title,
       slug: courseSlug,
-      discount_ars: discountArs,
-      discount_usd: discountUsd,
       thumbnail: imageUrl,
       video: videoUrl,
       updated_at: currentTimestamp,
