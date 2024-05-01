@@ -5,13 +5,17 @@ import { BACKEND_URL } from "../config.js";
 // alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { fetchPlans } from "../fetchPlans.js";
 
 const CourseUpdate = () => {
   const { currentUser } = useContext(AuthContext);
   const { id } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [selectedPlan, setSelectedPlan] = useState("");
+  const [plans, setPlans] = useState([]);
   const [formData, setFormData] = useState({
+    plan_id:"",
     title: "",
     description: "",
     text_content: "",
@@ -26,6 +30,9 @@ const CourseUpdate = () => {
           const data = await response.json();
           const courseData = data.course;
           setFormData(courseData);
+          const plansData = await fetchPlans()
+          console.log(plansData)
+          setPlans(plansData)
         } else {
           throw new Error("Failed to fetch course data");
         }
@@ -40,6 +47,8 @@ const CourseUpdate = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setSelectedPlan(value);
+
 
     // Validate input for discount fields to ensure positive integers
     if (name === "discount_ars" || name === "discount_usd") {
@@ -60,6 +69,8 @@ const CourseUpdate = () => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
+    formData.append("plan_id", selectedPlan);
+
 
     const response = await fetch(`${BACKEND_URL}/api/course/update/${id}`, {
       method: "PUT",
@@ -100,6 +111,37 @@ const CourseUpdate = () => {
               {/* CONTENT */}
               <h3>Titulo & contenido:</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* SELECT A PLAN */}
+                <div>
+                <label
+                  htmlFor="plan"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Seleccionar Plan:
+                </label>
+                {/* render all plan names */}
+                <select
+                  name="plan"
+                  id="plan"
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  onChange={handleChange}
+                  value={selectedPlan}
+                >
+                  <option value="">Seleccione un plan</option>
+                  {(() => {
+                    const options = [];
+                    for (let i = 0; i < plans.length; i++) {
+                      const plan = plans[i];
+                      options.push(
+                        <option  key={plan._id} value={plan._id}>
+                          <p className="text-black">{plan.title}</p>
+                        </option>
+                      );
+                    }
+                    return options;
+                  })()}
+                </select>
+              </div>
                 <div>
                   <label
                     htmlFor="title"
