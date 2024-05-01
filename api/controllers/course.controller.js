@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import PromoCode from "../models/promo.code.model.js";
 import { BACKEND_URL, FRONTEND_URL } from "../config.js";
 import { getNewestEnrolledPlan } from "../utils/userNewestEnrolledPlan.js";
+import Plan from "../models/plan.model.js";
 
 // create
 export const courseCreate = async (req, res, next) => {
@@ -159,41 +160,56 @@ export const courselist = async (req, res, next) => {
   try {
     const message = req.query.message;
     const user = req.user;
+    const sUser = await User.findById(user);
     const planId = req.query.plan_id;
     console.log("planId", planId);
 
     // Fetch newest enrolled plan ID for the current user
     const enrolledPlan = await getNewestEnrolledPlan(user);
 
-    // Fetch courses that the user has not enrolled in
-    const coursesEnrolled = await Course.find({
-      plan_id:enrolledPlan
-    })
-      .populate("author", "name username avatar")
-      .sort({ createdAt: -1 })
-      .lean();
+    let coursesEnrolled;
+
+    // return all courses for Admin
+    if (sUser.isAdmin) {
+      coursesEnrolled = await Course.find()
+        .populate("author", "name username avatar")
+        .sort({ createdAt: -1 })
+        .lean();
+    } else {
+      // return courses for your plan
+      coursesEnrolled = await Course.find({
+        plan_id: enrolledPlan,
+      })
+        .populate("author", "name username avatar")
+        .sort({ createdAt: -1 })
+        .lean();
+    }
 
     // Map courses to desired response format
-    const formattedCourses = coursesEnrolled.map((course) => ({
-      _id: course._id,
-      plan_id: course.plan_id,
-      title: course.title,
-      slug: course.slug,
-      description: course.description,
-      ars_price: course.ars_price,
-      usd_price: course.usd_price,
-      discount_ars: course.discount_ars,
-      discount_usd: course.discount_usd,
-      thumbnail: `${BACKEND_URL}${course.thumbnail}`,
-      thumbnailPath: course.thumbnail,
-      created_at: course.timestamps,
-      updated_at: course.timestamps,
-      next: `${FRONTEND_URL}/course/${course._id}`, // Dynamic course link
-      author: {
-        username: course.author.username,
-        email: course.author.email,
-        avatar: course.author.avatar,
-      },
+    const formattedCourses = await Promise.all(coursesEnrolled.map(async (course) => {
+      const plan = await Plan.findById(course.plan_id).exec(); // Fetch plan asynchronously
+      return {
+        _id: course._id,
+        plan_id: course.plan_id,
+        plan_title: plan ? plan.title : "Unknown", // Check if plan exists
+        title: course.title,
+        slug: course.slug,
+        description: course.description,
+        ars_price: course.ars_price,
+        usd_price: course.usd_price,
+        discount_ars: course.discount_ars,
+        discount_usd: course.discount_usd,
+        thumbnail: `${BACKEND_URL}${course.thumbnail}`,
+        thumbnailPath: course.thumbnail,
+        created_at: course.timestamps,
+        updated_at: course.timestamps,
+        next: `${FRONTEND_URL}/course/${course._id}`, // Dynamic course link
+        author: {
+          username: course.author.username,
+          email: course.author.email,
+          avatar: course.author.avatar,
+        },
+      };
     }));
 
     res.status(200).json({

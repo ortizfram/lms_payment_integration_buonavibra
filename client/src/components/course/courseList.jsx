@@ -44,7 +44,7 @@ function CourseList({ courses }) {
                     src={course.thumbnail}
                     alt={`thumbnail-${course.slug}`}
                   />
-                  <p className="timestamp ">{course.updated_at}</p>
+                  <p className="timestamp">{course.updatedAt}</p>
 
                   {/* AUTHOR */}
                   <div className="author">
@@ -62,6 +62,7 @@ function CourseList({ courses }) {
                       </p>
                     )}
                   </div>
+                  <h4 className="plan-title italic">{course.plan_title}</h4>
                   <h2 className="course-title">{course.title}</h2>
 
                   {/* PRICE */}
