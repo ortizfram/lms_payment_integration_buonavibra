@@ -15,7 +15,7 @@ const CourseUpdate = () => {
   const [selectedPlan, setSelectedPlan] = useState("");
   const [plans, setPlans] = useState([]);
   const [formData, setFormData] = useState({
-    plan_id:"",
+    plan_id: "",
     title: "",
     description: "",
     text_content: "",
@@ -29,10 +29,11 @@ const CourseUpdate = () => {
         if (response.ok) {
           const data = await response.json();
           const courseData = data.course;
+          console.log(courseData);
           setFormData(courseData);
-          const plansData = await fetchPlans()
-          console.log(plansData)
-          setPlans(plansData)
+          const plansData = await fetchPlans();
+          console.log(plansData);
+          setPlans(plansData);
         } else {
           throw new Error("Failed to fetch course data");
         }
@@ -48,7 +49,6 @@ const CourseUpdate = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setSelectedPlan(value);
-
 
     // Validate input for discount fields to ensure positive integers
     if (name === "discount_ars" || name === "discount_usd") {
@@ -70,7 +70,6 @@ const CourseUpdate = () => {
     const form = e.target;
     const formData = new FormData(form);
     formData.append("plan_id", selectedPlan);
-
 
     const response = await fetch(`${BACKEND_URL}/api/course/update/${id}`, {
       method: "PUT",
@@ -113,35 +112,36 @@ const CourseUpdate = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* SELECT A PLAN */}
                 <div>
-                <label
-                  htmlFor="plan"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Seleccionar Plan:
-                </label>
-                {/* render all plan names */}
-                <select
-                  name="plan"
-                  id="plan"
-                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  onChange={handleChange}
-                  value={selectedPlan}
-                >
-                  <option value="">Seleccione un plan</option>
-                  {(() => {
-                    const options = [];
-                    for (let i = 0; i < plans.length; i++) {
-                      const plan = plans[i];
-                      options.push(
-                        <option  key={plan._id} value={plan._id}>
-                          <p className="text-black">{plan.title}</p>
+                  <label
+                    htmlFor="plan"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Seleccionar Plan:
+                  </label>
+                  {/* render all plan names */}
+                  <select
+                    name="plan"
+                    id="plan"
+                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    onChange={handleChange}
+                    value={selectedPlan}
+                  >
+                    <option value="">
+                      {" "}
+                      {formData.plan_id
+                        ? plans.find((plan) => plan._id === formData.plan_id)
+                            ?.title
+                        : "Seleccione un Plan"}
+                    </option>
+                    {plans
+                      .filter((plan) => plan._id !== formData.plan_id) // Filter out the plan with the same ID as formData.plan_id
+                      .map((plan) => (
+                        <option key={plan._id} value={plan._id}>
+                          {plan.title}
                         </option>
-                      );
-                    }
-                    return options;
-                  })()}
-                </select>
-              </div>
+                      ))}
+                  </select>
+                </div>
                 <div>
                   <label
                     htmlFor="title"
