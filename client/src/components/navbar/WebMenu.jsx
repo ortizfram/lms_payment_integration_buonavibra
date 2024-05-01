@@ -86,7 +86,7 @@ function WebMenu({ currentUser, loggedIn }) {
                 <Link to={"/plans"} style={styles.link} onClick={closeMenu}>
                   Planes
                 </Link>
-                {currentUser && currentUser.isAdmin === false && (
+                {/* {currentUser && currentUser.isAdmin === false && (
                   <Link
                     to={"/course/library"}
                     style={styles.link}
@@ -94,7 +94,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   >
                     Biblioteca
                   </Link>
-                )}
+                )} */}
 
                 {currentUser && currentUser.isAdmin === true && (
                   <>
@@ -193,7 +193,7 @@ function WebMenu({ currentUser, loggedIn }) {
                 >
                   Planes
                 </Link>
-                {currentUser && currentUser.isAdmin === false && (
+                {/* {currentUser && currentUser.isAdmin === false && (
                   <>
                     <Link
                       to={"/course/library"}
@@ -203,7 +203,7 @@ function WebMenu({ currentUser, loggedIn }) {
                       Biblioteca
                     </Link>
                   </>
-                )}
+                )} */}
 
                 {currentUser && currentUser.isAdmin === true && (
                   <>
