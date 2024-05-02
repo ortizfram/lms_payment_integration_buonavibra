@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .ft-briemhand {
+      font-family: 'Briem Hand', cursive;
+    }
+  }

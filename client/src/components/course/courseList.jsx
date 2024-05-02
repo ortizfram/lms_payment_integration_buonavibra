@@ -27,7 +27,9 @@ function CourseList({ courses }) {
 
   return (
     <div className="courses-page-container">
+      <h1 className="text-center mb-4 fw-bolder fs-3 section-title text-dark mt-5">Cursos</h1>
       <div className="courses-container">
+
       <>
   {courses.length > 0 ? (
     <ul className="courses-grid">

@@ -19,12 +19,12 @@ function Plans() {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4 fw-bolder fs-3">Planes</h1>
+      <h1 className="text-center mb-4 fw-bolder fs-3 section-title text-dark">Planes</h1>
       <hr />
       <div className="row">
         {plans.map((plan) => (
           <div key={plan._id} className="col-md-4 mb-4">
-            <div className="card h-100">
+            <div className="card h-100 border border-muted shadow">
               <div className="thumbnail-wrapper" style={{ height: "200px", overflow: "hidden" }}>
                 <img
                   src={`${BACKEND_URL}${plan.thumbnail}`}
