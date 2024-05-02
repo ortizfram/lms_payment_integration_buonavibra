@@ -80,31 +80,29 @@ function PlanDetail() {
                       <li>USD {plan.usd_price}</li>
                       <li>${plan.ars_price}</li>
                     </ul>
-                    <div
-                      id="buy-btns"
-                      className="space-y-2 mt-3 bg-[#333] border rounded-lg p-3"
-                    >
-                      <button
-                        // onClick={membershipMP}
-                        className="btn border-success bg-transparent text-white fw-bold fs-3"
+                    <div className="payment-options d-flex justify-content-center gap-4 mt-5 align-middle p-2">
+                      <Link
+                        to={`${plan.payment_link_ars}`}
+                        className="btn border border-dark d-flex align-items-center justify-content-center hover-bg-gray text-black"
                       >
-                        <Link
-                          to={
-                            `${plan.payment_link_ars}`
-                          }
-                        >
+                        <img
+                          className="max-w-6 me-2"
+                          src="/images/mercado-pago.png"
+                          alt="mercado-pago-icon"
+                        />
                         Comprar como Argentino
-                        </Link>
-                      </button>
-                      <button className="btn border-success bg-transparent text-white fw-bold fs-3">
-                        <Link
-                          to={
-                            `${plan.payment_link_usd}` + `?planId=${plan._id}`
-                          }
-                        >
-                          Comprar como Extranjero
-                        </Link>
-                      </button>
+                      </Link>
+                      <Link
+                        to={`${plan.payment_link_usd}` + `?planId=${plan._id}`}
+                        className="btn border border-dark d-flex align-items-center justify-content-center hover-bg-gray text-black"
+                      >
+                        <img
+                          className="max-w-6 me-2"
+                          src="/images/paypal.png"
+                          alt="paypal-icon"
+                        />
+                        Comprar como Extranjero
+                      </Link>
                     </div>
                   </div>
                 </div>
