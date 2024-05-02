@@ -40,6 +40,9 @@ function WebMenu({ currentUser, loggedIn }) {
           </Link>
           {/* Menu Desktop Links */}
           <div className="hidden md:block fs-4">
+            <a href="/" style={styles.link} onClick={closeMenu}>
+              Inicio
+            </a>
             <a href="/#about1" style={styles.link} onClick={closeMenu}>
               Acerca
             </a>
@@ -133,7 +136,7 @@ function WebMenu({ currentUser, loggedIn }) {
         <div className="lg:hidden mt-10" style={styles.mobileMenu}>
           <div className="mobileMenuLinks container text-center fs-3 ">
             <Link to={"/"} style={styles.mobileLink} onClick={closeMenu}>
-              Home
+              Inicio
             </Link>
             {/* <Link to={"/#about1"} style={styles.mobileLink} onClick={closeMenu}>
               About

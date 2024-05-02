@@ -112,7 +112,7 @@ function PlanDetail() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-12 text-center my-4">
+            <div className="col-lg-12 text-center my-4 mb-5">
               {isAdmin === true && (
                 <span className="course-admin-options opacity-50 space-x-5">
                   <button className="btn border-neutral-600   bg-transparent p-2">

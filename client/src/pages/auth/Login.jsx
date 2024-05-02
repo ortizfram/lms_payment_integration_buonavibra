@@ -24,7 +24,7 @@ function Login() {
       );
       if (loginRes.status === 200) {
         console.log("Hola Nuevamente");
-        toast.success("HOLAAAAAA!");
+        toast.success("👐HOLAAAAAA!");
         await getLoggedIn();
         setTimeout(() => {
           navigate(`/`);

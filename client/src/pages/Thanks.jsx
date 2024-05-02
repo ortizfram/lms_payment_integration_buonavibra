@@ -27,7 +27,30 @@ function Thanks() {
       });
       if (response.ok) {
         toast.success("Gracias, dirigiendo a Cursos");
-        const redirectUrl = response.data;
+        // const redirectUrl = response.data;
+        setTimeout(() => {
+          window.location.href = `/course/all?q=${id}`;
+        }, 200);
+      } else {
+        console.error("Failed to send data to backend.");
+      }
+    } catch (error) {
+      console.error("Error assigning plan to user:", error);
+    }
+  };
+  const asignPPandGoCourses = async () => {
+    console.log("button triggered");
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/membership/success-pp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user_id, id, type }),
+      });
+      if (response.ok) {
+        toast.success("Gracias, dirigiendo a Cursos");
+        // const redirectUrl = response.data;
         setTimeout(() => {
           window.location.href = `/course/all?q=${id}`;
         }, 200);
@@ -44,7 +67,7 @@ function Thanks() {
       ❤️✨ Gracias por tu compra ✨❤️
       <br />
       <button
-        onClick={asignMPandGoCourses}
+        onClick={type === "mp" ? asignMPandGoCourses : asignPPandGoCourses}
         className="text-white bg-success text-center p-3 rounded-lg mt-3"
       >
         Ir a Cursos

@@ -25,15 +25,27 @@ function Plans() {
         {plans.map((plan) => (
           <div key={plan._id} className="col-md-4 mb-4">
             <div className="card h-100">
-              <img src={`${BACKEND_URL}${plan.thumbnail}`} className="card-img-top" alt={`thumbnail-${plan.title}`} />
+              <div className="thumbnail-wrapper" style={{ height: "200px", overflow: "hidden" }}>
+                <img
+                  src={`${BACKEND_URL}${plan.thumbnail}`}
+                  className="card-img-top"
+                  alt={`thumbnail-${plan.title}`}
+                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                />
+              </div>
               <div className="card-body d-flex flex-column">
-                <h5 className="card-title fw-bold fs-6">{plan.title}</h5>
-               <div className=" px-2 mb-2">
-               <p className="card-text flex-grow-1">{plan.description}</p>
-                <p className="fw-bold">${plan.ars_price}</p>
-                <p className="fw-bold">USD {plan.usd_price}</p>
-               </div>
-                <Link to={`/plans/${plan._id}`} className="btn text-white  bg-[#ef7f72] hover:bg-[#c9685d] mt-auto">Ver más</Link>
+                <h5 className="card-title fw-bold fs-6">{plan.title}.</h5>
+                <div className=" px-2 mb-2">
+                  <p className="card-text flex-grow-1 italic">{plan.description}.</p>
+                  <p className="fw-bold">${plan.ars_price}</p>
+                  <p className="fw-bold">USD {plan.usd_price}</p>
+                </div>
+                <Link
+                  to={`/plans/${plan._id}`}
+                  className="btn text-white  bg-[#ef7f72] hover:bg-[#c9685d] mt-auto"
+                >
+                  Ver más
+                </Link>
               </div>
             </div>
           </div>
