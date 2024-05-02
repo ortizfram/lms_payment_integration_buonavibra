@@ -93,7 +93,7 @@ function PlanDetail() {
                         Comprar como Argentino
                       </Link>
                       <Link
-                        to={`${plan.payment_link_usd}` + `?planId=${plan._id}`}
+                        to={`${plan.payment_link_usd}`}
                         className="btn border border-dark d-flex align-items-center justify-content-center hover-bg-gray text-black"
                       >
                         <img
