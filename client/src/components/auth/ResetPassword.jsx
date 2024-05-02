@@ -5,6 +5,7 @@ import "../../public/css/auth/resetPassword.css"
 // alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BACKEND_URL } from "../../config";
 
 const ResetPassword = () => {
   const { id, token } = useParams();
@@ -58,6 +59,7 @@ const ResetPassword = () => {
           name="password"
           placeholder="Nueva Contrasena"
           value={password}
+          className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
@@ -67,10 +69,11 @@ const ResetPassword = () => {
           name="repeat-password"
           placeholder="Repite Contrasena"
           value={repeatPassword}
+          className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
           onChange={(e) => setRepeatPassword(e.target.value)}
         />
         <br />
-        <button type="submit">Enviar</button>
+        <button type="submit" className="btn bg-danger mt-2 text-black">Enviar</button>
       </form>
       {message && <p>{message}</p>}
     </div>

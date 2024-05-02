@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../public/css/auth/forgotPassword.css"; // Import your custom CSS file for styling
 import { Link } from "react-router-dom";
+import { BACKEND_URL } from "../../config";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -22,6 +23,7 @@ const ForgotPassword = () => {
       if (response.status === 200) {
         console.log("email sent");
         toast.success("📫Correo enviado, mira tu casilla");
+        
       } else {
         console.error("email error");
         toast.error("📫Correo error");
