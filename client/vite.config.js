@@ -7,8 +7,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target:  BACKEND_URL,
-        // target:  `'http://localhost:2020'`,
+        // target:  BACKEND_URL,
+        target:  `'https://api-buonavibra-prod.onrender.com'`, //production
+        // target:  `'http://localhost:2020'`, //development
         secure: false,
       },
     },
