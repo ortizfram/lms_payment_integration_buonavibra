@@ -203,7 +203,7 @@ export const courselist = async (req, res, next) => {
           usd_price: course.usd_price,
           discount_ars: course.discount_ars,
           discount_usd: course.discount_usd,
-          thumbnail: `${BACKEND_URL}${course.thumbnail}`,
+          thumbnail: course.thumbnail,
           thumbnailPath: course.thumbnail,
           created_at: course.createdAt,
           updated_at: course.updatedAt,
