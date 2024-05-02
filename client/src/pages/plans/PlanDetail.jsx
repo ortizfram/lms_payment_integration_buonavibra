@@ -59,28 +59,32 @@ function PlanDetail() {
   return (
     <>
       {plan && (
-        <div className="containerr">
-          <div className="cont-course-detail mb-3">
+        <div className="container mt-5">
+          <div className="cont-course-detail">
             <div className="container">
               <div className="row">
-                <div className="col-lg-12 max-w-[450px] mb-3">
-                  <img
-                    src={`${BACKEND_URL}${plan.thumbnail}`}
-                    className="rounded-lg"
-                  />
+                <div className="col-lg-12 mb-3 d-flex justify-content-center">
+                  <div style={{ maxWidth: "20rem" }}>
+                    <img
+                      src={`${BACKEND_URL}${plan.thumbnail}`}
+                      className="rounded-lg w-100"
+                      style={{ objectFit: "cover" }}
+                      alt={`thumbnail-${plan.title}`}
+                    />
+                  </div>
                 </div>
               </div>
 
               <div className="row">
                 <div className="col-lg-12 text-center">
                   <div>
-                    <h2 className="text-4xl mb-4">{plan.title}</h2>
+                    <h2 className="text-4xl mb-3">{plan.title}</h2>
                     <h6 className="text-xl mb-2">{plan.description}</h6>
                     <ul className="prices text-muted">
                       <li>USD {plan.usd_price}</li>
                       <li>${plan.ars_price}</li>
                     </ul>
-                    <div className="payment-options d-flex justify-content-center gap-4 mt-5 align-middle p-2">
+                    <div className="payment-options d-flex justify-content-center gap-4 mt-2 align-middle p-2">
                       <Link
                         to={`${plan.payment_link_ars}`}
                         className="btn border border-dark d-flex align-items-center justify-content-center hover-bg-gray text-black"
@@ -108,7 +112,7 @@ function PlanDetail() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-12 text-center mt-4">
+            <div className="col-lg-12 text-center my-4">
               {isAdmin === true && (
                 <span className="course-admin-options opacity-50 space-x-5">
                   <button className="btn border-neutral-600   bg-transparent p-2">

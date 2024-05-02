@@ -43,7 +43,7 @@ function CourseList({ courses }) {
             )}
 
             {/* Next Link */}
-            <a href={`${FRONTEND_URL}/course/enroll/${course._id}`}>
+            <a href={`${FRONTEND_URL}/course/${course._id}`}>
               {/* COURSE DATA */}
               <img
                 src={course.thumbnail}

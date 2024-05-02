@@ -18,23 +18,27 @@ function Plans() {
   }, []);
 
   return (
-    <div>
-      <h1>Planes</h1>
+    <div className="container mt-5">
+      <h1 className="text-center mb-4 fw-bolder fs-3">Planes</h1>
       <hr />
-      <ul>
+      <div className="row">
         {plans.map((plan) => (
-          <>
-            <Link to={`/plans/${plan._id}`}>
-            <img src={`${BACKEND_URL}${plan.thumbnail}`} />
-              <li>{plan.title}</li>
-              <li>{plan.description}</li>
-              <li>{plan.ars_price}</li>
-              <li>{plan.usd_price}</li>
-            </Link>
-            <br />
-          </>
+          <div key={plan._id} className="col-md-4 mb-4">
+            <div className="card h-100">
+              <img src={`${BACKEND_URL}${plan.thumbnail}`} className="card-img-top" alt={`thumbnail-${plan.title}`} />
+              <div className="card-body d-flex flex-column">
+                <h5 className="card-title fw-bold fs-6">{plan.title}</h5>
+               <div className=" px-2 mb-2">
+               <p className="card-text flex-grow-1">{plan.description}</p>
+                <p className="fw-bold">${plan.ars_price}</p>
+                <p className="fw-bold">USD {plan.usd_price}</p>
+               </div>
+                <Link to={`/plans/${plan._id}`} className="btn text-white  bg-[#ef7f72] hover:bg-[#c9685d] mt-auto">Ver más</Link>
+              </div>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

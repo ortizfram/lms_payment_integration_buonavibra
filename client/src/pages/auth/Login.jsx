@@ -59,7 +59,7 @@ function Login() {
             />
           </div>
           <button type="submit" className="btn btn-primary">
-            Login
+            Ingresar
           </button>
           <div className="link-container">
             <p>
