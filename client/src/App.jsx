@@ -28,6 +28,7 @@ import PlanDetail from "./pages/plans/PlanDetail";
 import PlanEnroll from "./pages/plans/PlanEnroll";
 import UpdatePlan from "./pages/plans/UpdatePlan";
 import Thanks from "./pages/Thanks";
+import EnterToNextClassBubble from "./components/floating/EnterToNextClass";
 
 axios.defaults.withCredentials = true;
 
@@ -53,6 +54,7 @@ export default function App() {
     <BrowserRouter>
       <Navbar />
       <ToastContainer />
+      <EnterToNextClassBubble />
 
       <Routes>
         {/* Not Logged In */}
