@@ -48,8 +48,8 @@ function CourseList({ courses }) {
             <a href={`${FRONTEND_URL}/course/${course._id}`}>
               {/* COURSE DATA */}
               <img
-                src={course.thumbnail}
-                alt={`thumbnail-${course.slug}`}
+                src={`${BACKEND_URL}${course.thumbnail}`}
+                alt={`thumbnail-${course.title}`}
               />
               <p className="timestamp">
                 {formatDistanceToNow(course.updated_at)}
