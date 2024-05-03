@@ -1,34 +1,39 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import CourseCreate from "./pages/CourseCreate";
-import Courses from "./pages/Courses";
-import CourseDetail from "./pages/CourseDetail";
-import CourseUpdate from "./pages/CourseUpdate";
-import CourseEnroll from "./pages/CourseEnroll";
-import Navbar from "./layouts/Navbar";
-import Register from "./pages/auth/Register";
-import Login from "./pages/auth/Login";
+import React, { useState, useEffect, lazy, Suspense  } from "react";
 import axios from "axios";
-import AuthContext from "./context/AuthContext";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+// context auth
+import AuthContext from "./context/AuthContext" ;
 import { useContext } from "react";
-import CourseLibrary from "./pages/CourseLibrary";
+// css
 import "./public/css/highlightText.css";
 import "./public/css/icon.css";
 import "./public/css/sectionTitle.css";
+// alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ForgotPassword from "./components/auth/ForgotPassword";
-import ResetPassword from "./components/auth/ResetPassword";
-import Loader from "./components/loader/Loader";
-import Plans from "./pages/plans/Plans";
-import CreatePlan from "./pages/plans/CreatePlan";
-import PlanDetail from "./pages/plans/PlanDetail";
-import PlanEnroll from "./pages/plans/PlanEnroll";
-import UpdatePlan from "./pages/plans/UpdatePlan";
-import Thanks from "./pages/Thanks";
+// bubble & navbar & loader
 import EnterToNextClassBubble from "./components/floating/EnterToNextClass";
+import Navbar from "./layouts/Navbar" ;
+import Loader from "./components/loader/Loader" ;
+// components / pages 
+const Home = lazy(()=> import("./pages/Home"));
+const About= lazy(()=>import("./pages/About")) ;
+const CourseCreate= lazy(()=>import("./pages/CourseCreate"));
+const Courses = lazy(()=>import("./pages/Courses"));
+const CourseDetail = lazy(()=>import("./pages/CourseDetail")) ;
+const CourseUpdate = lazy(()=>import("./pages/CourseUpdate")) ; //= lazy(()=>import())
+const CourseEnroll = lazy(()=>import("./pages/CourseEnroll")) ;
+const Register = lazy(()=>import("./pages/auth/Register")) ;
+const Login = lazy(()=>import("./pages/auth/Login")) ;
+const CourseLibrary = lazy(()=>import("./pages/CourseLibrary")) ;
+const ForgotPassword = lazy(()=>import("./components/auth/ForgotPassword")) ;
+const ResetPassword = lazy(()=>import("./components/auth/ResetPassword")) ;
+const Plans = lazy(()=>import("./pages/plans/Plans")) ;
+const CreatePlan = lazy(()=>import("./pages/plans/CreatePlan")) ;
+const PlanDetail = lazy(()=>import("./pages/plans/PlanDetail")) ;
+const PlanEnroll = lazy(()=>import("./pages/plans/PlanEnroll")) ;
+const UpdatePlan = lazy(()=>import("./pages/plans/UpdatePlan")) ;
+const Thanks = lazy(()=>import("./pages/Thanks")) ;
 
 axios.defaults.withCredentials = true;
 
@@ -56,6 +61,7 @@ export default function App() {
       <ToastContainer />
       <EnterToNextClassBubble />
 
+        <Suspense fallback={<Loader />}>
       <Routes>
         {/* Not Logged In */}
         {loggedIn === false && (
@@ -94,6 +100,7 @@ export default function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
       </Routes>
+        </Suspense>
     </BrowserRouter>
   );
 }
