@@ -56,7 +56,7 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter basename="/lms_payment_integration_buonavibra">
+    <BrowserRouter>
       <Navbar />
       <ToastContainer />
       <EnterToNextClassBubble />
