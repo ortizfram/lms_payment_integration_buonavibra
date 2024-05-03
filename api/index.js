@@ -43,6 +43,14 @@ app.use("/api/plans", planRoute);
 app.use("/api/membership", membershipRoute);
 app.use("/api", indexRoute);
 
+// Serve front-end application in production
+if (!isDev) {
+  app.use(express.static(path.join(__dirname, "client", "build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
 app.listen(port, () => {
   console.log("on port ", port);
   mongoose
