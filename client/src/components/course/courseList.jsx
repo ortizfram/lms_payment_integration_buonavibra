@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/AuthContext";
 import "../../public/css/course/courses.css";
 import BtnAdminPreview from "./BtnAdminPreview";
-import { FRONTEND_URL } from "../../config.js";
+import { FRONTEND_URL, BACKEND_URL } from "../../config.js";
 import { formatDistanceToNow } from 'date-fns';
 import { Link } from "react-router-dom";
 
