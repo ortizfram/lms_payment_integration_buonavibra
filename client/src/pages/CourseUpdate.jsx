@@ -24,6 +24,8 @@ const CourseUpdate = () => {
   const $image = useRef(null);
 
   useEffect(() => {
+    console.log("changing selectedPlan:", selectedPlan);
+
     const fetchCourseData = async () => {
       try {
         const response = await fetch(`${BACKEND_URL}/api/course/${id}/fetch`);
@@ -46,7 +48,7 @@ const CourseUpdate = () => {
     };
 
     fetchCourseData();
-  }, [id]);
+  }, [id, selectedPlan]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,7 +71,6 @@ const CourseUpdate = () => {
   const handleChangePlan = (e) => {
     const { value } = e.target;
     setSelectedPlan(value);
-    console.log("changing selectedPlan:", selectedPlan);
   };
 
   const handleSubmit = async (e) => {
