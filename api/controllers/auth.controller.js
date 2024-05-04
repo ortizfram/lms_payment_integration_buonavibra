@@ -174,7 +174,7 @@ export const forgotPassword = async (req, res) => {
     // const token = jwt.sign(payload, secret, { expiresIn: "1y" });
     // console.log("Generated token:", token);
 
-    const link = `${FRONTEND_URL}/reset-password/${userId}/${secret}`;
+    const link = `${FRONTEND_URL}/#/reset-password/${userId}/${secret}`;
     console.log("Generated reset password link:", link);
 
     await sendResetEmail(
