@@ -27,7 +27,7 @@ function PlanDetail() {
         } else {
           if (fetchPlanRes.status === 404) {
             console.log("Redirecting to enrollment page...");
-            navigate(`/plans`);
+            navigate(`/#/plans`);
             console.log("Redirection completed.");
           }
         }
@@ -48,7 +48,7 @@ function PlanDetail() {
         console.log("Pan deleted successfully");
         toast.success("Plan borrado exitosamente");
         setTimeout(() => {
-          window.location.href = `/plans`;
+          window.location.href = `/#/plans`;
         }, 2000);
       }
       console.error("Failed to delete plan");
@@ -119,7 +119,7 @@ function PlanDetail() {
                     <p>
                       <a
                         className="text-muted"
-                        href={`/plans/update/${plan._id}`}
+                        href={`/#/plans/update/${plan._id}`}
                       >
                         <i className="fas fa-edit me-2 mx-2">Editar</i>
                       </a>

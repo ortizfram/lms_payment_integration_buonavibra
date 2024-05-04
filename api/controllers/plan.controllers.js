@@ -154,14 +154,13 @@ const updatePlan = async (req, res) => {
     return res.status(200).json({
       message: "Plan updated successfully",
       planId: updatedPlan._id,
-      redirectUrl: `/plans/${updatedPlan._id}`,
+      redirectUrl: `/#/plans/${updatedPlan._id}`,
     });
   } catch (error) {
     console.error("Error updating plan:", error);
     return res.status(500).json({ message: "Error updating plan", error });
   }
 };
-
 
 const deletePlan = async (req, res) => {
   try {
