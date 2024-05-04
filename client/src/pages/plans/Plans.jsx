@@ -19,13 +19,22 @@ function Plans() {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4 fw-bolder fs-3 section-title text-dark">Planes</h1>
+      <h1 className="text-center mb-4 fw-bolder fs-3 section-title text-dark">
+        Planes
+      </h1>
       <hr />
       <div className="row">
         {plans.map((plan) => (
           <div key={plan._id} className="col-md-4 mb-4">
-            <div className="card h-100 border border-muted shadow">
-              <div className="thumbnail-wrapper" style={{ height: "200px", overflow: "hidden" }}>
+            <div
+              className={`card h-100 border ${
+                plan.title.includes("Re") ? "border-danger" : "border-muted"
+              } shadow`}
+            >
+              <div
+                className="thumbnail-wrapper"
+                style={{ height: "200px", overflow: "hidden" }}
+              >
                 <img
                   src={`${BACKEND_URL}${plan.thumbnail}`}
                   className="card-img-top"
@@ -36,7 +45,9 @@ function Plans() {
               <div className="card-body d-flex flex-column">
                 <h5 className="card-title fw-bold fs-6">{plan.title}.</h5>
                 <div className=" px-2 mb-2">
-                  <p className="card-text flex-grow-1 italic">{plan.description}.</p>
+                  <p className="card-text flex-grow-1 italic">
+                    {plan.description}.
+                  </p>
                   <p className="fw-bold">${plan.ars_price}</p>
                   <p className="fw-bold">USD {plan.usd_price}</p>
                 </div>
