@@ -51,7 +51,7 @@ const CourseDetail = () => {
         console.log("Course deleted successfully");
         toast.success("Course deleted successfully");
         setTimeout(() => {
-          navigate(`/course/all`);
+          navigate(`/#/course/all`);
         }, 2000);
       } else {
         console.error("Failed to delete course");
