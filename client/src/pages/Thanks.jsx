@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 function Thanks() {
   const { currentUser } = useContext(AuthContext);
   const user_id = currentUser?.["_id"];
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window.location.hash.split("?")[1]);
   const id = urlParams.get("id");
   const type = urlParams.get("type");
 
