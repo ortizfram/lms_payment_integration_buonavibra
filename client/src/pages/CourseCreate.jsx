@@ -101,7 +101,7 @@ const CourseCreate = () => {
       setTimeout(() => {
         // navigate(`/`);
         // Redirect to the specified URL
-        window.location.href = `/course/${courseId}`;
+        window.location.href = `/#/course/${courseId}`;
       }, 2000);
     } else {
       // Handle error response
@@ -147,7 +147,7 @@ const CourseCreate = () => {
                     for (let i = 0; i < plans.length; i++) {
                       const plan = plans[i];
                       options.push(
-                        <option  key={plan._id} value={plan._id}>
+                        <option key={plan._id} value={plan._id}>
                           <p className="text-black">{plan.title}</p>
                         </option>
                       );
