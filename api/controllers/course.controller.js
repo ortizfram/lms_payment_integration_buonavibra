@@ -132,14 +132,15 @@ export const courseUpdate = async (req, res, next) => {
     const author = await User.findById(new mongoose.Types.ObjectId(author_id));
 
     const updateData = {
-      ...req.body,
       plan_id,
       title,
       slug: courseSlug,
+      description,
+      text_content,
       thumbnail: imageUrl,
       video: videoUrl,
+      author: author._id,
       updated_at: currentTimestamp,
-      author: author_id,
     };
 
     // Update course details
