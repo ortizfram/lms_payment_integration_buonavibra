@@ -145,9 +145,13 @@ const updatePlan = async (req, res) => {
     console.log("Updating plan...");
 
     // Update plan details
-    const updatedPlan = await Plan.findByIdAndUpdate(planId, updateData, {
-      new: true,
-    });
+    const updatedPlan = await Plan.findByIdAndUpdate(
+      new mongoose.Types.ObjectId(planId),
+      updateData,
+      {
+        new: true,
+      }
+    );
 
     console.log("Plan updated successfully");
 

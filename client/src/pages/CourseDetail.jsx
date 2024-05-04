@@ -30,7 +30,7 @@ const CourseDetail = () => {
         } else {
           if (fetchCourseRes.status === 404) {
             console.log("Redirecting to enrollment page...");
-            navigate(`/course/all`);
+            navigate(`/#/course/all`);
             console.log("Redirection completed.");
           }
         }
@@ -51,7 +51,7 @@ const CourseDetail = () => {
         console.log("Course deleted successfully");
         toast.success("Course deleted successfully");
         setTimeout(() => {
-          navigate(`/course/all`);
+          navigate(`/#/course/all`);
         }, 2000);
       } else {
         console.error("Failed to delete course");

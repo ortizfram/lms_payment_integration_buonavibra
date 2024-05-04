@@ -29,17 +29,23 @@ export const courseCreate = async (req, res, next) => {
     if (!imageUrl && !videoUrl) {
       return res
         .status(400)
-        .json({ message: "Video and miniatura are required" });
+        .json({ message: "Video and miniatura son obligatorios" });
     }
 
     const { title, description, text_content, plan_id } = req.body;
 
-    const requiredFields = ["title", "description", "plan_id"];
+    if (!plan_id) {
+      return res
+        .status(400)
+        .json({ message: `Un titulo de plan debe ser asignado` });
+    }
+
+    const requiredFields = ["title", "description"];
     for (const field of requiredFields) {
       if (!req.body[field]) {
         return res
           .status(400)
-          .json({ message: `The field '${field}' is required.` });
+          .json({ message: `el campo '${field}' es requerido.` });
       }
     }
 
@@ -137,9 +143,13 @@ export const courseUpdate = async (req, res, next) => {
     };
 
     // Update course details
-    const updateCourse = await Course.findByIdAndUpdate(courseId, updateData, {
-      new: true,
-    });
+    const updateCourse = await Course.findByIdAndUpdate(
+      new mongoose.Types.ObjectId(courseId),
+      updateData,
+      {
+        new: true,
+      }
+    );
 
     const updatedCourse = await updateCourse.save();
 
