@@ -149,7 +149,7 @@ export const courseUpdate = async (req, res, next) => {
     return res.status(200).json({
       message: "Course updated successfully",
       courseId: updatedCourse._id,
-      redirectUrl: `/course/${courseId}`,
+      redirectUrl: `/#/course/${courseId}`,
     });
   } catch (error) {
     return next(error);
