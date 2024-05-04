@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import axios from "axios";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 // context auth
 import AuthContext from "./context/AuthContext";
 import { useContext } from "react";
@@ -56,7 +56,8 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter>
+    <HashRouter>
+      {/* <BrowserRouter> */}
       <Navbar />
       <ToastContainer />
       <EnterToNextClassBubble />
@@ -104,6 +105,7 @@ export default function App() {
           />
         </Routes>
       </Suspense>
-    </BrowserRouter>
+      {/*</BrowserRouter> */}
+    </HashRouter>
   );
 }
