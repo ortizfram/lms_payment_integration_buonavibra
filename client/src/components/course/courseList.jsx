@@ -36,7 +36,7 @@ function CourseList({ courses }) {
             <ul className="courses-grid">
               {courses.slice(0, visibleCourses).map((course, index) => (
                 <li key={index}>
-                  <BtnAdminPreview courseId={course._id} />
+                  {/* <BtnAdminPreview courseId={course._id} /> */}
                   <div className="course-item position-relative backdrop-filter shadow-lg">
                     {/* Render the biggest discount */}
                     {biggestDiscount >= 1 && (
