@@ -31,7 +31,7 @@ const createPlan = async (req, res) => {
       if (!req.body[field]) {
         return res
           .status(400)
-          .json({ message: `The field '${field}' is required.` });
+          .json({ message: `El campo '${field}' es requerido.` });
       }
     }
     let planTitle = title;
