@@ -35,6 +35,7 @@ const CourseUpdate = () => {
           const plansData = await fetchPlans();
           console.log(plansData);
           setPlans(plansData);
+          console.log("selectedPlan ", selectedPlan);
         } else {
           throw new Error("Failed to fetch course data");
         }
@@ -50,6 +51,7 @@ const CourseUpdate = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setSelectedPlan(value);
+    console.log("changing selectedPlan:", selectedPlan);
 
     // Validate input for discount fields to ensure positive integers
     if (name === "discount_ars" || name === "discount_usd") {
@@ -70,12 +72,6 @@ const CourseUpdate = () => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-
-    // Validate if selectedPlan is a valid ObjectId
-    if (!mongoose.Types.ObjectId.isValid(selectedPlan)) {
-      setErrorMessage("Invalid plan ID selected.");
-      return;
-    }
 
     formData.append("plan_id", selectedPlan);
 
