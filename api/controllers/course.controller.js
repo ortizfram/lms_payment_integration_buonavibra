@@ -118,18 +118,20 @@ export const courseUpdate = async (req, res, next) => {
     }
 
     // Extract necessary data from request body
-    const { plan_id, title, description, text_content, author_id } = req.body;
+    let { plan_id, title, description, text_content, author_id } = req.body;
 
     if (typeof title !== "string") {
-      String(title);
+      title = String(title);
     }
 
     const courseSlug = slugify(title, { lower: true, strict: true });
 
     const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
-    // Check if plan_id is a valid ObjectId
-    if (!mongoose.Types.ObjectId.isValid(plan_id)) {
+    // Check if plan_id is a valid ObjectId and convert it to string if needed
+    if (mongoose.Types.ObjectId.isValid(plan_id)) {
+      plan_id = plan_id.toString();
+    } else {
       return next(errorHandler(400, `Invalid plan ID.`));
     }
 
