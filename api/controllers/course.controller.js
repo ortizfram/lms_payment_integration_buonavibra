@@ -128,13 +128,6 @@ export const courseUpdate = async (req, res, next) => {
 
     const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
-    // Check if plan_id is a valid ObjectId and convert it to string if needed
-    if (mongoose.Types.ObjectId.isValid(plan_id)) {
-      plan_id = plan_id.toString();
-    } else {
-      return next(errorHandler(400, `Invalid plan ID.`));
-    }
-
     // Fetch the user object from the database using the author_id
     const author = await User.findById(author_id);
 
