@@ -131,6 +131,15 @@ export const courseUpdate = async (req, res, next) => {
     // Fetch the user object from the database using the author_id
     const author = await User.findById(author_id);
 
+    // log debugger
+    console.log("plan_id:", "type:", typeof plan_id, plan_id);
+    console.log(
+      "plan_id:",
+      "type:",
+      typeof new mongoose.Types.ObjectId(plan_id),
+      new mongoose.Types.ObjectId(plan_id)
+    );
+
     const updateData = {
       plan_id: new mongoose.Types.ObjectId(plan_id),
       title,
