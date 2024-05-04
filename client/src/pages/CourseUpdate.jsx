@@ -132,7 +132,7 @@ const CourseUpdate = () => {
                     id="plan"
                     className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
                     onChange={handleChangePlan}
-                    // value={formData.plan_id} // Set the value to formData.plan_id
+                    value={selectedPlan}
                   >
                     <option value="">Seleccione un Plan</option>
                     {plans.map((plan) => (
