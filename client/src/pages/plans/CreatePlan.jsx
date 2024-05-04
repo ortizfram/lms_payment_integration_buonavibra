@@ -39,7 +39,7 @@ function CreatePlan() {
       console.log("Plan created:", response.data.data);
       toast.success("Plan creado exitosamente");
       setTimeout(() => {
-        window.location.href = "/plans"
+        window.location.href = "/#/plans";
       }, 2000);
     } else {
       setErrorMessage("Failed to create plan.");
@@ -71,7 +71,6 @@ function CreatePlan() {
                   type="text"
                   name="title"
                   className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-
                   onChange={handleChange}
                 />
               </div>
@@ -117,7 +116,22 @@ function CreatePlan() {
                 />
               </div>
             </div>
-            <p className="text-danger fs-6">Nunca olvides tambien crear el precio del producto en <Link className="underline text-blue" to={"https://www.mercadopago.com.ar/subscription-plans/list"}>Mercado Pago Planes</Link> y  <Link className="underline text-blue" to={"https://www.paypal.com/billing/plans"}>Paypal Subscripciones</Link></p>
+            <p className="text-danger fs-6">
+              Nunca olvides tambien crear el precio del producto en{" "}
+              <Link
+                className="underline text-blue"
+                to={"https://www.mercadopago.com.ar/subscription-plans/list"}
+              >
+                Mercado Pago Planes
+              </Link>{" "}
+              y{" "}
+              <Link
+                className="underline text-blue"
+                to={"https://www.paypal.com/billing/plans"}
+              >
+                Paypal Subscripciones
+              </Link>
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label
@@ -199,7 +213,7 @@ function CreatePlan() {
                 />
               </div>
               <div>
-              <label
+                <label
                   htmlFor="payment_link_usd"
                   className="block text-sm font-medium text-gray-700"
                 >
