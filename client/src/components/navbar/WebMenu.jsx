@@ -43,12 +43,12 @@ function WebMenu({ currentUser, loggedIn }) {
             <a href="/" style={styles.link} onClick={closeMenu}>
               Inicio
             </a>
-            <a href="/#about1" style={styles.link} onClick={closeMenu}>
+            {/* <a href="/#about1" style={styles.link} onClick={closeMenu}>
               Acerca
-            </a>
-            <a href="/#contact" style={styles.link} onClick={closeMenu}>
+            </a> */}
+            {/* <a href="/#contact" style={styles.link} onClick={closeMenu}>
               Contacto
-            </a>
+            </a> */}
 
             {loggedIn === false && (
               <>
