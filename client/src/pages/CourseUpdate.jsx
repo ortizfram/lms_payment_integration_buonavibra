@@ -128,28 +128,21 @@ const CourseUpdate = () => {
                   </label>
                   {/* render all plan names */}
                   <select
-                    name="plan"
+                    name="plan_id" // Change name to "plan_id" to match the key in formData
                     id="plan"
                     className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
                     onChange={handleChange}
-                    value={""}
+                    value={formData.plan_id} // Set the value to formData.plan_id
                   >
-                    <option value="">
-                      {" "}
-                      {formData.plan_id
-                        ? plans.find((plan) => plan._id === formData.plan_id)
-                            ?.title
-                        : "Seleccione un Plan"}
-                    </option>
-                    {plans
-                      .filter((plan) => plan._id !== formData.plan_id) // Filter out the plan with the same ID as formData.plan_id
-                      .map((plan) => (
-                        <option key={plan._id} value={plan._id}>
-                          {plan.title}
-                        </option>
-                      ))}
+                    <option value="">Seleccione un Plan</option>
+                    {plans.map((plan) => (
+                      <option key={plan._id} value={plan._id}>
+                        {plan.title}
+                      </option>
+                    ))}
                   </select>
                 </div>
+
                 <div>
                   <label
                     htmlFor="title"
