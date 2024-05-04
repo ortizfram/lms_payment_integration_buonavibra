@@ -14,6 +14,9 @@ function Thanks() {
   const type = urlParams.get("type");
 
   //get id and type from params
+  useEffect(() => {
+    console.log("type:", type, "id:", id, "user_id:", user_id);
+  }, []);
 
   const asignMPandGoCourses = async () => {
     console.log("button triggered");
