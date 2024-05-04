@@ -20,7 +20,7 @@ function LogoutBtn() {
       toast.success("Saliste de tu cuenta");
       await getLoggedIn(); // refresh boolean
       setTimeout(() => {
-        navigate(`/`);
+        navigate(`/#/`);
       }, 2000);
     }
     await getLoggedIn(); // refresh boolean
