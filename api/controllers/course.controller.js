@@ -97,7 +97,7 @@ export const courseUpdate = async (req, res, next) => {
     const courseId = req.params.id;
 
     // Fetch existing course from the database
-    const course = await Course.findById(courseId);
+    const course = await Course.findById(new mongoose.Types.ObjectId(courseId));
 
     if (!course) {
       return next(errorHandler(400, `Course not found.`));
@@ -129,7 +129,7 @@ export const courseUpdate = async (req, res, next) => {
     const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
     // Fetch the user object from the database using the author_id
-    const author = await User.findById(author_id);
+    const author = await User.findById(new mongoose.Types.ObjectId(author_id));
 
     const updateData = {
       ...req.body,
