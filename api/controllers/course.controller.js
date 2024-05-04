@@ -97,7 +97,7 @@ export const courseUpdate = async (req, res, next) => {
     const courseId = req.params.id;
 
     // Fetch existing course from the database
-    const course = await Course.findById(new mongoose.Types.ObjectId(courseId));
+    const course = await Course.findById(courseId);
 
     if (!course) {
       return next(errorHandler(400, `Course not found.`));
@@ -128,8 +128,13 @@ export const courseUpdate = async (req, res, next) => {
 
     const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
+    // Check if plan_id is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(plan_id)) {
+      return next(errorHandler(400, `Invalid plan ID.`));
+    }
+
     // Fetch the user object from the database using the author_id
-    const author = await User.findById(new mongoose.Types.ObjectId(author_id));
+    const author = await User.findById(author_id);
 
     const updateData = {
       plan_id,
@@ -144,15 +149,9 @@ export const courseUpdate = async (req, res, next) => {
     };
 
     // Update course details
-    const updateCourse = await Course.findByIdAndUpdate(
-      new mongoose.Types.ObjectId(courseId),
-      updateData,
-      {
-        new: true,
-      }
-    );
-
-    const updatedCourse = await updateCourse.save();
+    const updatedCourse = await Course.findByIdAndUpdate(courseId, updateData, {
+      new: true,
+    });
 
     console.log("\nUpdating course...");
     console.log("\nCourse:", updatedCourse);

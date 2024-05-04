@@ -6,6 +6,7 @@ import { BACKEND_URL } from "../config.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchPlans } from "../fetchPlans.js";
+import mongoose from "mongoose";
 
 const CourseUpdate = () => {
   const { currentUser } = useContext(AuthContext);
@@ -69,6 +70,13 @@ const CourseUpdate = () => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
+
+    // Validate if selectedPlan is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(selectedPlan)) {
+      setErrorMessage("Invalid plan ID selected.");
+      return;
+    }
+
     formData.append("plan_id", selectedPlan);
 
     const response = await fetch(`${BACKEND_URL}/api/course/update/${id}`, {
