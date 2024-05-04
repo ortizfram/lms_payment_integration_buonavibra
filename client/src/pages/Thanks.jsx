@@ -29,7 +29,7 @@ function Thanks() {
         toast.success("Gracias, dirigiendo a Cursos");
         // const redirectUrl = response.data;
         setTimeout(() => {
-          window.location.href = `/course/all?q=${id}`;
+          window.location.href = `/#/course/all?q=${id}`;
         }, 200);
       } else {
         console.error("Failed to send data to backend.");
@@ -52,7 +52,7 @@ function Thanks() {
         toast.success("Gracias, dirigiendo a Cursos");
         // const redirectUrl = response.data;
         setTimeout(() => {
-          window.location.href = `/course/all?q=${id}`;
+          window.location.href = `/#/course/all?q=${id}`;
         }, 200);
       } else {
         console.error("Failed to send data to backend.");
