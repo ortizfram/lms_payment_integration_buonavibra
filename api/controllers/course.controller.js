@@ -120,6 +120,11 @@ export const courseUpdate = async (req, res, next) => {
     // Extract necessary data from request body
     let { plan_id, title, description, text_content, author_id } = req.body;
 
+    // If plan_id is an array, select the last element
+    if (Array.isArray(plan_id)) {
+      plan_id = plan_id[plan_id.length - 1];
+    }
+
     if (typeof title !== "string") {
       title = String(title);
     }
