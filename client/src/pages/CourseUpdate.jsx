@@ -132,7 +132,7 @@ const CourseUpdate = () => {
                     id="plan"
                     className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
                     onChange={handleChange}
-                    value={selectedPlan}
+                    value={""}
                   >
                     <option value="">
                       {" "}
