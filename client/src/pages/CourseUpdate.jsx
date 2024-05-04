@@ -50,8 +50,6 @@ const CourseUpdate = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSelectedPlan(value);
-    console.log("changing selectedPlan:", selectedPlan);
 
     // Validate input for discount fields to ensure positive integers
     if (name === "discount_ars" || name === "discount_usd") {
@@ -66,6 +64,12 @@ const CourseUpdate = () => {
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const handleChangePlan = (e) => {
+    const { value } = e.target;
+    setSelectedPlan(value);
+    console.log("changing selectedPlan:", selectedPlan);
   };
 
   const handleSubmit = async (e) => {
@@ -127,7 +131,7 @@ const CourseUpdate = () => {
                     name="plan_id" // Change name to "plan_id" to match the key in formData
                     id="plan"
                     className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                    onChange={handleChange}
+                    onChange={handleChangePlan}
                     value={formData.plan_id} // Set the value to formData.plan_id
                   >
                     <option value="">Seleccione un Plan</option>
