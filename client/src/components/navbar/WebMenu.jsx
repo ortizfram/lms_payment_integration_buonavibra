@@ -56,7 +56,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   Cursos
                 </Link>
                 <Link to={"/login"} style={styles.link} onClick={closeMenu}>
-                  Planes
+                  Clases de Yoga y Meditacion
                 </Link>
                 {/* <Link
                   to={"/register"}
@@ -87,7 +87,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   Cursos
                 </Link>
                 <Link to={"/plans"} style={styles.link} onClick={closeMenu}>
-                  Planes
+                  Clases de Yoga y Meditacion
                 </Link>
                 {/* {currentUser && currentUser.isAdmin === false && (
                   <Link
@@ -152,7 +152,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   style={styles.mobileLink}
                   onClick={closeMenu}
                 >
-                  Planes
+                  Clases de Yoga y Meditacion
                 </Link>
                 <Link
                   to={"/login"}
@@ -194,7 +194,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   style={styles.mobileLink}
                   onClick={closeMenu}
                 >
-                  Planes
+                  Clases de Yoga y Meditacion
                 </Link>
                 {/* {currentUser && currentUser.isAdmin === false && (
                   <>

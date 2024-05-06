@@ -28,13 +28,13 @@ function EnterToNextClassBubble() {
             className="btn border border-danger p-2 rounded-circle position-absolute top-0 end-0 ml-8 bg-white"
             onClick={closeButtonClicked}
           >
-            ❌
+            🧘🏼‍♀️
           </button>
           <button
             className="btn bg-white text-black border border-danger rounded-lg mr-10  w-full"
             onClick={notify}
           >
-            ❤️Anotate a mi siguiente clase❤️
+            🧘🏼‍♀️Anotate a mi siguiente clase🧘🏼‍♀️
           </button>
         </div>
       )}
