@@ -55,7 +55,7 @@ function WebMenu({ currentUser, loggedIn }) {
                 <Link to={"/login"} style={styles.link} onClick={closeMenu}>
                   Cursos
                 </Link>
-                <Link to={"/login"} style={styles.link} onClick={closeMenu}>
+                <Link to={"/plans"} style={styles.link} onClick={closeMenu}>
                   Clases de Yoga y Meditacion
                 </Link>
                 {/* <Link
@@ -148,7 +148,7 @@ function WebMenu({ currentUser, loggedIn }) {
             {loggedIn === false && (
               <>
                 <Link
-                  to={"/login"}
+                  to={"/plans"}
                   style={styles.mobileLink}
                   onClick={closeMenu}
                 >
