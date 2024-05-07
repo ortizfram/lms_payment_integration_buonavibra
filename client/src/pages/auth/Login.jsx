@@ -8,7 +8,7 @@ import { BACKEND_URL } from "../../config.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Login(next) {
+function Login({ next }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { getLoggedIn } = useContext(AuthContext);
@@ -26,12 +26,7 @@ function Login(next) {
         console.log("Hola Nuevamente");
         toast.success("👐HOLAAAAAA!");
         await getLoggedIn();
-        //
-        // Check if the current location is plans/:id
         if (next) {
-          // Get the plan ID from the URL
-          // const planId = window.location.hash.split("/")[2];
-          // Navigate back to the plan detail page
           setTimeout(() => {
             navigate(next);
           }, 2000);
