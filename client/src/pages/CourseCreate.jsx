@@ -19,11 +19,19 @@ const CourseCreate = () => {
     async function fetchData() {
       try {
         const data = await fetchPlans();
-        console.log("Fetched plans data:", data);
+        // Check the type and output of one of the plans
+        if (data.length > 0) {
+          const firstPlan = data[0];
+          console.log("Type of plan:", typeof firstPlan);
+          console.log("One of the fetched plans:", firstPlan);
+        }
+
         // Filter out the plan with the specific ID
-        const filteredPlans = data.filter(
-          (plan) => plan._id !== "663163dfeb49a7f71760f150"
-        );
+        // const filteredPlans = data.filter(
+        //   (plan) => plan._id !== "663163dfeb49a7f71760f150"
+        // );
+
+        // Pass the filtered plans to the same type
         setPlans(data);
       } catch (error) {
         console.error("Error fetching plans:", error);
