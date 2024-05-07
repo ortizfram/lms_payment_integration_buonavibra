@@ -34,12 +34,14 @@ const PlanDetail = lazy(() => import("./pages/plans/PlanDetail"));
 const PlanEnroll = lazy(() => import("./pages/plans/PlanEnroll"));
 const UpdatePlan = lazy(() => import("./pages/plans/UpdatePlan"));
 const Thanks = lazy(() => import("./pages/Thanks"));
+import { useParams } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
 export default function App() {
   const { loggedIn, currentUser } = useContext(AuthContext); // destructure loggedIn
   const [loading, setLoading] = useState(true);
+  const { id } = useParams();
 
   useEffect(() => {
     // Simulate loading delay with setTimeout
@@ -71,7 +73,7 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route
                 path="/plans/:id"
-                element={<Login next={"/plans/:id"} />}
+                element={<Login next={`/plans/${id}`} id={id} />}
               />
               <Route
                 path="/course/all"
