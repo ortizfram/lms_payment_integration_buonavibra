@@ -26,9 +26,24 @@ function Login() {
         console.log("Hola Nuevamente");
         toast.success("👐HOLAAAAAA!");
         await getLoggedIn();
-        setTimeout(() => {
-          navigate(`/`);
-        }, 2000);
+        //
+        // Check if the current location is plans/:id
+        if (window.location.hash.startsWith("#/plans/")) {
+          // Get the plan ID from the URL
+          const planId = window.location.hash.split("/")[2];
+          // Navigate back to the plan detail page
+          setTimeout(() => {
+            navigate(`#${window.location.hash}`);
+          }, 2000);
+        } else {
+          // If not plans/:id, navigate to the home page
+          setTimeout(() => {
+            navigate(`/`);
+          }, 2000);
+        }
+
+        //
+        setTimeout(() => {}, 2000);
       }
     } catch (error) {
       console.error(error);
