@@ -69,7 +69,14 @@ export default function App() {
             <>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/plans/:id" element={<Login />} />
+              <Route
+                path="/plans/:id"
+                element={<Login next={"/plans/:id"} />}
+              />
+              <Route
+                path="/course/all"
+                element={<Login next={"/course/all"} />}
+              />
             </>
           )}
           {/* isLogged */}
@@ -80,6 +87,7 @@ export default function App() {
               <Route path="/course/enroll/:id" element={<CourseEnroll />} />
               <Route path="/plans/:id" element={<PlanDetail />} />
               <Route path="/plans/:id/enroll" element={<PlanEnroll />} />
+              <Route path="/course/all" element={<Courses />} />
               {/* isAdmin */}
               {currentUser && currentUser.isAdmin === true && (
                 <>
@@ -97,7 +105,6 @@ export default function App() {
           <Route path="/thanks" element={<Thanks />} />
           <Route path="/about" element={<About />} />
           <Route path="/plans" element={<Plans />} />
-          <Route path="/course/all" element={<Courses />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route
             path="/reset-password/:id/:token"
