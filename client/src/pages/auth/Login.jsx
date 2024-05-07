@@ -27,10 +27,10 @@ function Login() {
         console.log("Login successful");
         toast.success("Login successful");
         await getLoggedIn();
-        if (id && next) {
+        if (id) {
           // If 'id' and 'next' exist, redirect back to 'next'
           setTimeout(() => {
-            navigate(`/#/plans/${id}`); // Redirect to the preserved URL
+            navigate(`/plans/${id}`); // Redirect to the preserved URL
           }, 2000);
         } else {
           setTimeout(() => {
