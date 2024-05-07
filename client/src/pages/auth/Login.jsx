@@ -1,18 +1,19 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
-import "../../public/css/auth/login.css"; // Import your custom CSS file for styling
+import { Link, useNavigate, useParams } from "react-router-dom"; // Import useParams
+import "../../public/css/auth/login.css";
 import { BACKEND_URL } from "../../config.js";
 // alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Login({ next }) {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { getLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { id } = useParams(); // Get route parameter value
 
   async function login(e) {
     e.preventDefault();
@@ -23,25 +24,23 @@ function Login({ next }) {
         loginData
       );
       if (loginRes.status === 200) {
-        console.log("Hola Nuevamente");
-        toast.success("👐HOLAAAAAA!");
+        console.log("Login successful");
+        toast.success("Login successful");
         await getLoggedIn();
-        if (next) {
+        if (id) {
+          // Check if id exists
           setTimeout(() => {
-            navigate(next);
+            navigate(`/plans/${id}`); // Redirect to the dynamic route
           }, 2000);
         } else {
-          // If not plans/:id, navigate to the home page
           setTimeout(() => {
             navigate(`/`);
           }, 2000);
         }
-
-        //
-        setTimeout(() => {}, 2000);
       }
     } catch (error) {
       console.error(error);
+      toast.error("Login failed");
     }
   }
 
