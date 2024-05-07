@@ -29,7 +29,7 @@ const CourseCreate = () => {
         setPlans(filteredPlans);
 
         console.log(plans); // This will log the filtered plans
-        console.log(typeof plans); // This will log the type of the plans state
+        console.log(filteredPlans); // This will log the filtered plans
       } catch (error) {
         console.error("Error fetching plans:", error);
         setErrorMessage("Failed to fetch plans. Please try again later.");
