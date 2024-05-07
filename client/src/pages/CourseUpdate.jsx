@@ -119,31 +119,6 @@ const CourseUpdate = () => {
               {/* CONTENT */}
               <h3>Titulo & contenido:</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* SELECT A PLAN */}
-                <div>
-                  <label
-                    htmlFor="plan"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Seleccionar Plan:
-                  </label>
-                  {/* render all plan names */}
-                  <select
-                    name="plan_id" // Change name to "plan_id" to match the key in formData
-                    id="plan"
-                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                    onChange={handleChangePlan}
-                    value={selectedPlan}
-                  >
-                    <option value="">Seleccione un Plan</option>
-                    {plans.map((plan) => (
-                      <option key={plan._id} value={plan._id}>
-                        {plan.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
                 <div>
                   <label
                     htmlFor="title"
@@ -235,6 +210,33 @@ const CourseUpdate = () => {
                     className="mt-4"
                     style={{ width: 300 }}
                   />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* SELECT A PLAN */}
+                <div>
+                  <label
+                    htmlFor="plan"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Seleccionar Plan:
+                  </label>
+                  {/* render all plan names */}
+                  <select
+                    name="plan_id" // Change name to "plan_id" to match the key in formData
+                    id="plan"
+                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    onChange={handleChangePlan}
+                    value={selectedPlan}
+                  >
+                    <option value="">Seleccione un Plan</option>
+                    {plans.map((plan) => (
+                      <option key={plan._id} value={plan._id}>
+                        {plan.title}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 

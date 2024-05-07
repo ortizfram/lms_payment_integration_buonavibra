@@ -124,39 +124,7 @@ const CourseCreate = () => {
                 {errorMessage}
               </p>
             )}
-            {/* Select PLAN */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label
-                  htmlFor="plan"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Seleccionar Plan:
-                </label>
-                {/* render all plan names */}
-                <select
-                  name="plan"
-                  id="plan"
-                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  onChange={handleChange}
-                  value={selectedPlan}
-                >
-                  <option value="">Seleccione un plan</option>
-                  {(() => {
-                    const options = [];
-                    for (let i = 0; i < plans.length; i++) {
-                      const plan = plans[i];
-                      options.push(
-                        <option key={plan._id} value={plan._id}>
-                          <p className="text-black">{plan.title}</p>
-                        </option>
-                      );
-                    }
-                    return options;
-                  })()}
-                </select>
-              </div>
-
               <div>
                 <label
                   htmlFor="title"
@@ -243,7 +211,40 @@ const CourseCreate = () => {
                 />
               </div>
             </div>
-            <input type="hidden" name="author_id" value={userId} />
+            {/* Select PLAN */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label
+                  htmlFor="plan"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Seleccionar Plan:
+                </label>
+                {/* render all plan names */}
+                <select
+                  name="plan"
+                  id="plan"
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  onChange={handleChange}
+                  value={selectedPlan}
+                >
+                  <option value="">Seleccione un plan</option>
+                  {(() => {
+                    const options = [];
+                    for (let i = 0; i < plans.length; i++) {
+                      const plan = plans[i];
+                      options.push(
+                        <option key={plan._id} value={plan._id}>
+                          <p className="text-black">{plan.title}</p>
+                        </option>
+                      );
+                    }
+                    return options;
+                  })()}
+                </select>
+                <input type="hidden" name="author_id" value={userId} />
+              </div>
+            </div>
             {errorMessage && (
               <p className="text-red-500 text-center">{errorMessage}</p>
             )}
