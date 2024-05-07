@@ -56,6 +56,15 @@ function PlanDetail() {
       console.error("Error deleting plan:", error);
     }
   };
+
+  // Check if user is authenticated
+  useEffect(() => {
+    if (!currentUser) {
+      // Redirect to login if not authenticated
+      navigate(`/login?id=${id}&next=${`/#/plans/${id}`}`);
+    }
+  }, [currentUser, navigate]);
+
   return (
     <>
       {plan && (

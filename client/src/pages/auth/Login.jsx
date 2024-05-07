@@ -8,11 +8,12 @@ import { BACKEND_URL } from "../../config.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Login({ id, next }) {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { getLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { id, next } = useParams();
 
   async function login(e) {
     e.preventDefault();
@@ -26,10 +27,10 @@ function Login({ id, next }) {
         console.log("Login successful");
         toast.success("Login successful");
         await getLoggedIn();
-        if (id) {
-          // Check if id exists
+        if (id && next) {
+          // If 'id' and 'next' exist, redirect back to 'next'
           setTimeout(() => {
-            navigate(next); // Redirect to the dynamic route
+            navigate(`/#/plans/${id}`); // Redirect to the preserved URL
           }, 2000);
         } else {
           setTimeout(() => {
