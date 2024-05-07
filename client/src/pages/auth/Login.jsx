@@ -28,12 +28,12 @@ function Login() {
         await getLoggedIn();
         //
         // Check if the current location is plans/:id
-        if (window.location.hash.startsWith("#/plans/")) {
+        if (window.location.hash.startsWith("/plans")) {
           // Get the plan ID from the URL
-          const planId = window.location.hash.split("/")[2];
+          // const planId = window.location.hash.split("/")[2];
           // Navigate back to the plan detail page
           setTimeout(() => {
-            navigate(`#${window.location.hash}`);
+            // do none
           }, 2000);
         } else {
           // If not plans/:id, navigate to the home page
