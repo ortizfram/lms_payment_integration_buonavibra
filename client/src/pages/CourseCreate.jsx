@@ -20,6 +20,10 @@ const CourseCreate = () => {
       try {
         const data = await fetchPlans();
         console.log("Fetched plans data:", data);
+        // Filter out the plan with the specific ID
+        const filteredPlans = data.filter(
+          (plan) => plan._id !== "663163dfeb49a7f71760f150"
+        );
         setPlans(data);
       } catch (error) {
         console.error("Error fetching plans:", error);
