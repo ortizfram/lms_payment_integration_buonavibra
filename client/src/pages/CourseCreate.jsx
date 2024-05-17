@@ -20,7 +20,16 @@ const CourseCreate = () => {
       try {
         const data = await fetchPlans();
         console.log("Fetched plans data:", data);
-        setPlans(data);
+        // Remove the plan with the specified ID from the fetched plans
+        const filteredPlans = data.filter(
+          (plan) => plan._id !== "663163dfeb49a7f71760f150"
+        );
+
+        // Set the filtered plans to the state
+        setPlans(filteredPlans);
+
+        console.log(plans); // This will log the filtered plans
+        console.log(filteredPlans); // This will log the filtered plans
       } catch (error) {
         console.error("Error fetching plans:", error);
         setErrorMessage("Failed to fetch plans. Please try again later.");
