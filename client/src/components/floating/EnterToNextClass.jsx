@@ -11,6 +11,12 @@ function EnterToNextClassBubble() {
       window.location.href = "https://mpago.la/2PvvFYi";
     }, 2000);
   };
+  const notifyOther = () => {
+    toast.success("🌟 Satnam");
+    setTimeout(() => {
+      window.location.href = "https://www.paypal.com/ncp/payment/P3WQXWRWFUQYS";
+    }, 2000);
+  };
 
   const toggleButton = () => {
     setShowButton(!showButton);
@@ -23,29 +29,37 @@ function EnterToNextClassBubble() {
   return (
     <>
       {!showButton && (
-        <div className="position-fixed bottom-0 start-50 translate-middle-x m-3 rounded-lg shadow bg-white z-50">
+        <div className="fixed bottom-0 left-0 right-0 m-3 rounded-lg shadow-2xl bg-white z-50 md:left-1/2 md:transform md:-translate-x-1/2 md:max-w-md text-center">
           <button
-            className="btn border border-danger p-2 rounded-circle position-absolute top-0 end-0 ml-8 bg-white"
+            className="btn fw-bolder fs-6 text-[#333] p-2 rounded-circle absolute top-0 right-0 ml-8 bg-white"
             onClick={closeButtonClicked}
           >
-            ❌
+            X
           </button>
-          <button
-            className="btn bg-white text-black border border-danger rounded-lg mr-10  w-full"
-            onClick={notify}
-          >
-            🧘🏼‍♀️Anotate a mi siguiente clase🧘🏼‍♀️
-          </button>
+          <div className="p-4">
+            <p className="fw-bold text-[#333] mb-3">
+              🧘🏼‍♀️Anotate a mi siguiente clase🧘🏼‍♀️
+            </p>
+            <div className="flex flex-col md:flex-row justify-center items-center gap-3">
+              <button onClick={notify} className="btn border bg-info text-white w-full md:w-auto">
+                🇦🇷 Argentino
+              </button>
+              <button onClick={notifyOther} className="btn border border-info bg-white text-info w-full md:w-auto">
+                🌍otro
+              </button>
+            </div>
+          </div>
         </div>
       )}
       {showButton && (
         <button
-          className="btn border border-danger z-50 bg-white position-fixed bottom-0 end-0 m-3 p-3 rounded-circle shadow"
+          className="btn border border-danger z-50 bg-white fixed bottom-0 right-0 m-3 p-3 rounded-circle shadow"
           onClick={toggleButton}
         >
           ❤️
         </button>
       )}
+      <ToastContainer />
     </>
   );
 }
