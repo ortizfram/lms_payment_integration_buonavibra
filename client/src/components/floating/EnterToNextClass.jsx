@@ -38,7 +38,7 @@ function EnterToNextClassBubble() {
           </button>
           <div className="p-4">
             <p className="fw-bold text-[#333] mb-3">
-              🧘🏼‍♀️Anotate a mi siguiente clase🧘🏼‍♀️
+              🧘🏼‍♀️Reservá aquí tu proxima meditación🧘🏼‍♀️
             </p>
             <div className="flex flex-col md:flex-row justify-center items-center gap-3">
               <button onClick={notify} className="btn border bg-info text-white w-full md:w-auto">
