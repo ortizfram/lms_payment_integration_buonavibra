@@ -29,7 +29,7 @@ function CourseList({ courses }) {
   return (
     <div className="courses-page-container">
       <h1 className="text-center mb-4 fw-bolder fs-3 section-title text-dark mt-5">
-        Cursos
+      Biblioteca Yoga Meditación
       </h1>
       <div className="courses-container">
         <>

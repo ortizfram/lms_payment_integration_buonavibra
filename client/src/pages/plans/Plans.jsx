@@ -20,7 +20,7 @@ function Plans() {
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4 fw-bolder fs-3 section-title text-dark">
-        Clases de Yoga y Meditacion
+       Comprá un pack de Clases de Yoga y Meditación
       </h1>
       <hr />
       <div className="row">

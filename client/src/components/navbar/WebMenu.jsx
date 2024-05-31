@@ -53,10 +53,10 @@ function WebMenu({ currentUser, loggedIn }) {
             {loggedIn === false && (
               <>
                 <Link to={"/login"} style={styles.link} onClick={closeMenu}>
-                  Cursos
+                  Biblioteca Yoga Meditación
                 </Link>
                 <Link to={"/plans"} style={styles.link} onClick={closeMenu}>
-                  Clases de Yoga y Meditacion
+                  Comprá Clases de Yoga y Meditación
                 </Link>
                 {/* <Link
                   to={"/register"}
