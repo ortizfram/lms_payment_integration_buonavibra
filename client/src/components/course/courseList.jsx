@@ -94,14 +94,14 @@ function CourseList({ courses }) {
             </ul>
           ) : (
             <div className="p-6 bg-white fs-6 text-center">
-              {/* <p>
+              <p>
                 No te has adherido a ningún plan aun <br />
                 <Link to={"/plans"} className="underline text-info">
                   {" "}
                   Ir a Planes
                 </Link>
-              </p> */}
-              <Proximamente />
+              </p>
+              {/* <Proximamente /> */}
               {/* se remueve cuando Marce suba contenido y se habilita arriba */}
             </div>
           )}
