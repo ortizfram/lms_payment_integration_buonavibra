@@ -181,7 +181,7 @@ export const courselist = async (req, res, next) => {
     let fullPlan = new mongoose.Types.ObjectId(process.env.FULL_PLAN_ID);
 
     // return all courses for Admin
-    if (sUser.isAdmin || enrolledPlan.equals(fullPlan)) {
+    if (sUser.isAdmin || enrolledPlan && enrolledPlan.equals(fullPlan)) {
       coursesEnrolled = await Course.find()
         .populate("author", "name username avatar")
         .sort({ createdAt: -1 })
