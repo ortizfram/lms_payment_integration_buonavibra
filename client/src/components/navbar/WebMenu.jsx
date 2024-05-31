@@ -84,7 +84,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   style={styles.link}
                   onClick={closeMenu}
                 >
-                  Cursos
+                   Biblioteca Yoga Meditación
                 </Link>
                 <Link to={"/plans"} style={styles.link} onClick={closeMenu}>
                   Clases de Yoga y Meditacion
