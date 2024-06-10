@@ -234,16 +234,14 @@ const CourseUpdate = () => {
                       <option value={formData.plan_id}>
                         {
                           plans.find((plan) => plan._id === formData.plan_id)
-                            .title
+                            ?.title||"Seleccione un plan"
                         }
                       </option>
                     )}
-                    <option value="">
-                      {formData.plan_id
-                        ? plans.find((plan) => plan._id === formData.plan_id)
-                            .title
-                        : "Seleccione un Plan"}
-                    </option>
+                    {/* <option value={formData.plan_id}>
+                      {plans.find((plan) => plan._id === formData.plan_id)
+                        ?.title || "Seleccione un Plan"}
+                    </option> */}
                     {plans
                       .filter(
                         (plan) =>
