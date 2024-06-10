@@ -100,40 +100,58 @@ export const courseUpdate = async (req, res, next) => {
       return next(errorHandler(400, `Course not found.`));
     }
 
-    let imageUrl = course.thumbnail; // Preserve existing thumbnail URL
+    // Preserve existing values
+    let imageUrl = course.thumbnail;
+    let planId = course.plan_id;
+    let title = course.title;
+    let description = course.description;
+    let textContent = course.text_content;
+    let video = course.video;
 
     // Check if new files are provided in the request
-    if (req.files) {
-      imageUrl = req.files["image"]
-        ? "/uploads/imgs/" + req.files["image"][0].filename
-        : imageUrl;
+    if (req.files && req.files["image"]) {
+      imageUrl = "/uploads/imgs/" + req.files["image"][0].filename;
     }
 
-    // Extract necessary data from request body
-    let { plan_id, title, description, text_content, author_id,video } = req.body;
-
-    // If plan_id is an array, select the last element
-    if (Array.isArray(plan_id)) {
-      plan_id = plan_id[plan_id.length - 1];
+    // Extract and assign necessary data from request body if available
+    if (req.body.plan_id) {
+      planId = req.body.plan_id;
+      if (Array.isArray(planId)) {
+        planId = planId[planId.length - 1];
+      }
     }
 
-    if (typeof title !== "string") {
-      title = String(title);
+    if (req.body.title) {
+      title = req.body.title;
+      if (typeof title !== "string") {
+        title = String(title);
+      }
+    }
+
+    if (req.body.description) {
+      description = req.body.description;
+    }
+
+    if (req.body.text_content) {
+      textContent = req.body.text_content;
+    }
+
+    if (req.body.video) {
+      video = req.body.video;
     }
 
     const courseSlug = slugify(title, { lower: true, strict: true });
-
     const currentTimestamp = moment().format("YYYY-MM-DD HH:mm:ss");
 
     // Fetch the user object from the database using the author_id
-    const author = await User.findById(author_id);
+    const author = await User.findById(req.body.author_id);
 
     const updateData = {
-      plan_id,
+      plan_id: planId,
       title,
       slug: courseSlug,
       description,
-      text_content,
+      text_content: textContent,
       thumbnail: imageUrl,
       video,
       author: author._id,
@@ -157,6 +175,7 @@ export const courseUpdate = async (req, res, next) => {
     return next(error);
   }
 };
+
 // courselist
 export const courselist = async (req, res, next) => {
   try {

@@ -30,7 +30,6 @@ router.put(
   "/update/:id",
   upload.fields([
     { name: "image", maxCount: 1 },
-    { name: "video", maxCount: 1 },
   ]),
   courseUpdate
 );
