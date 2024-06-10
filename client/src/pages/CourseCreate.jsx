@@ -56,7 +56,6 @@ const CourseCreate = () => {
     thumbnail: null,
     video: null,
     thumbnailUrl: null,
-    videoUrl: null,
     discount: 0,
   });
 
@@ -86,17 +85,17 @@ const CourseCreate = () => {
     formData.append("plan_id", selectedPlan);
 
     const imageFile = formData.get("image");
-    const videoFile = formData.get("video");
+    // const videoFile = formData.get("video");
 
     // Handle image file
     if (imageFile) {
       formData.set("image", imageFile, imageFile.name);
     }
 
-    // Handle video file
-    if (videoFile) {
-      formData.set("video", videoFile, videoFile.name);
-    }
+    // // Handle video file
+    // if (videoFile) {
+    //   formData.set("video", videoFile, videoFile.name);
+    // }
     renderImage(formData);
 
     const response = await fetch(`${BACKEND_URL}/api/course/create`, {
@@ -183,14 +182,14 @@ const CourseCreate = () => {
                   htmlFor="video"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Subir Video:
+                  Youtube Video Link:
                 </label>
                 <input
-                  type="file"
+                  type="text"
+                  id="video"
                   name="video"
-                  accept="video/*"
                   onChange={handleChange}
-                  className="text-black "
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
                 />
               </div>
               <div>

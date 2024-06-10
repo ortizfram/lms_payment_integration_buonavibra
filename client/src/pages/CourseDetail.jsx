@@ -42,6 +42,14 @@ const CourseDetail = () => {
     fetchCourse();
   }, [id, navigate]);
 
+  // Function to extract YouTube video ID from URL
+  const getYouTubeVideoId = (url) => {
+    const urlObj = new URL(url);
+    return urlObj.searchParams.get("v");
+  };
+  const youtubeVideoId = getYouTubeVideoId(course.video);
+
+
   const handleDelete = async () => {
     try {
       const deleteCourseRes = await axios.delete(
@@ -70,16 +78,20 @@ const CourseDetail = () => {
               <div className="row">
                 <div className="col-lg-12 text-center">
                   <div className="video-container mb-1">
-                    <video
-                      id="course-video"
-                      controls
-                      className="img-fluid shadow-lg"
-                    >
-                      <source src={course.video} type="video/mp4" />
-                      <source src={course.video} type="video/webm" />
-                      <source src={course.video} type="video/ogg" />
-                      Your browser does not support the video tag.
-                    </video>
+                    {youtubeVideoId ? (
+                      <iframe
+                        id="course-video"
+                        className="img-fluid shadow-lg"
+                        width="560"
+                        height="315"
+                        src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    ) : (
+                      <p>No video available</p>
+                    )}
                   </div>
                 </div>
               </div>

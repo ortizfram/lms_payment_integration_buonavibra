@@ -21,18 +21,15 @@ export const courseCreate = async (req, res, next) => {
       req.files && req.files["image"]
         ? "/uploads/imgs/" + req.files["image"][0].filename
         : null;
-    const videoUrl =
-      req.files && req.files["video"]
-        ? "/uploads/videos/" + req.files["video"][0].filename
-        : null;
+    
 
-    if (!imageUrl && !videoUrl) {
+    if (!imageUrl ) {
       return res
         .status(400)
         .json({ message: "Video and miniatura son obligatorios" });
     }
 
-    const { title, description, text_content, plan_id } = req.body;
+    const { title, description, text_content, plan_id, video } = req.body;
 
     if (!plan_id) {
       return res
@@ -70,7 +67,7 @@ export const courseCreate = async (req, res, next) => {
       description,
       text_content,
       thumbnail: imageUrl,
-      video: videoUrl,
+      video,
       created_at: currentTimestamp,
       updated_at: currentTimestamp,
       author: author,
@@ -104,21 +101,16 @@ export const courseUpdate = async (req, res, next) => {
     }
 
     let imageUrl = course.thumbnail; // Preserve existing thumbnail URL
-    let videoUrl = course.video; // Preserve existing video URL
 
     // Check if new files are provided in the request
     if (req.files) {
       imageUrl = req.files["image"]
         ? "/uploads/imgs/" + req.files["image"][0].filename
         : imageUrl;
-
-      videoUrl = req.files["video"]
-        ? "/uploads/videos/" + req.files["video"][0].filename
-        : videoUrl;
     }
 
     // Extract necessary data from request body
-    let { plan_id, title, description, text_content, author_id } = req.body;
+    let { plan_id, title, description, text_content, author_id,video } = req.body;
 
     // If plan_id is an array, select the last element
     if (Array.isArray(plan_id)) {
@@ -143,7 +135,7 @@ export const courseUpdate = async (req, res, next) => {
       description,
       text_content,
       thumbnail: imageUrl,
-      video: videoUrl,
+      video,
       author: author._id,
       updated_at: currentTimestamp,
     };
@@ -407,9 +399,9 @@ export const courseDetail = async (req, res, next) => {
     };
 
     // add host predix to video\
-    if (course.video) {
-      course.video = `${BACKEND_URL}${course.video}`;
-    }
+    // if (course.video) {
+    //   course.video = `${BACKEND_URL}${course.video}`;
+    // }
 
     // Fetch enrolled courses for the user
     let enrolledCourses = [];
