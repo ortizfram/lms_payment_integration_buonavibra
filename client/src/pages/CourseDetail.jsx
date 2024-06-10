@@ -77,7 +77,7 @@ const CourseDetail = () => {
             <div className="container">
               <div className="row">
                 <div className="col-lg-12 text-center">
-                  <div className="video-container mb-1">
+                  <div className="video-container ratio ratio-16x9 mb-1">
                     {youtubeVideoId ? (
                       <iframe
                         id="course-video"
