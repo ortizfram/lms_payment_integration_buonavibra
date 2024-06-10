@@ -175,14 +175,13 @@ const CourseUpdate = () => {
                     htmlFor="video"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    subir video :
+                     Youtube Video Link:
                   </label>
                   <input
-                    type="file"
+                    type="text"
                     name="video"
-                    accept="video/*"
                     onChange={handleChange}
-                    className="text-black"
+                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
                   />
                 </div>
                 <div>
