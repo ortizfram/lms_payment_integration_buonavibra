@@ -52,53 +52,51 @@ const CourseUpdate = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Validate input for discount fields to ensure positive integers
-    if (name === "discount_ars" || name === "discount_usd") {
-      const intValue = parseInt(value);
-      if (!Number.isInteger(intValue) || intValue <= 0) {
-        setErrorMessage(`The field '${name}' must be a positive integer.`);
-        return;
-      }
-    }
-
+  
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const formData = new FormData(e.target);
+    formData.set("plan_id", selectedPlan); // Set the selected plan separately
+  
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/course/update/${id}`, {
+        method: "PUT",
+        body: formData,
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        setSuccessMessage(data.message);
+        // Redirect to the updated course page
+        toast.success("Curso ha sido actualizado");
+        setTimeout(() => {
+          // navigate(`/`);
+          window.location.href = data.redirectUrl;
+        }, 2000);
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.message);
+      }
+    } catch (error) {
+      console.error("Error updating course:", error);
+      setErrorMessage("Failed to update course");
+    }
+  };
+  
 
   const handleChangePlan = (e) => {
     const { value } = e.target;
     setSelectedPlan(value);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-
-    formData.append("plan_id", selectedPlan);
-
-    const response = await fetch(`${BACKEND_URL}/api/course/update/${id}`, {
-      method: "PUT",
-      body: formData,
-    });
-
-    if (response.status === 200) {
-      const data = await response.json();
-      setSuccessMessage(data.message);
-      // Redirect to the updated course page
-      toast.success("Curso ha sido actualizado");
-      setTimeout(() => {
-        // navigate(`/`);
-        window.location.href = data.redirectUrl;
-      }, 2000);
-    } else {
-      const errorData = await response.json();
-      setErrorMessage(errorData.message);
-    }
-  };
+  
   // Render the form only when course data is fetched
   return (
     formData && (
@@ -232,16 +230,11 @@ const CourseUpdate = () => {
                   >
                     {formData.plan_id && (
                       <option value={formData.plan_id}>
-                        {
-                          plans.find((plan) => plan._id === formData.plan_id)
-                            ?.title||"Seleccione un plan"
-                        }
+                        {plans.find((plan) => plan._id === formData.plan_id)
+                          ?.title || "Seleccione un plan"}
                       </option>
                     )}
-                    {/* <option value={formData.plan_id}>
-                      {plans.find((plan) => plan._id === formData.plan_id)
-                        ?.title || "Seleccione un Plan"}
-                    </option> */}
+
                     {plans
                       .filter(
                         (plan) =>
