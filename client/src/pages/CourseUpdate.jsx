@@ -175,11 +175,12 @@ const CourseUpdate = () => {
                     htmlFor="video"
                     className="block text-sm font-medium text-gray-700"
                   >
-                     Youtube Video Link:
+                    Youtube Video Link:
                   </label>
                   <input
                     type="text"
                     name="video"
+                    value={formData.video}
                     onChange={handleChange}
                     className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
                   />
@@ -229,12 +230,31 @@ const CourseUpdate = () => {
                     onChange={handleChangePlan}
                     value={selectedPlan}
                   >
-                    <option value="">Seleccione un Plan</option>
-                    {plans.map((plan) => (
-                      <option key={plan._id} value={plan._id}>
-                        {plan.title}
+                    {formData.plan_id && (
+                      <option value={formData.plan_id}>
+                        {
+                          plans.find((plan) => plan._id === formData.plan_id)
+                            .title
+                        }
                       </option>
-                    ))}
+                    )}
+                    <option value="">
+                      {formData.plan_id
+                        ? plans.find((plan) => plan._id === formData.plan_id)
+                            .title
+                        : "Seleccione un Plan"}
+                    </option>
+                    {plans
+                      .filter(
+                        (plan) =>
+                          plan._id !== formData.plan_id &&
+                          plan._id !== "663163dfeb49a7f71760f150"
+                      )
+                      .map((plan) => (
+                        <option key={plan._id} value={plan._id}>
+                          {plan.title}
+                        </option>
+                      ))}
                   </select>
                 </div>
               </div>
