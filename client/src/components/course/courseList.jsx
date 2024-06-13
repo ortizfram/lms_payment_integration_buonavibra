@@ -1,13 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/AuthContext";
 import "../../public/css/course/courses.css";
-import BtnAdminPreview from "./BtnAdminPreview";
-import { FRONTEND_URL, BACKEND_URL } from "../../config.js";
+import { BACKEND_URL } from "../../config.js";
 import { formatDistanceToNow } from "date-fns";
-import { Link } from "react-router-dom";
-import Proximamente from "../temp/proximamente.jsx";
 
-function CourseList({ courses=[],next }) {
+function CourseList({ courses = [], next }) {
   const { currentUser } = useContext(AuthContext);
 
   // State for pagination
@@ -20,16 +17,16 @@ function CourseList({ courses=[],next }) {
   };
 
   // Calculate the biggest discount
-  const biggestDiscount = Math.max(
+  const biggestDiscount = courses.length > 0 ? Math.max(
     ...courses.map((course) =>
       Math.max(course.discount_ars, course.discount_usd)
     )
-  );
+  ) : 0;
 
   return (
     <div className="courses-page-container">
       <h1 className="text-center mb-4 fw-bolder fs-3 section-title text-dark mt-5">
-      Biblioteca Yoga Meditación
+        Biblioteca Yoga Meditación
       </h1>
       <div className="courses-container">
         <>
@@ -37,7 +34,6 @@ function CourseList({ courses=[],next }) {
             <ul className="courses-grid">
               {courses.slice(0, visibleCourses).map((course, index) => (
                 <li key={index}>
-                  {/* <BtnAdminPreview courseId={course._id} /> */}
                   <div className="course-item position-relative backdrop-filter shadow-lg">
                     {/* Render the biggest discount */}
                     {biggestDiscount >= 1 && (
@@ -47,16 +43,14 @@ function CourseList({ courses=[],next }) {
                     )}
 
                     {/* Next Link */}
-                    {/* <a href={`/#/course/${course._id}`}> */}
                     <a href={!next ? `/#/course/${course._id}` : next}>
-
                       {/* COURSE DATA */}
                       <img
                         src={`${BACKEND_URL}${course.thumbnail}`}
                         alt={`thumbnail-${course.title}`}
                       />
                       <p className="timestamp">
-                        {formatDistanceToNow(course.updated_at)}
+                        {formatDistanceToNow(new Date(course.updated_at))}
                       </p>
 
                       {/* AUTHOR */}
@@ -87,7 +81,7 @@ function CourseList({ courses=[],next }) {
 
                       {/* DESCRIPTION */}
                       {course.description && (
-                        <p className="">{course.description} </p>
+                        <p className="">{course.description}</p>
                       )}
                     </a>
                   </div>
@@ -97,11 +91,8 @@ function CourseList({ courses=[],next }) {
           ) : (
             <div className="p-6 bg-white fs-6 text-center">
               <p>
-              ❤️Pronto estaremos habilitando esta sección❤️ <br />
-               
+                ❤️Pronto estaremos habilitando esta sección❤️ <br />
               </p>
-              {/* <Proximamente /> */}
-              {/* se remueve cuando Marce suba contenido y se habilita arriba */}
             </div>
           )}
           {loadMoreVisible && visibleCourses < courses.length && (

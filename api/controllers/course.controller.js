@@ -190,15 +190,15 @@ export const courselist = async (req, res, next) => {
 
     let coursesEnrolled = [];
     let next = null;
-    let fullPlan = new mongoose.Types.ObjectId(process.env.FULL_PLAN_ID);
+    const fullPlan = new mongoose.Types.ObjectId(process.env.FULL_PLAN_ID);
 
     // return all courses for Admin
-    if (sUser.isAdmin || enrolledPlan && enrolledPlan.equals(fullPlan)) {
+    if (sUser.isAdmin || (enrolledPlan && enrolledPlan.equals(fullPlan))) {
       coursesEnrolled = await Course.find()
         .populate("author", "name username avatar")
         .sort({ createdAt: -1 })
         .lean();
-    } else {
+    } else if (enrolledPlan) {
       // return courses for your plan, if not fullplan
       coursesEnrolled = await Course.find({
         plan_id: enrolledPlan,
@@ -210,7 +210,7 @@ export const courselist = async (req, res, next) => {
 
     // return all if no plan but in APP pass plans LINK as NEXT
     if (!enrolledPlan) {
-        next = "/#/plans"
+      next = "/#/plans";
     }
 
     // Map courses to desired response format
@@ -246,13 +246,14 @@ export const courselist = async (req, res, next) => {
       courses: formattedCourses,
       totalItems: formattedCourses.length,
       message,
-      next
+      next,
     });
   } catch (error) {
     console.log("Error fetching courses:", error);
     next(error);
   }
 };
+
 // checkEnroll
 export const checkEnroll = async (req, res) => {
   console.log("middleware checkEnroll");
