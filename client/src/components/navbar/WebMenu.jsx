@@ -56,7 +56,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   Biblioteca Yoga Meditación
                 </Link>
                 <Link to={"/plans"} style={styles.link} onClick={closeMenu}>
-                  Comprá Clases de Yoga y Meditación
+                  Planes de Yoga y Meditación
                 </Link>
                 {/* <Link
                   to={"/register"}
@@ -87,7 +87,7 @@ function WebMenu({ currentUser, loggedIn }) {
                    Biblioteca Yoga Meditación
                 </Link>
                 <Link to={"/plans"} style={styles.link} onClick={closeMenu}>
-                  Clases de Yoga y Meditacion
+                  Planes de Yoga y Meditacion
                 </Link>
                 {/* {currentUser && currentUser.isAdmin === false && (
                   <Link
@@ -152,7 +152,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   style={styles.mobileLink}
                   onClick={closeMenu}
                 >
-                  Clases de Yoga y Meditacion
+                  Planes de Yoga y Meditacion
                 </Link>
                 <Link
                   to={"/login"}
@@ -194,7 +194,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   style={styles.mobileLink}
                   onClick={closeMenu}
                 >
-                  Clases de Yoga y Meditacion
+                  Planes de Yoga y Meditacion
                 </Link>
                 {/* {currentUser && currentUser.isAdmin === false && (
                   <>
