@@ -11,7 +11,7 @@ export const getNewestEnrolledPlan = async (userId) => {
       console.log("result ", newestEnrolledPlan)
 
        // Extract the first plan_id if the array is not empty
-    const planId = newestEnrolledPlan.length > 0 ? newestEnrolledPlan[0].plan_id._id : null;
+    const planId = newestEnrolledPlan.length > 0 ? newestEnrolledPlan[0].plan_id._id : [];
 
     return planId;
   } catch (error) {

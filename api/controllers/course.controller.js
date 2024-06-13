@@ -209,7 +209,7 @@ export const courselist = async (req, res, next) => {
     }
 
     // return all if no plan but in APP pass plans LINK as NEXT
-    if (!enrolledPlan) {
+    if (!enrolledPlan || enrolledPlan == null) {
       next = "/#/plans";
     }
 
