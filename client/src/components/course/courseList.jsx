@@ -30,7 +30,7 @@ function CourseList({ courses = [], next }) {
       </h1>
       <div className="courses-container">
         <>
-          {courses.length > 0 ? (
+          {courses? (
             <ul className="courses-grid">
               {courses.slice(0, visibleCourses).map((course, index) => (
                 <li key={index}>
