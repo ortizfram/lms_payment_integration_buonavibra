@@ -89,7 +89,7 @@ function CourseList({ courses = [], next, loading }) {
         {loadMoreVisible && visibleCourses < courses.length && (
           <div className="text-center mt-4">
             <button className="btn btn-lg btn-primary px-5 py-3 fw-bold" onClick={loadMore}>
-              Load More
+              Cargar Más
             </button>
           </div>
         )}
