@@ -212,7 +212,7 @@ export const courselist = async (req, res, next) => {
       coursesEnrolled = await Course.find()
         .populate("author", "username email avatar")
         .sort({ createdAt: -1 })
-        .lean();
+        .lean(); 
     }
 
     // Map courses to desired response format
