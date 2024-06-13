@@ -93,17 +93,64 @@ function CourseList({ courses }) {
               ))}
             </ul>
           ) : (
-            <div className="p-6 bg-white fs-6 text-center">
-              <p>
-                No te has adherido a ningún plan aun <br />
-                <Link to={"/plans"} className="underline text-info">
-                  {" "}
-                  Ir a Planes
-                </Link>
-              </p>
-              {/* <Proximamente /> */}
-              {/* se remueve cuando Marce suba contenido y se habilita arriba */}
-            </div>
+            <ul className="courses-grid">
+              {courses.slice(0, visibleCourses).map((course, index) => (
+                <li key={index}>
+                  {/* <BtnAdminPreview courseId={course._id} /> */}
+                  <div className="course-item position-relative backdrop-filter shadow-lg">
+                    {/* Render the biggest discount */}
+                    {biggestDiscount >= 1 && (
+                      <p className="position-absolute top-0 ms-10 start-50 translate-right-x translate-right-y fw-bold fs-6 text-success p-2 rounded z-50 discount-overlay">
+                        {biggestDiscount}% OFF
+                      </p>
+                    )}
+
+                    {/* Next Link */}
+                    <a href={`/#/plans`}>
+                      {/* COURSE DATA */}
+                      <img
+                        src={`${BACKEND_URL}${course.thumbnail}`}
+                        alt={`thumbnail-${course.title}`}
+                      />
+                      <p className="timestamp">
+                        {formatDistanceToNow(course.updated_at)}
+                      </p>
+
+                      {/* AUTHOR */}
+                      <div className="author">
+                        {course.author && course.author.avatar && (
+                          <img
+                            src={course.author.avatar}
+                            alt="User Avatar"
+                            className="avatar"
+                          />
+                        )}
+                        {course.author && (
+                          <p className="aut">
+                            <strong>{course.author.username}</strong> •{" "}
+                            {course.author.email}
+                          </p>
+                        )}
+                      </div>
+                      <h4 className="plan-title italic">{course.plan_title}</h4>
+                      <h2 className="course-title">{course.title}</h2>
+
+                      {/* PRICE */}
+                      {course.usd_price || course.ars_price ? (
+                        <p className="">
+                          USD {course.usd_price} | ARS {course.ars_price}
+                        </p>
+                      ) : null}
+
+                      {/* DESCRIPTION */}
+                      {course.description && (
+                        <p className="">{course.description} </p>
+                      )}
+                    </a>
+                  </div>
+                </li>
+              ))}
+            </ul>
           )}
           {loadMoreVisible && visibleCourses < courses.length && (
             <div className="text-center mt-4">
