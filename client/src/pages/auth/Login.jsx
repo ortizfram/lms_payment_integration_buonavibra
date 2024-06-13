@@ -25,7 +25,7 @@ function Login() {
       );
       if (loginRes.status === 200) {
         console.log("Login successful");
-        toast.success("Login successful");
+        // toast.success("Login successful");
         await getLoggedIn();
         if (id) {
           // If 'id' and 'next' exist, redirect back to 'next'

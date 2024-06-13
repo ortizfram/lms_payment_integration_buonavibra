@@ -17,7 +17,7 @@ function LogoutBtn() {
     const logoutRes = await axios.get(`${BACKEND_URL}/api/auth/logout`);
     if (logoutRes.status === 200) {
       console.log("logged out successfully");
-      toast.success("Saliste de tu cuenta");
+      // toast.success("Saliste de tu cuenta");
       await getLoggedIn(); // refresh boolean
       setTimeout(() => {
         navigate(`/`);
