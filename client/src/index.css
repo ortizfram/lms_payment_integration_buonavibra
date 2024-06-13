@@ -1,9 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Alifira&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer utilities {
-    .ft-briemhand {
-      font-family: 'Briem Hand', cursive;
-    }
+  .ft-briemhand {
+    font-family: 'Briem Hand', cursive;
   }
+  .ft-alifira {
+    font-family: 'Alifira', sans-serif;
+  }
+}

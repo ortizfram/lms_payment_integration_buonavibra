@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        alifira: ['Alifira', 'sans-serif'],
+        briemhand: ['Briem Hand', 'cursive'],
+      },
+    }
   },
   plugins: [],
 }
