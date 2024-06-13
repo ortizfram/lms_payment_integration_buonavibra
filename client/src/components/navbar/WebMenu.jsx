@@ -187,7 +187,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   style={styles.mobileLink}
                   onClick={closeMenu}
                 >
-                  Cursos
+                 Biblioteca Yoga Meditación
                 </Link>
                 <Link
                   to={"/plans"}
