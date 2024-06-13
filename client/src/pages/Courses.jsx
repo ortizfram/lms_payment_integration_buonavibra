@@ -14,11 +14,12 @@ function Courses() {
 
   async function getCourses() {
     try {
-      const coursesRes = await axios.get(`${BACKEND_URL}/api/course/all`, {
+      const response = await axios.get(`${BACKEND_URL}/api/course/all`, {
         params: { plan_id: q },
-    });
-      setCourses(coursesRes.data.courses);
-      setCourses(coursesRes.data.next);
+      });
+      const { courses, next } = response.data;
+      setCourses(courses);
+      setNext(next);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -27,7 +28,7 @@ function Courses() {
   }
 
   useEffect(() => {
-    getCourses(q);
+    getCourses();
   }, [q]);
 
   if (error) {

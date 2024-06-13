@@ -179,38 +179,36 @@ export const courseUpdate = async (req, res, next) => {
 // courselist
 export const courselist = async (req, res, next) => {
   try {
-    const message = req.query.message;
-    const user = req.user;
+    const user = req.user; // Assuming req.user is populated correctly with user information
     const sUser = await User.findById(user);
     const planId = req.query.plan_id;
-    console.log("planId", planId);
 
     // Fetch newest enrolled plan ID for the current user
     const enrolledPlan = await getNewestEnrolledPlan(user);
 
     let coursesEnrolled = [];
-    let next = null;
-    const fullPlan = new mongoose.Types.ObjectId(process.env.FULL_PLAN_ID);
+    let nextLink = null;
+    const fullPlanId = new mongoose.Types.ObjectId(process.env.FULL_PLAN_ID);
 
-    // return all courses for Admin
-    if (sUser.isAdmin || (enrolledPlan && enrolledPlan.equals(fullPlan))) {
+    // Return all courses for Admin or for users enrolled in full plan
+    if (sUser.isAdmin || (enrolledPlan && enrolledPlan.equals(fullPlanId))) {
       coursesEnrolled = await Course.find()
-        .populate("author", "name username avatar")
+        .populate("author", "username email avatar")
         .sort({ createdAt: -1 })
         .lean();
     } else if (enrolledPlan) {
-      // return courses for your plan, if not fullplan
+      // Return courses for the user's enrolled plan
       coursesEnrolled = await Course.find({
         plan_id: enrolledPlan,
       })
-        .populate("author", "name username avatar")
+        .populate("author", "username email avatar")
         .sort({ createdAt: -1 })
         .lean();
     }
 
-    // return all if no plan but in APP pass plans LINK as NEXT
+    // Set nextLink based on conditions
     if (!enrolledPlan || enrolledPlan == null) {
-      next = "/#/plans";
+      nextLink = "/#/plans"; // Set default link if no plan is found
     }
 
     // Map courses to desired response format
@@ -222,14 +220,14 @@ export const courselist = async (req, res, next) => {
           plan_id: course.plan_id,
           plan_title: plan ? plan.title : "Unknown", // Check if plan exists
           title: course.title,
-          slug: course.slug,
+          slug: course.slug, // Ensure you populate slug if it exists in your Course model
           description: course.description,
           ars_price: course.ars_price,
           usd_price: course.usd_price,
           discount_ars: course.discount_ars,
           discount_usd: course.discount_usd,
           thumbnail: course.thumbnail,
-          thumbnailPath: course.thumbnail,
+          thumbnailPath: course.thumbnail, // Ensure you populate thumbnailPath if it exists
           created_at: course.createdAt,
           updated_at: course.updatedAt,
           next: `${FRONTEND_URL}/course/${course._id}`, // Dynamic course link
@@ -245,11 +243,11 @@ export const courselist = async (req, res, next) => {
     res.status(200).json({
       courses: formattedCourses,
       totalItems: formattedCourses.length,
-      message,
-      next,
+      message: req.query.message,
+      next: nextLink,
     });
   } catch (error) {
-    console.log("Error fetching courses:", error);
+    console.error("Error fetching courses:", error);
     next(error);
   }
 };
