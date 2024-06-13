@@ -7,7 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
 import Proximamente from "../temp/proximamente.jsx";
 
-function CourseList({ courses,next }) {
+function CourseList({ courses=[],next }) {
   const { currentUser } = useContext(AuthContext);
 
   // State for pagination

@@ -188,7 +188,7 @@ export const courselist = async (req, res, next) => {
     // Fetch newest enrolled plan ID for the current user
     const enrolledPlan = await getNewestEnrolledPlan(user);
 
-    let coursesEnrolled;
+    let coursesEnrolled = [];
     let next = null;
     let fullPlan = new mongoose.Types.ObjectId(process.env.FULL_PLAN_ID);
 
@@ -210,13 +210,6 @@ export const courselist = async (req, res, next) => {
 
     // return all if no plan but in APP pass plans LINK as NEXT
     if (!enrolledPlan) {
-       // return courses for your plan, if not fullplan
-       coursesEnrolled = await Course.find({
-        plan_id: enrolledPlan,
-      })
-        .populate("author", "name username avatar")
-        .sort({ createdAt: -1 })
-        .lean();
         next = "/#/plans"
     }
 
