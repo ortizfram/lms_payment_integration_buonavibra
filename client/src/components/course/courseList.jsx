@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { BACKEND_URL } from "../../config.js";
+import Loader from "../loader/Loader.jsx";
 
 function CourseList({ courses = [], next, loading }) {
   const [visibleCourses, setVisibleCourses] = useState(5);
@@ -17,7 +18,7 @@ function CourseList({ courses = [], next, loading }) {
   ) : 0;
 
   if (loading) {
-    return <div className="loader text-center fw-bold">Loading...</div>;
+    return <Loader />
   }
 
   return (
