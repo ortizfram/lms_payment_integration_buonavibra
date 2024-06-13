@@ -207,9 +207,15 @@ export const courselist = async (req, res, next) => {
         .lean();
     }
 
-    // return empty if no plan
+    // return all if no plan but in APP pass plans LINK as NEXT
     if (!enrolledPlan) {
-      coursesEnrolled = [];
+       // return courses for your plan, if not fullplan
+       coursesEnrolled = await Course.find({
+        plan_id: enrolledPlan,
+      })
+        .populate("author", "name username avatar")
+        .sort({ createdAt: -1 })
+        .lean();
     }
 
     // Map courses to desired response format
