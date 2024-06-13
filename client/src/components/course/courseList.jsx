@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { BACKEND_URL } from "../../config.js";
 
-function CourseList({ courses = [], next }) {
+function CourseList({ courses = [], next, loading }) {
   const [visibleCourses, setVisibleCourses] = useState(5);
   const [loadMoreVisible, setLoadMoreVisible] = useState(true);
 
@@ -15,6 +15,10 @@ function CourseList({ courses = [], next }) {
       Math.max(course.discount_ars, course.discount_usd)
     )
   ) : 0;
+
+  if (loading) {
+    return <div className="loader text-center fw-bold">Loading...</div>;
+  }
 
   return (
     <div className="courses-page-container">
@@ -83,7 +87,7 @@ function CourseList({ courses = [], next }) {
         )}
         {loadMoreVisible && visibleCourses < courses.length && (
           <div className="text-center mt-4">
-            <button className="btn btn-primary" onClick={loadMore}>
+            <button className="btn btn-lg btn-primary px-5 py-3 fw-bold" onClick={loadMore}>
               Load More
             </button>
           </div>

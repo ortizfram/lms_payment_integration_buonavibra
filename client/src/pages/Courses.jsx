@@ -14,6 +14,7 @@ function Courses() {
 
   async function getCourses() {
     try {
+      setLoading(true);
       const response = await axios.get(`${BACKEND_URL}/api/course/all`, {
         params: { plan_id: q },
       });
@@ -35,7 +36,7 @@ function Courses() {
     return <div>Error: {error}</div>;
   }
 
-  return <CourseList courses={courses} next={next} />;
+  return <CourseList courses={courses} next={next} loading={loading} />;
 }
 
 export default Courses;
