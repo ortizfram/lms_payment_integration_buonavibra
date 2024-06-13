@@ -58,7 +58,7 @@ function CourseList({ courses = [], next, loading }) {
                       {course.author && (
                         <p className="aut">
                           <strong>{course.author.username}</strong> •{" "}
-                          {course.author.email}
+                          {/* {course.author.email} */}
                         </p>
                       )}
                     </div>
