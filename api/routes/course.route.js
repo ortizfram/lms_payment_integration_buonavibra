@@ -15,6 +15,7 @@ import {
 } from "../controllers/course.controller.js";
 import upload from "../useMulter.js";
 import  auth  from "../middleware/auth.js";
+import { getNewestEnrolledPlan } from "../utils/userNewestEnrolledPlan.js";
 const router = express.Router();
 
 // create
@@ -33,6 +34,7 @@ router.put(
   ]),
   courseUpdate
 );
+
 // list all
 router.get("/all", auth, courselist);
 // list owned

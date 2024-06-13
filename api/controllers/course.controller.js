@@ -189,6 +189,7 @@ export const courselist = async (req, res, next) => {
     const enrolledPlan = await getNewestEnrolledPlan(user);
 
     let coursesEnrolled;
+    let next = null;
     let fullPlan = new mongoose.Types.ObjectId(process.env.FULL_PLAN_ID);
 
     // return all courses for Admin
@@ -216,6 +217,7 @@ export const courselist = async (req, res, next) => {
         .populate("author", "name username avatar")
         .sort({ createdAt: -1 })
         .lean();
+        next = "/#/plans"
     }
 
     // Map courses to desired response format
@@ -251,6 +253,7 @@ export const courselist = async (req, res, next) => {
       courses: formattedCourses,
       totalItems: formattedCourses.length,
       message,
+      next
     });
   } catch (error) {
     console.log("Error fetching courses:", error);

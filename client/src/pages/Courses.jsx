@@ -6,6 +6,7 @@ import { BACKEND_URL } from "../config.js";
 
 function Courses() {
   const [courses, setCourses] = useState([]);
+  const [next, setNext] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const queryParams = new URLSearchParams(location.search);
@@ -15,8 +16,9 @@ function Courses() {
     try {
       const coursesRes = await axios.get(`${BACKEND_URL}/api/course/all`, {
         params: { plan_id: q },
-      });
+    });
       setCourses(coursesRes.data.courses);
+      setCourses(coursesRes.data.next);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -32,7 +34,7 @@ function Courses() {
     return <div>Error: {error}</div>;
   }
 
-  return <CourseList courses={courses} />;
+  return <CourseList courses={courses} next={next} />;
 }
 
 export default Courses;
