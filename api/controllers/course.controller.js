@@ -209,6 +209,10 @@ export const courselist = async (req, res, next) => {
     // Set nextLink based on conditions
     if (!enrolledPlan || enrolledPlan == null) {
       nextLink = "/#/plans"; // Set default link if no plan is found
+      coursesEnrolled = await Course.find()
+        .populate("author", "username email avatar")
+        .sort({ createdAt: -1 })
+        .lean();
     }
 
     // Map courses to desired response format
