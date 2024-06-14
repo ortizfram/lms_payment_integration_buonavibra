@@ -25,7 +25,7 @@ function EnterToNextClassBubble() {
   return (
     <>
       {!showButton && (
-        <div className="fixed bottom-0 left-0 right-0 m-3 rounded-lg shadow-2xl bg-white z-50 md:left-1/2 md:transform md:-translate-x-1/2 md:max-w-sm text-center" style={{ maxWidth: "350px" }}>
+        <div className="fixed bottom-0 left-0 border border-warning border-4   right-0 m-3 rounded-lg shadow-2xl bg-white z-50 md:left-1/2 md:transform md:-translate-x-1/2 md:max-w-sm text-center" style={{ maxWidth: "350px" }}>
           <a
             className="absolute top-0 right-0 m-2 text-danger"
             onClick={toggleButton}
