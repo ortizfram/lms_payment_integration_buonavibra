@@ -171,7 +171,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   style={styles.mobileLink}
                   onClick={closeMenu}
                 >
-                  Cursos
+                  Biblioteca Yoga y Meditacion
                 </Link>
                 {/* <Link
                   to={"/register"}
