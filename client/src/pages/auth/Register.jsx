@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../../public/css/auth/register.css";
 import { BACKEND_URL } from "../../config.js";
 
@@ -11,8 +11,15 @@ function Register() {
   const [password, setPassword] = useState("");
   const [passwordVerify, setPasswordVerify] = useState("");
 
+  const location = useLocation();
+  const prevUrl = location.state?.prevUrl?.pathname||location.state?.prevUrl || "/";
+
   const { getLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    console.log("prevUrl", prevUrl)
+  })
 
   async function register(e) {
     e.preventDefault();
@@ -20,7 +27,7 @@ function Register() {
       const registerData = { email, username, password, passwordVerify };
       await axios.post(`${BACKEND_URL}/api/auth/signup`, registerData);
       await getLoggedIn();
-      navigate("/");
+      navigate(prevUrl);
     } catch (error) {
       console.error(error);
     }

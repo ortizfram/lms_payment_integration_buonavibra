@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 import { Link, useNavigate, useParams,useLocation  } from "react-router-dom"; // Import useParams
@@ -16,6 +16,10 @@ function Login() {
 
   const location = useLocation();
   const prevUrl = location.state?.prevUrl?.pathname||location.state?.prevUrl || "/";
+
+  useEffect(()=>{
+    console.log("prevUrl", prevUrl)
+  })
 
 
   const { id, next } = useParams();
@@ -81,7 +85,7 @@ function Login() {
               <Link to="/forgot-password">Recuperar</Link>
             </p>
             <p>
-              Sin cuenta aún? <Link to="/register">Registrar</Link>
+              Sin cuenta aún? <Link to="/register" state={{ prevUrl }}>Registrar</Link>
             </p>
           </div>
         </form>
