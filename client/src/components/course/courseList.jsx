@@ -38,7 +38,7 @@ function CourseList({ courses = [], next, loading }) {
                     </p>
                   )}
 
-                  <a href={!next ? `/#/course/${course._id}` : next}>
+                  <a href={!next ? `/#/course/${course._id}` : next}> {/*id sino planes*/}
                     <img
                       src={`${BACKEND_URL}${course.thumbnail}`}
                       alt={`thumbnail-${course.title}`}
