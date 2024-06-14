@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
-import { Link, useNavigate, useParams } from "react-router-dom"; // Import useParams
+import { Link, useNavigate, useParams,useLocation  } from "react-router-dom"; // Import useParams
 import "../../public/css/auth/login.css";
 import { BACKEND_URL } from "../../config.js";
 // alerts
@@ -13,6 +13,11 @@ function Login() {
   const [password, setPassword] = useState("");
   const { getLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const prevUrl = location.state?.prevUrl?.pathname||location.state?.prevUrl || "/";
+
+
   const { id, next } = useParams();
 
   async function login(e) {
@@ -34,7 +39,7 @@ function Login() {
           }, 2000);
         } else {
           setTimeout(() => {
-            navigate(`/`);
+            navigate(prevUrl);
           }, 2000);
         }
       }

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import LogoutBtn from "../../components/auth/LogoutBtn";
 
 function WebMenu({ currentUser, loggedIn }) {
   const [showMenu, setShowMenu] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -52,7 +53,12 @@ function WebMenu({ currentUser, loggedIn }) {
 
             {loggedIn === false && (
               <>
-                <Link to={"/login"} style={styles.link} onClick={closeMenu}>
+                <Link
+                  to={"/login"}
+                  state={{ prevUrl: "/course/all" }}
+                  style={styles.link}
+                  onClick={closeMenu}
+                >
                   Biblioteca Yoga Meditación
                 </Link>
                 <Link to={"/plans"} style={styles.link} onClick={closeMenu}>
@@ -68,6 +74,7 @@ function WebMenu({ currentUser, loggedIn }) {
                 </Link> */}
                 <Link
                   to={"/login"}
+                  state={{ prevUrl: location }}
                   style={styles.link}
                   className="border rounded-md p-2 border-white"
                   onClick={closeMenu}
@@ -84,7 +91,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   style={styles.link}
                   onClick={closeMenu}
                 >
-                   Biblioteca Yoga Meditación
+                  Biblioteca Yoga Meditación
                 </Link>
                 <Link to={"/plans"} style={styles.link} onClick={closeMenu}>
                   Comprar Planes
@@ -156,6 +163,7 @@ function WebMenu({ currentUser, loggedIn }) {
                 </Link>
                 <Link
                   to={"/login"}
+                  state={{ prevUrl: "/course/all"}}
                   style={styles.mobileLink}
                   onClick={closeMenu}
                 >
@@ -171,6 +179,7 @@ function WebMenu({ currentUser, loggedIn }) {
                 </Link> */}
                 <Link
                   to={"/login"}
+                  state={{ prevUrl: location }}
                   style={styles.mobileLink}
                   className="border rounded-md p-2 border-white"
                   onClick={closeMenu}
@@ -187,7 +196,7 @@ function WebMenu({ currentUser, loggedIn }) {
                   style={styles.mobileLink}
                   onClick={closeMenu}
                 >
-                 Biblioteca Yoga Meditación
+                  Biblioteca Yoga Meditación
                 </Link>
                 <Link
                   to={"/plans"}
