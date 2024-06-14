@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Plans() {
   const [plans, setPlans] = useState([]);
+  const location = useLocation()
 
   useEffect(() => {
     axios
@@ -53,6 +54,7 @@ function Plans() {
                 </div>
                 <Link
                   to={`/plans/${plan._id}`}
+                  state={{ prevUrl: `/plans/${plan._id}` }}
                   className="btn text-white  bg-[#ef7f72] hover:bg-[#c9685d] mt-auto"
                 >
                   Ver más

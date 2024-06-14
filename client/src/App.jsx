@@ -35,6 +35,7 @@ const PlanEnroll = lazy(() => import("./pages/plans/PlanEnroll"));
 const UpdatePlan = lazy(() => import("./pages/plans/UpdatePlan"));
 const Thanks = lazy(() => import("./pages/Thanks"));
 import { useParams } from "react-router-dom";
+import MovingText from "./components/floating/MovingMessage";
 
 axios.defaults.withCredentials = true;
 
@@ -114,6 +115,7 @@ export default function App() {
           />
         </Routes>
       </Suspense>
+      {/* <MovingText /> */}
       {/*</BrowserRouter> */}
     </HashRouter>
   );

@@ -1,0 +1,26 @@
+.moving-text-container {
+ position: fixed;
+ bottom: 10px;
+ left: 50%;
+ transform: translateX(-50%);
+ background-color: red;
+ padding: 10px;
+ border-radius: 5px;
+}
+
+.moving-text {
+ color: white;
+ font-size: 14px;
+ white-space: nowrap;
+ overflow: hidden;
+ animation: moveText 10s linear infinite;
+}
+
+@keyframes moveText {
+ from {
+   transform: translateX(100%);
+ }
+ to {
+   transform: translateX(-100%);
+ }
+}

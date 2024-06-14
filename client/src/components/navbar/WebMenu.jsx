@@ -61,7 +61,11 @@ function WebMenu({ currentUser, loggedIn }) {
                 >
                   Biblioteca Yoga Meditación
                 </Link>
-                <Link to={"/plans"} style={styles.link} onClick={closeMenu}>
+                <Link
+                  to={"/plans"}
+                  style={styles.link}
+                  onClick={closeMenu}
+                >
                   Comprar Planes
                 </Link>
                 {/* <Link
@@ -163,7 +167,7 @@ function WebMenu({ currentUser, loggedIn }) {
                 </Link>
                 <Link
                   to={"/login"}
-                  state={{ prevUrl: "/course/all"}}
+                  state={{ prevUrl: "/course/all" }}
                   style={styles.mobileLink}
                   onClick={closeMenu}
                 >
@@ -200,6 +204,7 @@ function WebMenu({ currentUser, loggedIn }) {
                 </Link>
                 <Link
                   to={"/plans"}
+                  
                   style={styles.mobileLink}
                   onClick={closeMenu}
                 >
