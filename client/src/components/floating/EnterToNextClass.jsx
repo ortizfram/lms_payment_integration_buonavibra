@@ -3,7 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function EnterToNextClassBubble() {
-  const [showButton, setShowButton] = useState(false);
+  const [showButton, setShowButton] = useState(true); // Start in the closed state
 
   const notify = () => {
     toast.success("🌟 Satnam");
@@ -22,23 +22,20 @@ function EnterToNextClassBubble() {
     setShowButton(!showButton);
   };
 
-  const closeButtonClicked = () => {
-    setShowButton(true);
-  };
-
   return (
     <>
       {!showButton && (
-        <div className="fixed bottom-0 left-0 right-0 m-3 rounded-lg shadow-2xl bg-white z-50 md:left-1/2 md:transform md:-translate-x-1/2 md:max-w-md text-center">
-          <button
-            className="btn fw-bolder fs-6 text-[#333] p-2 rounded-circle absolute top-0 right-0 ml-8 bg-white"
-            onClick={closeButtonClicked}
+        <div className="fixed bottom-0 left-0 right-0 m-3 rounded-lg shadow-2xl bg-white z-50 md:left-1/2 md:transform md:-translate-x-1/2 md:max-w-sm text-center" style={{ maxWidth: "350px" }}>
+          <a
+            className="absolute top-0 right-0 m-2 text-danger"
+            onClick={toggleButton}
+            style={{ fontSize: "1.5rem", fontWeight:"bold", cursor: "pointer" }} // Smaller, red close button
           >
             X
-          </button>
-          <div className="p-4">
+          </a>
+          <div className="p-1">
             <p className="fw-bold text-[#333] mb-3">
-              🧘🏼‍♀️Reservá aquí tu proxima meditación🧘🏼‍♀️
+            Reservá 1 cupo en la medi de hoy
             </p>
             <div className="flex flex-col md:flex-row justify-center items-center gap-3">
               <button onClick={notify} className="btn border bg-info text-white w-full md:w-auto">
@@ -55,6 +52,7 @@ function EnterToNextClassBubble() {
         <button
           className="btn border border-danger z-50 bg-white fixed bottom-0 right-0 m-3 p-3 rounded-circle shadow"
           onClick={toggleButton}
+          style={{ fontSize: "2rem" }} // Increase the size of the button for better visibility
         >
           ❤️
         </button>
