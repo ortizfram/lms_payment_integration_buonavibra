@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
-import { Link, useNavigate, useParams,useLocation  } from "react-router-dom"; // Import useParams
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../../public/css/auth/login.css";
 import { BACKEND_URL } from "../../config.js";
-// alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -15,37 +14,23 @@ function Login() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const prevUrl = location.state?.prevUrl?.pathname||location.state?.prevUrl || "/";
+  const prevUrl = location.state?.prevUrl?.pathname || location.state?.prevUrl || "/";
 
-  useEffect(()=>{
-    console.log("prevUrl", prevUrl)
-  })
-
-
-  const { id, next } = useParams();
+  useEffect(() => {
+    console.log("prevUrl", prevUrl);
+  }, []);
 
   async function login(e) {
     e.preventDefault();
     try {
       const loginData = { email, password };
-      const loginRes = await axios.post(
-        `${BACKEND_URL}/api/auth/login`,
-        loginData
-      );
+      const loginRes = await axios.post(`${BACKEND_URL}/api/auth/login`, loginData);
       if (loginRes.status === 200) {
         console.log("Login successful");
-        // toast.success("Login successful");
         await getLoggedIn();
-        if (id) {
-          // If 'id' and 'next' exist, redirect back to 'next'
-          setTimeout(() => {
-            navigate(`/plans/${id}`); // Redirect to the preserved URL
-          }, 2000);
-        } else {
-          setTimeout(() => {
-            navigate(prevUrl);
-          }, 2000);
-        }
+        setTimeout(() => {
+          navigate(prevUrl);
+        }, 2000);
       }
     } catch (error) {
       console.error(error);
@@ -54,9 +39,9 @@ function Login() {
   }
 
   return (
-    <div className="login-page-container">
-      <div className="login-container">
-        <h1 className="login-title section-title">Ingresar</h1>
+    <div className="login-page-container d-flex justify-content-center align-items-center vh-70">
+      <div className="login-container text-center">
+        <h1 className="login-title section-title">Ya soy usuario</h1>
         <form onSubmit={login}>
           <div className="form-group">
             <input
@@ -76,16 +61,16 @@ function Login() {
               className="form-control"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
-            Ingresar
+          <button type="submit" className="btn btn-primary fw-bold">
+            Ingresar con mi cuenta
           </button>
-          <div className="link-container">
+          <div className="link-container mt-3">
             <p>
-              Olvidate tu contraseña?{" "}
-              <Link to="/forgot-password">Recuperar</Link>
+              Olvidaste tu contraseña? <Link to="/forgot-password">Recuperar</Link>
             </p>
-            <p>
-              Sin cuenta aún? <Link to="/register" state={{ prevUrl }}>Registrar</Link>
+              <hr/>
+            <p className="text-center d-flex flex-col align-items-center section-title">
+              <Link to="/register" className="fw-bold bg-success text-white btn btn-success btn-lg" state={{ prevUrl }}>Crear cuenta</Link>
             </p>
           </div>
         </form>
