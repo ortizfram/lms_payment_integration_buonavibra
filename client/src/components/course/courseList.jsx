@@ -4,11 +4,11 @@ import { BACKEND_URL } from "../../config.js";
 import Loader from "../loader/Loader.jsx";
 
 function CourseList({ courses = [], next, loading }) {
-  const [visibleCourses, setVisibleCourses] = useState(5);
+  const [visibleCourses, setVisibleCourses] = useState(8);
   const [loadMoreVisible, setLoadMoreVisible] = useState(true);
 
   const loadMore = () => {
-    setVisibleCourses((prev) => prev + 5);
+    setVisibleCourses((prev) => prev + 8);
   };
 
   const biggestDiscount = courses.length > 0 ? Math.max(
