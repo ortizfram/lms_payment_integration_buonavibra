@@ -46,9 +46,23 @@ function Plans() {
               <div className="card-body d-flex flex-column">
                 <h5 className="card-title fw-bold fs-6">{plan.title}.</h5>
                 <div className=" px-2 mb-2">
-                  <p className="card-text flex-grow-1 italic">
-                    {plan.description}.
-                  </p>
+                <p className="card-text flex-grow-1 italic">
+      {
+        plan.description.includes('Bonus')
+          ? plan.description.split('Bonus').map((part, index, array) => (
+              index < array.length - 1 ? (
+                <span key={index}>
+                  {part}
+                  <br/><br/>
+                  <strong>Bonus</strong>
+                </span>
+              ) : (
+                <span key={index}>{part}</span>
+              )
+            ))
+          : plan.description
+      }
+    </p>
                   <p className="fw-bold">${plan.ars_price}</p>
                   <p className="fw-bold">USD {plan.usd_price}</p>
                 </div>
