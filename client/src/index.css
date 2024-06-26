@@ -11,4 +11,11 @@
   .ft-alifira {
     font-family: 'Alifira', sans-serif;
   }
+  .ft-roboto {
+    font-family: "Roboto Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+  }
+  
 }

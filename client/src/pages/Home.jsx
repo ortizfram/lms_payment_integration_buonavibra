@@ -41,7 +41,7 @@ const Home = () => {
 
         {/* <!-- about --> */}
         <div className="container about px-4" id="about1">
-          <h1 className="section-title">Acerca de.</h1>
+          <h1 className="section-title ft-roboto">Acerca de.</h1>
 
           <div className="row">
             <div className="col-md-6 text-center">
@@ -51,13 +51,13 @@ const Home = () => {
                 className="shadow-2xl rounded-circle w-100"
                 alt="Marcela Marzetti Gimenez"
               />
-              <h3 className="mt-3 font-weight-bold highlight-txt">
+              <h3 className="mt-3 ft-roboto font-weight-bold highlight-txt">
                 Marcela Marzetti
               </h3>
             </div>
             <div className="col-md-6 text-center">
               <p className="text-xl">
-                <span>
+                <span className="ft-roboto">
                   ¡Bienvenido/a a mi página web!
                   <br />
                   <br />
@@ -93,7 +93,7 @@ const Home = () => {
         >
           <div className="">
             <div className="">
-              <h1 className="section-title italic font-bold text-white text-3xl">
+              <h1 className="ft-roboto section-title italic font-bold text-white text-3xl">
                 Contacto.
               </h1>
 

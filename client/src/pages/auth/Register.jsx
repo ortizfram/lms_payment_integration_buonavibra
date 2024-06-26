@@ -34,9 +34,9 @@ function Register() {
   }
 
   return (
-    <div className="register-page-container">
+    <div className="register-page-container ">
       <div className="register-container">
-        <h1 className="register-title section-title">Registrar</h1>
+        <h1 className="register-title section-title ft-roboto">Registrar</h1>
         <form onSubmit={register}>
           <div className="form-group">
             <input
@@ -74,7 +74,7 @@ function Register() {
               className="form-control"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="ft-roboto btn btn-primary">
             Registrar
           </button>
           <p>

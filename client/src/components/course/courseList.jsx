@@ -23,7 +23,7 @@ function CourseList({ courses = [], next, loading }) {
 
   return (
     <div className="courses-page-container">
-      <h1 className="text-center mb-4 fw-bolder fs-3 section-title ft-alifira text-dark mt-5">
+      <h1 className="ft-roboto text-center mb-4 fw-bolder fs-3 section-title ft-alifira text-dark mt-5">
         Biblioteca Yoga Meditación
       </h1>
       <div className="courses-container">

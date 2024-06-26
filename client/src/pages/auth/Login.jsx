@@ -41,7 +41,7 @@ function Login() {
   return (
     <div className="login-page-container d-flex justify-content-center align-items-center vh-70">
       <div className="login-container text-center">
-        <h1 className="login-title section-title">Ya soy usuario</h1>
+        <h1 className="login-title section-title ft-roboto">Ya soy usuario</h1>
         <form onSubmit={login}>
           <div className="form-group">
             <input
@@ -61,7 +61,7 @@ function Login() {
               className="form-control"
             />
           </div>
-          <button type="submit" className="btn btn-primary fw-bold">
+          <button type="submit" className="ft-roboto   btn btn-primary fw-bold">
             Ingresar con mi cuenta
           </button>
           <div className="link-container mt-3">
@@ -70,7 +70,7 @@ function Login() {
             </p>
               <hr/>
             <p className="text-center d-flex flex-col align-items-center section-title">
-              <Link to="/register" className="fw-bold bg-success text-white btn btn-success btn-lg" state={{ prevUrl }}>Crear cuenta</Link>
+              <Link to="/register" className="fw-bold bg-success text-white btn btn-success btn-lg ft-roboto" state={{ prevUrl }}>Crear cuenta</Link>
             </p>
           </div>
         </form>
