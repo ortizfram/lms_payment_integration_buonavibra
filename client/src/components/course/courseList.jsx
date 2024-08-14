@@ -1,24 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { BACKEND_URL } from "../../config.js";
 import Loader from "../loader/Loader.jsx";
+import AuthContext from "../../context/AuthContext.jsx";
 
 function CourseList({ courses = [], next, loading }) {
   const [visibleCourses, setVisibleCourses] = useState(8);
   const [loadMoreVisible, setLoadMoreVisible] = useState(true);
+  const { currentUser } = useContext(AuthContext);
 
   const loadMore = () => {
     setVisibleCourses((prev) => prev + 8);
   };
 
-  const biggestDiscount = courses.length > 0 ? Math.max(
-    ...courses.map((course) =>
-      Math.max(course.discount_ars, course.discount_usd)
-    )
-  ) : 0;
+  const biggestDiscount =
+    courses.length > 0
+      ? Math.max(
+          ...courses.map((course) =>
+            Math.max(course.discount_ars, course.discount_usd)
+          )
+        )
+      : 0;
 
   if (loading) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
@@ -38,43 +43,86 @@ function CourseList({ courses = [], next, loading }) {
                     </p>
                   )}
 
-                  <a href={!next ? `/#/course/${course._id}` : next}> {/*id sino planes*/}
-                    <img
-                      src={`${BACKEND_URL}${course.thumbnail}`}
-                      alt={`thumbnail-${course.title}`}
-                    />
-                    <p className="timestamp">
-                      {formatDistanceToNow(new Date(course.updated_at))}
-                    </p>
-
-                    <div className="author">
-                      {course.author && course.author.avatar && (
-                        <img
-                          src={course.author.avatar}
-                          alt="User Avatar"
-                          className="avatar"
-                        />
-                      )}
-                      {course.author && (
-                        <p className="aut">
-                          <strong>{course.author.username}</strong> •{" "}
-                          {/* {course.author.email} */}
-                        </p>
-                      )}
-                    </div>
-                    <h4 className="plan-title italic">{course.plan_title}</h4>
-                    <h2 className="course-title">{course.title}</h2>
-
-                    {course.usd_price || course.ars_price ? (
-                      <p className="">
-                        USD {course.usd_price} | ARS {course.ars_price}
+                  {currentUser && currentUser.isAdmin ? (
+                    <a href={`/#/course/${course._id}`} className="course-link">
+                      <img
+                        src={`${BACKEND_URL}${course.thumbnail}`}
+                        alt={`thumbnail-${course.title}`}
+                      />
+                      <p className="timestamp">
+                        {formatDistanceToNow(new Date(course.updated_at))}
                       </p>
-                    ) : null}
 
-                    {course.description && (
-                      <p className="">{course.description}</p>
-                    )}
-                  </a>
+                      <div className="author">
+                        {course.author && course.author.avatar && (
+                          <img
+                            src={course.author.avatar}
+                            alt="User Avatar"
+                            className="avatar"
+                          />
+                        )}
+                        {course.author && (
+                          <p className="aut">
+                            <strong>{course.author.username}</strong> •{" "}
+                            {/* {course.author.email} */}
+                          </p>
+                        )}
+                      </div>
+                      <h4 className="plan-title italic">{course.plan_title}</h4>
+                      <h2 className="course-title">{course.title}</h2>
+
+                      {course.usd_price || course.ars_price ? (
+                        <p className="">
+                          USD {course.usd_price} | ARS {course.ars_price}
+                        </p>
+                      ) : null}
+
+                      {course.description && (
+                        <p className="">{course.description}</p>
+                      )}
+                    </a>
+                  ) : (
+                    <a
+                      href={!next ? `/#/course/${course._id}` : next}
+                      className="course-link"
+                    >
+                      <img
+                        src={`${BACKEND_URL}${course.thumbnail}`}
+                        alt={`thumbnail-${course.title}`}
+                      />
+                      <p className="timestamp">
+                        {formatDistanceToNow(new Date(course.updated_at))}
+                      </p>
+
+                      <div className="author">
+                        {course.author && course.author.avatar && (
+                          <img
+                            src={course.author.avatar}
+                            alt="User Avatar"
+                            className="avatar"
+                          />
+                        )}
+                        {course.author && (
+                          <p className="aut">
+                            <strong>{course.author.username}</strong> •{" "}
+                            {/* {course.author.email} */}
+                          </p>
+                        )}
+                      </div>
+                      <h4 className="plan-title italic">{course.plan_title}</h4>
+                      <h2 className="course-title">{course.title}</h2>
+
+                      {course.usd_price || course.ars_price ? (
+                        <p className="">
+                          USD {course.usd_price} | ARS {course.ars_price}
+                        </p>
+                      ) : null}
+
+                      {course.description && (
+                        <p className="">{course.description}</p>
+                      )}
+                    </a>
+                  )}
                 </div>
               </li>
             ))}
@@ -88,7 +136,10 @@ function CourseList({ courses = [], next, loading }) {
         )}
         {loadMoreVisible && visibleCourses < courses.length && (
           <div className="text-center mt-4">
-            <button className="btn btn-lg btn-primary px-5 py-3 fw-bold" onClick={loadMore}>
+            <button
+              className="btn btn-lg btn-primary px-5 py-3 fw-bold"
+              onClick={loadMore}
+            >
               Cargar Más
             </button>
           </div>

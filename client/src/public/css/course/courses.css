@@ -4,16 +4,51 @@
   /* background: radial-gradient(circle, #EF7F72, #F7E3BF); */
   background-size: cover;
   background-position: center; /* Centers the background image */
-  
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
+
   height: 100%;
   width: 100vw;
   min-height: 100vh; /* Ensures the container takes at least the full height of the viewport */
 }
+/*  */
+.course-link {
+  position: relative;
+  display: block;
+}
+.course-link.out-of-stock {
+  pointer-events: none; /* Prevent clicks */
+}
+.course-image-container {
+  position: relative;
+}
+
+.course-thumbnail {
+  width: 100%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.overlay-text {
+  color: white;
+}
+/*  */
 .discount-overlay {
   background-color: rgba(255, 255, 255, 0.8); /* semi-transparent white */
   backdrop-filter: blur(10px); /* backdrop filter for blur effect */
@@ -24,7 +59,7 @@
   background-image: url("../../../../public/images/course/roonz-nl-ATgfRqpFfFI-unsplash.jpg");
   background-size: cover;
   background-position: center; /* Centers the background image */
-  
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -35,9 +70,13 @@
   min-height: 100vh; /* Ensures the container takes at least the full height of the viewport */
 }
 /* vignete overlay */
-.courses-page-container::before .library-page-container::before{
-  content: '';
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%);
+.courses-page-container::before .library-page-container::before {
+  content: "";
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
   z-index: 0; /* Set a lower z-index to stay beneath the content */
   height: 100%;
 }
@@ -61,12 +100,12 @@ hr {
 .section-title {
   text-align: center;
   margin-bottom: 2px;
-  color: #EF7F72;
+  color: #ef7f72;
   z-index: 1;
 }
-.section-title h1{
-text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Adding shadow to the h1 */
-z-index: 1;
+.section-title h1 {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Adding shadow to the h1 */
+  z-index: 1;
 }
 .timestamp {
   color: #333;
@@ -88,7 +127,6 @@ h1 {
   overflow-y: auto; /* Enables vertical scrolling when content overflows */
   z-index: 1;
   margin-top: 0;
-
 }
 
 /* Style for the go back button */
@@ -169,7 +207,7 @@ h1 {
 .course-title {
   font-size: 20px;
   font-weight: 700;
-  font-family:'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 /* Style for the course prices */
@@ -190,7 +228,7 @@ h1 {
   gap: 10px;
   margin-top: 15px;
 }
-.course-actions a i{
+.course-actions a i {
   color: #fff;
 }
 
@@ -274,4 +312,3 @@ h1 {
     grid-template-columns: 1fr;
   }
 }
-

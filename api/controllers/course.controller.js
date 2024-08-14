@@ -188,10 +188,11 @@ export const courselist = async (req, res, next) => {
 
     let coursesEnrolled = [];
     let nextLink = null;
-    const fullPlanId = new mongoose.Types.ObjectId(process.env.FULL_PLAN_ID);
+    // const fullPlanId = new mongoose.Types.ObjectId(process.env.FULL_PLAN_ID);
 
     // Return all courses for Admin or for users enrolled in full plan
-    if (sUser.isAdmin || (enrolledPlan && enrolledPlan.equals(fullPlanId))) {
+    // if (sUser.isAdmin || (enrolledPlan && enrolledPlan.equals(fullPlanId))) {
+    if (sUser.isAdmin) {
       coursesEnrolled = await Course.find()
         .populate("author", "username email avatar")
         .sort({ createdAt: -1 })
