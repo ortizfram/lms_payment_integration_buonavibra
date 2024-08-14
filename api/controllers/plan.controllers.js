@@ -4,17 +4,12 @@ import { FRONTEND_URL } from "../../client/src/config.js";
 
 // Controller functionss
 const createPlan = async (req, res) => {
-  //   console.log(req.body);
-  //   console.log(req.files);
   try {
     const imageUrl =
       req.files && req.files["image"]
         ? "/uploads/imgs/" + req.files["image"][0].filename
         : null;
 
-    // if (!imageUrl) {
-    //   return res.status(400).json({ message: " miniatura is required" });
-    // }
     const {
       title,
       description,
@@ -24,6 +19,7 @@ const createPlan = async (req, res) => {
       discount_usd,
       payment_link_ars,
       payment_link_usd,
+      stock // Add stock to the destructuring
     } = req.body;
 
     const requiredFields = ["title", "description", "ars_price", "usd_price"];
@@ -34,16 +30,12 @@ const createPlan = async (req, res) => {
           .json({ message: `El campo '${field}' es requerido.` });
       }
     }
-    let planTitle = title;
-    if (typeof title !== "string") {
-      planTitle = String(title);
-    }
 
     const discountArs = discount_ars || null;
     const discountUsd = discount_usd || null;
 
     const newPlan = new Plan({
-      title: planTitle,
+      title,
       description,
       ars_price,
       usd_price,
@@ -52,12 +44,10 @@ const createPlan = async (req, res) => {
       payment_link_ars,
       payment_link_usd,
       thumbnail: imageUrl,
+      stock: stock === 'true' // Ensure stock is set correctly
     });
 
     await newPlan.save();
-
-    console.log("\nCreating plan...");
-    console.log("Plan:", newPlan);
 
     return res
       .status(201)
@@ -65,7 +55,7 @@ const createPlan = async (req, res) => {
   } catch (error) {
     return res
       .status(400)
-      .json({ message: "titulo del plan ya existe, busca uno nuevo", error });
+      .json({ message: "Error creating plan", error });
   }
 };
 
@@ -118,6 +108,7 @@ const updatePlan = async (req, res) => {
       discount_usd,
       payment_link_ars,
       payment_link_usd,
+      stock,  // Add stock to destructured values
       author_id,
     } = req.body;
 
@@ -138,6 +129,7 @@ const updatePlan = async (req, res) => {
       discount_usd: discountUsd,
       payment_link_ars,
       payment_link_usd,
+      stock: stock === "true" || stock === true, // Ensure stock is boolean
       author_id,
       thumbnail: imageUrl,
     };
@@ -165,6 +157,7 @@ const updatePlan = async (req, res) => {
     return res.status(500).json({ message: "Error updating plan", error });
   }
 };
+
 
 const deletePlan = async (req, res) => {
   try {

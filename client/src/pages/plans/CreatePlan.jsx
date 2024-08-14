@@ -1,15 +1,13 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 // alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function CreatePlan() {
   const [errorMessage, setErrorMessage] = useState("");
-  const $image = useRef(null);
-
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -21,27 +19,36 @@ function CreatePlan() {
     payment_link_usd: "",
     thumbnail: null,
     thumbnailUrl: null,
+    stock: true, // default to true
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const response = await axios.post(`${BACKEND_URL}/api/plans`, formData);
-    if (response.status === 201) {
-      console.log("Plan created:", response.data.data);
-      toast.success("Plan creado exitosamente");
-      setTimeout(() => {
-        window.location.href = "/#/plans";
-      }, 2000);
-    } else {
+    const formDataToSend = new FormData();
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
+
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/plans`, formDataToSend);
+      if (response.status === 201) {
+        console.log("Plan created:", response.data.data);
+        toast.success("Plan creado exitosamente");
+        setTimeout(() => {
+          window.location.href = "/#/plans";
+        }, 2000);
+      } else {
+        setErrorMessage("Failed to create plan.");
+      }
+    } catch (error) {
       setErrorMessage("Failed to create plan.");
     }
   };
@@ -49,10 +56,8 @@ function CreatePlan() {
   return (
     <div className="courseCreate-page-cont min-w-[100vw]">
       <div className="max-w-[80vw] px-3 mt-[5vh] mx-auto">
-        <div className="">
-          <h1 className="text-3xl font-semibold text-gray-800 mb-4">
-            Creando Plan
-          </h1>
+        <div>
+          <h1 className="text-3xl font-semibold text-gray-800 mb-4">Creando Plan</h1>
           <form onSubmit={handleSubmit} className="space-y-4">
             {errorMessage && (
               <p className="text-red-500 text-center text-2xl font-semibold">
@@ -61,10 +66,7 @@ function CreatePlan() {
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="title"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                   Título:
                 </label>
                 <input
@@ -75,10 +77,7 @@ function CreatePlan() {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="description"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                   Descripción:
                 </label>
                 <input
@@ -91,18 +90,20 @@ function CreatePlan() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="image"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="image" className="block text-sm font-medium text-gray-700">
                   Subir Miniatura:
                 </label>
                 <input
                   type="file"
                   id="file"
-                  name="image"
+                  name="thumbnail" // Changed to match formData
                   accept="image/*"
-                  className="text-black "
+                  className="text-black"
+                  onChange={(e) => setFormData((prevState) => ({
+                    ...prevState,
+                    thumbnail: e.target.files[0],
+                    thumbnailUrl: URL.createObjectURL(e.target.files[0]),
+                  }))}
                 />
               </div>
             </div>
@@ -110,34 +111,26 @@ function CreatePlan() {
               <div className="preview">
                 <img
                   id="img"
-                  ref={$image}
+                  src={formData.thumbnailUrl}
                   className="mt-4"
                   style={{ width: 300 }}
+                  alt="Thumbnail Preview"
                 />
               </div>
             </div>
             <p className="text-danger fs-6">
               Nunca olvides tambien crear el precio del producto en{" "}
-              <Link
-                className="underline text-blue"
-                to={"https://www.mercadopago.com.ar/subscription-plans/list"}
-              >
+              <Link className="underline text-blue" to={"https://www.mercadopago.com.ar/subscription-plans/list"}>
                 Mercado Pago Planes
               </Link>{" "}
               y{" "}
-              <Link
-                className="underline text-blue"
-                to={"https://www.paypal.com/billing/plans"}
-              >
+              <Link className="underline text-blue" to={"https://www.paypal.com/billing/plans"}>
                 Paypal Subscripciones
               </Link>
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="ars_price"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="ars_price" className="block text-sm font-medium text-gray-700">
                   ARS Price:
                 </label>
                 <input
@@ -149,10 +142,7 @@ function CreatePlan() {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="usd_price"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="usd_price" className="block text-sm font-medium text-gray-700">
                   USD Price:
                 </label>
                 <input
@@ -166,10 +156,7 @@ function CreatePlan() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="discount_ars"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="discount_ars" className="block text-sm font-medium text-gray-700">
                   Descuento ARS (Opcional):
                 </label>
                 <input
@@ -181,10 +168,7 @@ function CreatePlan() {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="discount_usd"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="discount_usd" className="block text-sm font-medium text-gray-700">
                   Descuento USD (Opcional):
                 </label>
                 <input
@@ -198,10 +182,7 @@ function CreatePlan() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="payment_link_ars"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="payment_link_ars" className="block text-sm font-medium text-gray-700">
                   Link de pago ARS (Opcional):
                 </label>
                 <input
@@ -213,10 +194,7 @@ function CreatePlan() {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="payment_link_usd"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="payment_link_usd" className="block text-sm font-medium text-gray-700">
                   Link de pago USD (Opcional):
                 </label>
                 <input
@@ -228,6 +206,19 @@ function CreatePlan() {
                 />
               </div>
             </div>
+            <div className="flex items-center space-x-4">
+              <input
+                type="checkbox"
+                id="stock"
+                name="stock"
+                checked={formData.stock}
+                onChange={handleChange}
+                className="form-checkbox h-4 w-4 text-blue-600"
+              />
+              <label htmlFor="stock" className="text-sm font-medium text-gray-700">
+                Disponible
+              </label>
+            </div>
             <div className="flex justify-center mt-6">
               <button
                 type="submit"
@@ -237,6 +228,7 @@ function CreatePlan() {
               </button>
             </div>
           </form>
+          <ToastContainer />
         </div>
       </div>
     </div>
