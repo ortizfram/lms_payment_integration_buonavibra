@@ -1,15 +1,13 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { BACKEND_URL } from "../../config";
 import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AuthContext from "../../context/AuthContext";
-import { BACKEND_URL } from "../../config";
 
-const UpdatePlan = () => {
-  const { currentUser } = useContext(AuthContext);
+function UpdatePlan() {
   const { id } = useParams();
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -19,28 +17,27 @@ const UpdatePlan = () => {
     discount_usd: 0,
     payment_link_ars: "",
     payment_link_usd: "",
-    stock: true, // Add stock to the initial state
+    thumbnail: null,
+    thumbnailUrl: null,
+    stock: true,
   });
-  const $image = useRef(null);
 
   useEffect(() => {
     const fetchPlanData = async () => {
       try {
-        const response = await fetch(`${BACKEND_URL}/api/plans/${id}/fetch`);
-        if (response.ok) {
-          const data = await response.json();
-          const planData = data.plan;
-          setFormData(planData);
-          // Set image preview if available
-          if (planData.thumbnail) {
-            $image.current.src = planData.thumbnail;
-          }
+        const response = await axios.get(`${BACKEND_URL}/api/plans/${id}/fetch`);
+        if (response.status === 200) {
+          const planData = response.data.plan;
+          setFormData({
+            ...planData,
+            thumbnailUrl: planData.thumbnail,
+            stock: planData.stock,
+          });
         } else {
-          throw new Error("Failed to fetch plan data");
+          setErrorMessage("Failed to fetch plan data.");
         }
       } catch (error) {
-        console.error("Error fetching plan data:", error);
-        setErrorMessage("Failed to fetch plan data");
+        setErrorMessage("Failed to fetch plan data.");
       }
     };
 
@@ -49,15 +46,6 @@ const UpdatePlan = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
-    if (name === "discount_ars" || name === "discount_usd") {
-      const intValue = parseInt(value);
-      if (!Number.isInteger(intValue) || intValue <= 0) {
-        setErrorMessage(`The field '${name}' must be a positive integer.`);
-        return;
-      }
-    }
-
     setFormData((prevState) => ({
       ...prevState,
       [name]: type === "checkbox" ? checked : value,
@@ -66,252 +54,210 @@ const UpdatePlan = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
+    const formDataToSend = new FormData();
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
 
-    const response = await fetch(`${BACKEND_URL}/api/plans/update/${id}`, {
-      method: "PUT",
-      body: formData,
-    });
-
-    if (response.status === 200) {
-      const data = await response.json();
-      setSuccessMessage(data.message);
-      toast.success("Plan ha sido actualizado");
-      setTimeout(() => {
-        window.location.href = data.redirectUrl;
-      }, 2000);
-    } else {
-      const errorData = await response.json();
-      setErrorMessage(errorData.message);
+    try {
+      const response = await axios.put(`${BACKEND_URL}/api/plans/update/${id}`, formDataToSend);
+      if (response.status === 200) {
+        toast.success("Plan actualizado exitosamente");
+        setTimeout(() => {
+          window.location.href = `/plans/${id}`;
+        }, 2000);
+      } else {
+        setErrorMessage("Failed to update plan.");
+      }
+    } catch (error) {
+      setErrorMessage("Failed to update plan.");
     }
   };
 
   return (
-    formData && (
-      <div className="courseCreate-page-cont min-w-[100vw]">
-        <div className="max-w-[80vw] px-3 mt-[5vh] mx-auto">
-          {errorMessage && (
-            <p className="text-red-500 text-center text-2xl font-semibold">
-              {errorMessage}
-            </p>
-          )}
-          {successMessage && (
-            <p className="text-green-500 text-center text-2xl font-semibold">
-              {successMessage}
-            </p>
-          )}
-          <div>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* CONTENT */}
-              <h3>Titulo & contenido:</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="title"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Titulo:
-                  </label>
-                  <input
-                    name="title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    type="text"
-                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="description"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Descripcion:
-                  </label>
-                  <input
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    type="text"
-                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-              </div>
-
-              {/* UPLOAD */}
-              <h3>Subir Archivos:</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="image"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Subir miniatura:
-                  </label>
-                  <input
-                    type="file"
-                    id="file"
-                    name="image"
-                    accept="image/*"
-                    onChange={handleChange}
-                    className="text-black"
-                  />
-                </div>
-              </div>
-              <div className="col-span-2">
-                <div className="preview">
-                  <img
-                    id="img"
-                    ref={$image}
-                    className="mt-4"
-                    style={{ width: 300 }}
-                    alt="Thumbnail Preview"
-                  />
-                </div>
-              </div>
-
-              {/* PRICE */}
-              <h3>Configurar precio</h3>
-              <p className="text-danger fs-6">Nunca olvides tambien cambiar el precio del producto en <Link className="underline text-blue" to={"https://www.mercadopago.com.ar/subscription-plans/list"}>Mercado Pago Planes</Link> y  <Link className="underline text-blue" to={"https://www.paypal.com/billing/plans"}>Paypal Subscripciones</Link></p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="ars_price"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    ARS Price:
-                  </label>
-                  <input
-                    type="number"
-                    id="ars_price"
-                    name="ars_price"
-                    value={formData.ars_price}
-                    onChange={handleChange}
-                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="usd_price"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    USD Price:
-                  </label>
-                  <input
-                    type="number"
-                    id="usd_price"
-                    name="usd_price"
-                    value={formData.usd_price}
-                    onChange={handleChange}
-                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-              </div>
-
-              {/* DISCOUNT */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="discount_ars"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Descuento ARS opcional (números enteros):
-                  </label>
-                  <input
-                    type="number"
-                    id="discount_ars"
-                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                    name="discount_ars"
-                    value={formData.discount_ars}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="discount_usd"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Descuento USD opcional (números enteros):
-                  </label>
-                  <input
-                    type="number"
-                    id="discount_usd"
-                    name="discount_usd"
-                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                    value={formData.discount_usd}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="payment_link_ars"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Link de pago ARS (Opcional):
-                  </label>
-                  <input
-                    type="text"
-                    id="payment_link_ars"
-                    name="payment_link_ars"
-                    value={formData.payment_link_ars}
-                    onChange={handleChange}
-                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="payment_link_usd"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Link de pago USD (Opcional):
-                  </label>
-                  <input
-                    type="text" 
-                    id="payment_link_usd"
-                    name="payment_link_usd"
-                    value={formData.payment_link_usd}
-                    onChange={handleChange}
-                    className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  />
-                </div>
-              </div>
-
-              {/* STOCK */}
+    <div className="courseCreate-page-cont min-w-[100vw]">
+      <div className="max-w-[80vw] px-3 mt-[5vh] mx-auto">
+        <div>
+          <h1 className="text-3xl font-semibold text-gray-800 mb-4">Actualizando Plan</h1>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {errorMessage && (
+              <p className="text-red-500 text-center text-2xl font-semibold">
+                {errorMessage}
+              </p>
+            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label
-                  htmlFor="stock"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Disponible:
+                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                  Título:
                 </label>
                 <input
-                  type="checkbox"
-                  id="stock"
-                  name="stock"
-                  checked={formData.stock}
+                  type="text"
+                  name="title"
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  value={formData.title}
                   onChange={handleChange}
-                  className="mr-2"
                 />
               </div>
-
-              <input type="hidden" name="author_id" value={currentUser._id} />
-              <div className="flex justify-center mt-6">
-                <button
-                  type="submit"
-                  className="px-4 py-2 mb-5 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-                >
-                  Update Plan
-                </button>
+              <div>
+                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                  Descripción:
+                </label>
+                <input
+                  name="description"
+                  onChange={handleChange}
+                  type="text"
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  value={formData.description}
+                />
               </div>
-            </form>
-          </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="image" className="block text-sm font-medium text-gray-700">
+                  Subir Miniatura:
+                </label>
+                <input
+                  type="file"
+                  id="file"
+                  name="thumbnail"
+                  accept="image/*"
+                  className="text-black"
+                  onChange={(e) =>
+                    setFormData((prevState) => ({
+                      ...prevState,
+                      thumbnail: e.target.files[0],
+                      thumbnailUrl: URL.createObjectURL(e.target.files[0]),
+                    }))
+                  }
+                />
+              </div>
+            </div>
+            <div className="col-span-2">
+              <div className="preview">
+                <img
+                  id="img"
+                  src={formData.thumbnailUrl}
+                  className="mt-4"
+                  style={{ width: 300 }}
+                  alt="Thumbnail Preview"
+                />
+              </div>
+            </div>
+            <p className="text-danger fs-6">
+              Nunca olvides también cambiar el precio del producto en{" "}
+              <Link className="underline text-blue" to={"https://www.mercadopago.com.ar/subscription-plans/list"}>
+                Mercado Pago Planes
+              </Link>{" "}
+              y{" "}
+              <Link className="underline text-blue" to={"https://www.paypal.com/billing/plans"}>
+                Paypal Subscripciones
+              </Link>
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="ars_price" className="block text-sm font-medium text-gray-700">
+                  ARS Price:
+                </label>
+                <input
+                  type="number"
+                  id="ars_price"
+                  name="ars_price"
+                  onChange={handleChange}
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  value={formData.ars_price}
+                />
+              </div>
+              <div>
+                <label htmlFor="usd_price" className="block text-sm font-medium text-gray-700">
+                  USD Price:
+                </label>
+                <input
+                  type="number"
+                  id="usd_price"
+                  name="usd_price"
+                  onChange={handleChange}
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  value={formData.usd_price}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="discount_ars" className="block text-sm font-medium text-gray-700">
+                  Descuento ARS (Opcional):
+                </label>
+                <input
+                  type="number"
+                  id="discount_ars"
+                  name="discount_ars"
+                  onChange={handleChange}
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  value={formData.discount_ars}
+                />
+              </div>
+              <div>
+                <label htmlFor="discount_usd" className="block text-sm font-medium text-gray-700">
+                  Descuento USD (Opcional):
+                </label>
+                <input
+                  type="number"
+                  id="discount_usd"
+                  name="discount_usd"
+                  onChange={handleChange}
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  value={formData.discount_usd}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="payment_link_ars" className="block text-sm font-medium text-gray-700">
+                  Link de pago ARS (Opcional):
+                </label>
+                <input
+                  type="text"
+                  id="payment_link_ars"
+                  name="payment_link_ars"
+                  onChange={handleChange}
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  value={formData.payment_link_ars}
+                />
+              </div>
+              <div>
+                <label htmlFor="payment_link_usd" className="block text-sm font-medium text-gray-700">
+                  Link de pago USD (Opcional):
+                </label>
+                <input
+                  type="text"
+                  id="payment_link_usd"
+                  name="payment_link_usd"
+                  onChange={handleChange}
+                  className="text-black mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  value={formData.payment_link_usd}
+                />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <input
+                type="checkbox"
+                id="stock"
+                name="stock"
+                checked={formData.stock}
+                onChange={handleChange}
+              />
+              <label htmlFor="stock" className="block text-sm font-medium text-gray-700">
+                Hay Stock Disponible
+              </label>
+            </div>
+            <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
+              Actualizar Plan
+            </button>
+          </form>
+          <ToastContainer />
         </div>
       </div>
-    )
+    </div>
   );
-};
+}
 
 export default UpdatePlan;

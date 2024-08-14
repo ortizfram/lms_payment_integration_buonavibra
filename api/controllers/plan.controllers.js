@@ -88,7 +88,7 @@ const updatePlan = async (req, res) => {
     const plan = await Plan.findById(planId);
 
     if (!plan) {
-      return res.status(400).json({ message: `Plan not found.` });
+      return res.status(404).json({ message: `Plan not found.` });
     }
 
     let imageUrl = plan.thumbnail; // Preserve existing thumbnail URL
@@ -129,7 +129,7 @@ const updatePlan = async (req, res) => {
       discount_usd: discountUsd,
       payment_link_ars,
       payment_link_usd,
-      stock: stock === "true" || stock === true, // Ensure stock is boolean
+      stock: stock === "true" || stock === true,  // Ensure stock is boolean
       author_id,
       thumbnail: imageUrl,
     };
@@ -157,6 +157,7 @@ const updatePlan = async (req, res) => {
     return res.status(500).json({ message: "Error updating plan", error });
   }
 };
+
 
 
 const deletePlan = async (req, res) => {
