@@ -37,6 +37,12 @@ function CourseList({ courses = [], next, loading }) {
             {courses.slice(0, visibleCourses).map((course, index) => (
               <li key={index}>
                 <div className="course-item position-relative backdrop-filter shadow-lg">
+                  {course.stock === false && (
+                    <div className="overlay">
+                      <p className="overlay-text">Agotado</p>
+                    </div>
+                  )}
+                  
                   {biggestDiscount >= 1 && (
                     <p className="position-absolute top-0 ms-10 start-50 translate-right-x translate-right-y fw-bold fs-6 text-success p-2 rounded z-50 discount-overlay">
                       {biggestDiscount}% OFF

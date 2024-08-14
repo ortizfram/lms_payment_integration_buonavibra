@@ -222,7 +222,8 @@ export const courselist = async (req, res, next) => {
         const plan = await Plan.findById(course.plan_id).exec(); // Fetch plan asynchronously
         return {
           _id: course._id,
-          stock:course.stock,
+          // stock:plan? plan.stock : false,
+          stock:true,
           plan_id: course.plan_id,
           plan_title: plan ? plan.title : "Unknown", // Check if plan exists
           title: course.title,

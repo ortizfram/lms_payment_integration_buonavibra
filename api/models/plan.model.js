@@ -11,6 +11,7 @@ const planSchema = new mongoose.Schema(
     payment_link_usd: { type: String, default: null, required:false },
     payment_link_ars: { type: String, default: null, required:false },
     thumbnail: { type: String, default: null, required:false },
+    stock: {type:Boolean, default:true, required:true},
   },
   { timestamps: true }
 );
